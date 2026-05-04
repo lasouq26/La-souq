@@ -22,7 +22,7 @@ const Navbar = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-coffee-dark/10 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-8'}`}
       id="navbar"
     >
-      <div className="w-full px-[90px] flex justify-between items-center text-white">
+      <div className="w-full px-6 md:px-[90px] flex justify-between items-center text-white">
         <a href="#" className="flex items-center transition-transform hover:scale-105 active:scale-95" id="logo">
           <img 
             src={LOGO_URL} 
@@ -91,8 +91,8 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.3,
+        delayChildren: 0.5,
       },
     },
   };
@@ -103,7 +103,7 @@ const Hero = () => {
       opacity: 1, 
       y: 0, 
       transition: { 
-        duration: 1.5, 
+        duration: 2.0, 
         ease: [0.16, 1, 0.3, 1] 
       } 
     },
@@ -192,7 +192,8 @@ const AboutSection = () => {
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777816829809-xb1fh9-8.jpg",
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817076882-efg8jp-3.jpg",
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817656741-xzhp9p-la-souq-c946076fc6979dc0d3006c3258335f0f.jpg",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777818106383-49xstx-330660.jpg"
+    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777818106383-49xstx-330660.jpg",
+    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg"
   ];
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -208,34 +209,34 @@ const AboutSection = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.3
       }
     }
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
+    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
   };
 
   return (
-    <section ref={sectionRef} className="bg-white pt-32 pb-0 pl-[97px] pr-[90px] overflow-hidden" id="about">
-      <div className="max-w-7xl mx-auto">
+    <section ref={sectionRef} className="bg-white pt-32 pb-0 px-6 md:pl-[97px] md:pr-[90px] overflow-hidden" id="about">
+      <div className="max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-32">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true, amount: 0.2, margin: "-50px" }}
+            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
             id="about-image-main"
             className="relative"
           >
             <motion.div 
               style={{ y: yImg }} 
-              className="aspect-[4/5] overflow-hidden rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] relative z-10 ring-1 ring-black/5"
+              className="aspect-square overflow-hidden rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] relative z-10 ring-1 ring-black/5"
             >
               <img 
-                src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777815658622-f3dro7-la-souq-10.jpg" 
+                src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777883362118-yx1u2n-generated-image-may-04-2026-11-25am-1.jpg" 
                 alt="Crafting Perfect Coffee"
                 className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
                 referrerPolicy="no-referrer"
@@ -248,7 +249,7 @@ const AboutSection = () => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2, margin: "-50px" }}
+            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
             className="space-y-10"
             id="about-text"
           >
@@ -347,13 +348,13 @@ const LocationsSection = () => {
   ];
 
   return (
-    <section className="pt-0 pb-32 pl-[92px] pr-[90px] bg-white" id="locations">
+    <section className="pt-0 pb-32 px-6 md:pl-[92px] md:pr-[90px] bg-white" id="locations">
       <div className="w-full">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, amount: 0.3 }}
           className="mb-16"
         >
           <h2 className="text-6xl md:text-7xl font-heading text-coffee-dark mb-4 tracking-tight">
@@ -373,8 +374,8 @@ const LocationsSection = () => {
               key={loc.id} 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.2 }}
               className="space-y-8 group"
             >
               <div className="aspect-[16/10] overflow-hidden rounded-3xl shadow-2xl relative cursor-pointer">
@@ -444,8 +445,8 @@ const ContactSection = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
+        staggerChildren: 0.2,
+        delayChildren: 0.3
       }
     }
   };
@@ -455,12 +456,12 @@ const ContactSection = () => {
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
   return (
-    <section className="relative py-40 px-[90px] overflow-hidden min-h-[800px] flex items-center bg-coffee-dark" id="contact">
+    <section className="relative py-40 px-6 md:px-[90px] overflow-hidden min-h-[800px] flex items-center bg-coffee-dark" id="contact">
       <div className="absolute inset-0 z-0">
         <motion.div 
           className="absolute inset-x-0 h-[120%] -top-[10%]" 
@@ -481,7 +482,7 @@ const ContactSection = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2, margin: "-50px" }}
+          viewport={{ once: true, amount: 0.3, margin: "-100px" }}
           className="space-y-10"
           id="contact-info"
         >
@@ -565,7 +566,7 @@ const ContactSection = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-gold py-16 px-[90px]" id="footer">
+    <footer className="bg-gold py-16 px-6 md:px-[90px]" id="footer">
       <div className="w-full max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 mb-16">
           <div className="space-y-6" id="footer-brand">
