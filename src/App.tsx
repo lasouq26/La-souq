@@ -145,7 +145,7 @@ const Hero = () => {
           variants={itemVariants} 
           className="uppercase tracking-[0.6em] text-xs md:text-sm lg:text-base mb-16 font-medium text-gold/80"
         >
-          ARTISAN ROASTERY & COFFEE SHOP
+          ARTISAN ROASTERY COFFEE & SHOP
         </motion.p>
         
         <motion.div variants={itemVariants} className="flex flex-col items-center space-y-6">
@@ -258,9 +258,9 @@ const AboutSection = () => {
             </motion.div>
             
             <motion.h2 variants={itemVariants} className="text-5xl md:text-7xl text-coffee-dark uppercase leading-[0.9] font-bold tracking-tighter">
-              ROASTERY<br />
-              <span className="text-gold italic font-serif lowercase tracking-normal">and</span><br />
-              COFFEE SHOP
+              ROASTERY <br />
+              <span className="text-5xl md:text-7xl text-gold font-bold uppercase tracking-tighter">COFFEE AND</span><br />
+              SHOP
             </motion.h2>
             
             <motion.p variants={itemVariants} className="text-gray-500 leading-relaxed text-lg lg:text-xl max-w-xl font-light">
@@ -357,7 +357,7 @@ const LocationsSection = () => {
           className="mb-16"
         >
           <h2 className="text-6xl md:text-7xl font-heading text-coffee-dark mb-4 tracking-tight">
-            All Locations
+            Our Locations
           </h2>
           <div className="w-24 h-1 bg-gold"></div>
         </motion.div>
