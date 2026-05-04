@@ -150,7 +150,9 @@ const Hero = () => {
         
         <motion.div variants={itemVariants} className="flex flex-col items-center space-y-6">
           <a 
-            href="#menu" 
+            href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative overflow-hidden border border-gold text-gold px-16 py-4 uppercase text-xs tracking-[0.3em] font-bold transition-all duration-500"
             id="order-button"
           >
@@ -269,9 +271,14 @@ const AboutSection = () => {
             </motion.p>
             
             <motion.div variants={itemVariants} className="pt-6 group">
-              <button className="relative overflow-hidden bg-coffee-dark text-white px-10 py-5 uppercase text-xs tracking-[0.3em] font-bold transition-all duration-300 rounded shadow-xl hover:shadow-gold/20 hover:scale-[1.02]">
+              <a 
+                href="https://www.workshopstudio.com/la-souq" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-block relative overflow-hidden bg-coffee-dark text-white px-10 py-5 uppercase text-xs tracking-[0.3em] font-bold transition-all duration-300 rounded shadow-xl hover:shadow-gold/20 hover:scale-[1.02]"
+              >
                 <span className="relative z-10">EXPLORE OUR STORY</span>
-              </button>
+              </a>
             </motion.div>
           </motion.div>
         </div>
