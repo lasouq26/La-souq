@@ -1,107 +1,31 @@
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
-import { Menu, X, Instagram, Facebook } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { Instagram, Facebook, Plus } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 // Use the user-provided logo URL
-const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/FafAsset_3ldpi.png?v=1777814453";
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-coffee-dark/10 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-8'}`}
-      id="navbar"
-    >
-      <div className="w-full px-6 md:px-[90px] flex justify-between items-center text-white">
-        <a href="#" className="flex items-center transition-transform hover:scale-105 active:scale-95" id="logo">
-          <img 
-            src={LOGO_URL} 
-            alt="LA SOUQ" 
-            className="h-6 md:h-8 w-auto object-contain transition-all duration-300"
-            referrerPolicy="no-referrer"
-          />
-        </a>
-        
-        <button 
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-          id="menu-toggle"
-          className="text-gold hover:text-white transition-all duration-300 transform hover:rotate-90"
-        >
-          {isOpen ? <X size={32} /> : <Menu size={32} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: "circOut" }}
-            className="absolute top-full left-0 w-full bg-coffee-dark/98 border-t border-white/5 shadow-2xl overflow-hidden text-white z-40"
-            id="mobile-menu"
-          >
-            <div className="px-6 py-12 flex flex-col items-center space-y-8 uppercase text-lg tracking-[0.3em] font-medium">
-              {['About', 'Menu', 'Gallery', 'Wholesale', 'Contact'].map((item, idx) => (
-                <motion.a 
-                  key={item}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  href={`#${item.toLowerCase().replace(' ', '-')}`} 
-                  onClick={() => setIsOpen(false)}
-                  className="hover:text-gold transition-colors relative group"
-                >
-                  {item}
-                  <span className="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full"></span>
-                </motion.a>
-              ))}
-              
-              <div className="flex space-x-6 pt-4 text-white/50">
-                <Instagram className="w-5 h-5 hover:text-gold cursor-pointer transition-colors" />
-                <Facebook className="w-5 h-5 hover:text-gold cursor-pointer transition-colors" />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
-  );
-};
+const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/FafArtboard_1.png?v=1778162215";
 
 const Hero = () => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800], [0, 300]);
-  const opacity = useTransform(scrollY, [0, 500], [1, 0.3]);
+  const opacity = useTransform(scrollY, [0, 500], [1, 0.4]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.5,
+        staggerChildren: 0.2,
+        delayChildren: 0.4,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, x: -30 },
     visible: { 
       opacity: 1, 
-      y: 0, 
+      x: 0, 
       transition: { 
         duration: 2.0, 
         ease: [0.16, 1, 0.3, 1] 
@@ -110,19 +34,19 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden" id="hero">
+    <section className="relative h-screen flex items-center justify-start overflow-hidden px-6 md:px-24 lg:px-32" id="hero">
       <div className="absolute inset-0 overflow-hidden">
         <motion.div 
           className="absolute inset-x-0 h-[120%] -top-[10%]" 
           style={{ y, opacity }}
         >
           <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg" 
-            alt="Luxury Roastery Interior"
-            className="w-full h-full object-cover scale-110"
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777997722811-ar61ym-photo-2026-05-05-18-04-14.jpg" 
+            alt="La Souq Interior"
+            className="w-full h-full object-cover scale-110 pb-[5px]"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#e4d4c5] via-[#e4d4c5]/60 to-transparent"></div>
         </motion.div>
       </div>
 
@@ -130,61 +54,523 @@ const Hero = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 text-center text-white px-6"
+        className="relative z-10 max-w-2xl text-coffee-dark"
       >
-        <motion.div variants={itemVariants} className="mb-12">
-          <img 
-            src={LOGO_URL} 
-            alt="LA SOUQ" 
-            className="h-20 md:h-32 lg:h-48 mx-auto object-contain filter drop-shadow-[0_0_20px_rgba(226,213,145,0.3)] transition-all duration-700 hover:scale-105"
-            referrerPolicy="no-referrer"
-          />
-        </motion.div>
-        
         <motion.p 
           variants={itemVariants} 
-          className="uppercase tracking-[0.6em] text-xs md:text-sm lg:text-base mb-16 font-medium text-gold/80"
+          className="uppercase tracking-[0.4em] text-[10px] md:text-xs mb-1 pl-[3px] ml-1 font-bold text-coffee-dark/90"
         >
-          ARTISAN ROASTERY COFFEE & SHOP
+          LA SOUQ COFFEE
         </motion.p>
         
-        <motion.div variants={itemVariants} className="flex flex-col items-center space-y-6">
+        <motion.h1 
+          variants={itemVariants}
+          className="text-6xl md:text-8xl lg:text-9xl font-heading leading-[0.9] mb-8 tracking-tight text-coffee-dark flex flex-col"
+        >
+          <span>COFFEE IS</span>
+          <span>A DAY</span>
+          <span>DREAM</span>
+        </motion.h1>
+
+        <motion.p 
+          variants={itemVariants} 
+          className="text-coffee-dark/80 text-base md:text-lg lg:text-xl max-w-md mb-12 font-light leading-relaxed"
+        >
+          Specialty coffee in a space inspired by timeless design and quiet moments.
+        </motion.p>
+        
+        <motion.div variants={itemVariants}>
           <a 
             href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative overflow-hidden border border-gold text-gold px-16 py-4 uppercase text-xs tracking-[0.3em] font-bold transition-all duration-500"
+            className="inline-flex items-center gap-4 bg-coffee-dark hover:bg-coffee-dark/90 text-white px-10 py-4 rounded-full text-xs tracking-[0.2em] font-bold transition-all duration-500 hover:scale-105 shadow-xl"
             id="order-button"
           >
-            <span className="relative z-10 transition-colors duration-500 group-hover:text-black">ORDER HERE</span>
-            <span className="absolute inset-0 bg-gold transform translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0"></span>
-          </a>
-          <a 
-            href="#menu" 
-            className="uppercase text-[9px] tracking-[0.4em] font-bold text-white/50 hover:text-gold transition-all duration-300 underline-offset-8 hover:underline"
-            id="takeout-link"
-          >
-            VIEW TAKE-OUT MENU
+            ORDER AHEAD
+            <motion.span 
+              animate={{ x: [0, 5, 0] }} 
+              transition={{ repeat: Infinity, duration: 2 }}
+            >
+              →
+            </motion.span>
           </a>
         </motion.div>
       </motion.div>
 
+      {/* Hero Bottom Info */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-12 left-6 md:left-24 lg:left-32 z-10"
+      >
+        <div className="flex items-start gap-4 border-l border-coffee-dark/20 pl-6 flex-col justify-center">
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-12 border border-coffee-dark/20 rounded-t-full flex items-center justify-center p-1.5 opacity-60">
+                <div className="w-full h-full border-t border-x border-coffee-dark/40 rounded-t-full"></div>
+             </div>
+             <div className="text-[10px] tracking-widest text-coffee-dark/50 leading-loose">
+               <p className="font-bold text-coffee-dark/80 uppercase">Richardson, Texas</p>
+               <p>1101 ABBOT KINNEY BLVD</p>
+               <p>DALLAS, TX 90291</p>
+             </div>
+          </div>
+          <button className="text-[9px] tracking-[0.3em] font-bold text-[#231f14] hover:text-coffee-dark transition-colors flex items-center gap-2">
+            VIEW HOURS →
+          </button>
+        </div>
+      </motion.div>
+
+
       {/* Hero Scroll Indicator */}
       <motion.div 
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-4"
+        animate={{ opacity: 0.3 }}
+        transition={{ delay: 2.5, duration: 1 }}
+        className="absolute bottom-12 right-12 hidden lg:flex flex-col items-center gap-4"
       >
-        <span className="uppercase text-[8px] tracking-[0.5em] font-bold text-white/40">SCROLL</span>
-        <div className="w-[1px] h-16 bg-gradient-to-b from-gold/50 to-transparent">
-          <motion.div 
-            animate={{ y: [0, 48, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-full h-1/3 bg-gold"
-          />
-        </div>
+        <span className="uppercase text-[8px] tracking-[0.5em] font-bold text-coffee-dark/40 rotate-90 translate-y-8">SCROLL</span>
+        <div className="w-[1px] h-24 bg-gradient-to-b from-coffee-dark/30 to-transparent"></div>
       </motion.div>
+    </section>
+  );
+};
+
+const InspirationSection = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
+  };
+
+  return (
+    <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full bg-[#e4d4c5]" id="inspiration">
+      <div className="w-full px-6 md:px-24 lg:px-32">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="flex flex-col lg:flex-row items-stretch gap-0 lg:divide-x divide-coffee-dark/10"
+        >
+          
+          {/* Inspired block */}
+          <div 
+            className="flex-1 flex flex-col md:flex-row items-center gap-10 lg:pr-16 mb-20 lg:mb-0"
+          >
+            <motion.div variants={itemVariants} className="w-[320px] h-[420px] flex-none bg-coffee-dark/5 overflow-hidden shadow-2xl relative group rounded-[2rem]">
+              <video 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-bce97b3f-5125-48d2-8fa9-a14870aa09d7.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tYmNlOTdiM2YtNTEyNS00OGQyLThmYTktYTE0ODcwYWEwOWQ3Lm1wNCIsImlhdCI6MTc3ODE1ODgyOSwiZXhwIjoxNzgwNzUwODI5fQ.FG9ebsfCvZ6w63eGEIm3NAhxkQL5hNwJqz8nUipIbZo" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
+            </motion.div>
+            
+            <motion.div variants={itemVariants} className="w-full md:w-1/2 space-y-6">
+              <span className="text-[10px] tracking-[0.4em] font-bold text-coffee-dark/30 uppercase">Inspired By</span>
+              <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
+                Arabic Roots.<br />California Soul.
+              </h2>
+              <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-4">
+                La Souq is where Arab heritage meets the laid-back rhythm of California. Our spaces are inspired by architecture, light, and tradition — created for connection.
+              </p>
+              <a href="#about" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:text-gold transition-colors">
+                OUR STORY <span className="text-xs">→</span>
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Featured drink block */}
+          <div 
+            className="flex-1 flex flex-col items-center gap-10 lg:pl-16"
+          >
+            <div className="flex flex-col sm:flex-row items-center gap-10 w-full">
+              <motion.div variants={itemVariants} className="w-[320px] h-[420px] flex-none bg-coffee-dark/5 overflow-hidden shadow-2xl relative group rounded-[2rem]">
+                <video 
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-36d5cc8e-d515-4cbc-8a2c-7be31d2a65ab.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tMzZkNWNjOGUtZDUxNS00Y2JjLThhMmMtN2JlMzFkMmE2NWFiLm1wNCIsImlhdCI6MTc3ODE1OTA5NSwiZXhwIjoxNzgwNzUxMDk1fQ.H6ABdAePcx-43cHIHePpiJTzvVlC1ZoUVXpjQWWogoQ" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="flex-1 space-y-6">
+                <span className="text-[10px] tracking-[0.4em] font-bold text-coffee-dark/30 uppercase">Featured Drink</span>
+                <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
+                  Cardamom<br />Latte
+                </h2>
+                <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-3">
+                  Smooth espresso, warm milk, and a touch of cardamom. A quiet comfort.
+                </p>
+                <a href="#menu" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:text-gold transition-colors">
+                  VIEW MENU <span className="text-xs">→</span>
+                </a>
+              </motion.div>
+            </div>
+          </div>
+
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const MenuSection = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const signatureScrollRef = useRef<HTMLDivElement>(null);
+  const isHovered = useRef(false);
+  const isSignatureHovered = useRef(false);
+
+  const menuItems = [
+    {
+      id: 1,
+      name: "DOUBLE ESPRESSO",
+      description: "Rich, concentrated espresso from our house blend, bold and balanced.",
+      price: "$4.00",
+      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060900663-6e4qri-chatgpt-image-may-6-2026-12-48-11-pm.jpg"
+    },
+    {
+      id: 2,
+      name: "AMERICANO",
+      description: "Smooth espresso mellowed with hot water for a clean, classic finish.",
+      price: "$4.00",
+      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060660817-ifxbqb-chatgpt-image-may-6-2026-12-43-23-pm.jpg"
+    },
+    {
+      id: 3,
+      name: "CORTADO (4oz)",
+      description: "Equal parts espresso and lightly textured milk -- bold and smooth.",
+      price: "$4.50",
+      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060434831-gomena-chatgpt-image-may-6-2026-12-39-04-pm.jpg"
+    },
+    {
+      id: 4,
+      name: "FLAT WHITE (8oz)",
+      description: "Velvety micro-foam poured over espresso -- silky, rich, and refined.",
+      price: "$5.00",
+      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060387049-p3o46u-chatgpt-image-may-6-2026-12-38-22-pm.jpg"
+    }
+  ];
+
+  const signatureMenuItems = [
+    {
+      id: 5,
+      name: "HABIBTI LATTE",
+      description: "Soft rose & warm cardamom accented espresso -- floral and comforting.",
+      price: "$6.50+",
+      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg"
+    },
+    {
+      id: 6,
+      name: "LAVENDER & HONEY LATTE",
+      description: "Calming lavender and golden honey layered with rich espresso.",
+      price: "$6.50+",
+      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg"
+    },
+    {
+      id: 7,
+      name: "ZA'ATAR W' ZEIT LATTE",
+      description: "A savory twist -- fresh thyme and a hint of olive oil meet espresso.",
+      price: "$6.50+",
+      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
+    },
+    {
+      id: 8,
+      name: "ROUHI LATTE",
+      description: "Silky white chocolate and cool mint folded into espresso -- fresh, smooth, and lightly sweet.",
+      price: "$7.00+",
+      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg"
+    }
+  ];
+
+  // Auto-scroll effect
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    const signatureContainer = signatureScrollRef.current;
+    
+    let animationId: number;
+    const scrollSpeed = 0.6;
+
+    const scroll = () => {
+      if (scrollContainer && !isHovered.current) {
+        scrollContainer.scrollLeft += scrollSpeed;
+        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+          scrollContainer.scrollLeft = 0;
+        }
+      }
+      if (signatureContainer && !isSignatureHovered.current) {
+        signatureContainer.scrollLeft += scrollSpeed;
+        if (signatureContainer.scrollLeft >= signatureContainer.scrollWidth / 2) {
+          signatureContainer.scrollLeft = 0;
+        }
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+
+    animationId = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(animationId);
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
+    }
+  };
+
+  return (
+    <section className="py-32 bg-[#e4d4c5] relative overflow-hidden" id="menu">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-coffee-dark/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+      
+      <div className="w-full relative z-10">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="px-6 md:px-24 lg:px-32 flex flex-col mb-5 pl-[128px]"
+        >
+          <motion.p 
+            variants={itemVariants}
+            className="text-[12px] tracking-[0.5em] font-bold text-coffee-dark/30 uppercase mb-0"
+          >
+            THE COLLECTION
+          </motion.p>
+          <motion.h2 
+            variants={itemVariants}
+            className="text-5xl md:text-6xl font-heading text-coffee-dark uppercase tracking-tight"
+          >
+            COFFEE
+          </motion.h2>
+        </motion.div>
+
+        {/* Carousel container 1 */}
+        <div className="relative group/carousel py-[10px]">
+          {/* Left scroll fade indicator */}
+          <div className="absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-[#e4d4c5] via-[#e4d4c5]/80 to-transparent z-20 pointer-events-none opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-500"></div>
+          
+          <motion.div 
+            ref={scrollRef}
+            onMouseEnter={() => (isHovered.current = true)}
+            onMouseLeave={() => (isHovered.current = false)}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="flex gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6"
+          >
+            {[...menuItems, ...menuItems].map((item, index) => (
+              <motion.div
+                key={`${item.id}-${index}`}
+                variants={itemVariants}
+                whileHover={{ y: -12, scale: 1.02 }}
+                className="flex-none w-[340px] md:w-[520px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group transition-all duration-700 shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(35,31,20,0.15)]"
+              >
+                {/* Decorative background depth */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
+                
+                <div className="flex-1 p-8 md:p-12 flex flex-col justify-between relative z-10">
+                  <div className="relative">
+                    {/* Item Index */}
+                    <span className="inline-block text-[9px] tracking-[0.4em] font-bold text-gold/60 uppercase mb-6">
+                      COLLECTION NO. 0{menuItems.indexOf(item) + 1}
+                    </span>
+                    
+                    <h3 className="text-xl md:text-2xl font-heading text-coffee-dark mb-4 tracking-tight group-hover:text-[#e4d4c5] transition-colors duration-500 uppercase">
+                      {item.name}
+                    </h3>
+                    
+                    <div className="w-12 h-[1px] bg-gold/30 mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
+                    
+                    <p className="text-[13px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px]">
+                      {item.description}
+                    </p>
+                  </div>
+                  
+                  <div className="mt-8 flex items-center justify-between">
+                    <span className="text-[11px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
+                      Premium Selection
+                    </span>
+                    <span className="text-[13px] tracking-widest font-bold text-[#e4d4c5] bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-gold/10 shadow-sm">
+                      {item.price}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="w-[140px] md:w-[220px] h-full relative overflow-hidden flex-none">
+                  <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+                  />
+                  {/* Floating Action Button */}
+                  <div className="absolute bottom-6 right-6 z-20">
+                    <button 
+                      className="w-12 h-12 bg-white text-coffee-dark rounded-full flex items-center justify-center shadow-2xl border border-gold/20 hover:bg-coffee-dark hover:text-white transition-all duration-500 transform scale-0 group-hover:scale-100 translate-y-4 group-hover:translate-y-0"
+                      aria-label="Add to order"
+                    >
+                      <Plus size={22} strokeWidth={2} />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          {/* Right scroll fade indicator */}
+          <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-[#e4d4c5] via-[#e4d4c5]/80 to-transparent z-20 pointer-events-none transition-opacity duration-500"></div>
+        </div>
+
+        {/* Signature Coffee Section */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="px-6 md:px-24 lg:px-32 flex flex-col mb-5 pt-32"
+        >
+          <motion.p 
+            variants={itemVariants}
+            className="text-[12px] tracking-[0.5em] font-bold text-coffee-dark/30 uppercase mb-0"
+          >
+            HANDPICKED FAVORITES
+          </motion.p>
+          <motion.h2 
+            variants={itemVariants}
+            className="text-5xl md:text-6xl font-heading text-coffee-dark uppercase tracking-tight"
+          >
+            SIGNATURE COFFEE
+          </motion.h2>
+        </motion.div>
+
+        {/* Carousel container 2 (Signature) */}
+        <div className="relative group/carousel-sig py-[10px]">
+          {/* Left scroll fade indicator */}
+          <div className="absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-[#e4d4c5] via-[#e4d4c5]/80 to-transparent z-20 pointer-events-none opacity-0 group-hover/carousel-sig:opacity-100 transition-opacity duration-500"></div>
+          
+          <motion.div 
+            ref={signatureScrollRef}
+            onMouseEnter={() => (isSignatureHovered.current = true)}
+            onMouseLeave={() => (isSignatureHovered.current = false)}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="flex gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6"
+          >
+            {[...signatureMenuItems, ...signatureMenuItems].map((item, index) => (
+              <motion.div
+                key={`${item.id}-${index}`}
+                variants={itemVariants}
+                whileHover={{ y: -12, scale: 1.02 }}
+                className="flex-none w-[340px] md:w-[520px] h-[350px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group transition-all duration-700 shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(35,31,20,0.15)]"
+              >
+                {/* Decorative background depth */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
+                
+                <div className="flex-1 pt-8 pl-8 md:pl-12 pr-8 pb-8 md:pb-12 flex flex-col justify-between relative z-10">
+                  <div className="relative">
+                    {/* Item Index */}
+                    <span className="inline-block text-[9px] tracking-[0.4em] font-bold text-gold/60 uppercase mb-6">
+                      SIGNATURE NO. 0{signatureMenuItems.indexOf(item) + 1}
+                    </span>
+                    
+                    <h3 className="text-xl md:text-2xl font-heading text-coffee-dark mb-4 tracking-tight group-hover:text-[#e4d4c5] transition-colors duration-500 uppercase text-balance">
+                      {item.name}
+                    </h3>
+                    
+                    <div className="w-12 h-[1px] bg-gold/30 mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
+                    
+                    <p className="text-[13px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px]">
+                      {item.description}
+                    </p>
+                  </div>
+                  
+                  <div className="mt-8 flex items-center justify-between">
+                    <span className="text-[11px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
+                      Limited Release
+                    </span>
+                    <span className="text-[13px] tracking-widest font-bold text-[#e4d4c5] bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-gold/10 shadow-sm">
+                      {item.price}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="w-[140px] md:w-[220px] h-full relative overflow-hidden flex-none">
+                  <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+                  />
+                  {/* Floating Action Button */}
+                  <div className="absolute bottom-6 right-6 z-20">
+                    <button 
+                      className="w-12 h-12 bg-white text-coffee-dark rounded-full flex items-center justify-center shadow-2xl border border-gold/20 hover:bg-coffee-dark hover:text-white transition-all duration-500 transform scale-0 group-hover:scale-100 translate-y-4 group-hover:translate-y-0"
+                      aria-label="Add to order"
+                    >
+                      <Plus size={22} strokeWidth={2} />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          {/* Right scroll fade indicator */}
+          <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-[#e4d4c5] via-[#e4d4c5]/80 to-transparent z-20 pointer-events-none transition-opacity duration-500"></div>
+        </div>
+
+        {/* 'More' Button Section */}
+        <div className="flex justify-center mt-20">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative px-12 py-5 overflow-hidden border border-coffee-dark/20 uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
+          >
+            <span className="relative z-10 text-coffee-dark group-hover:text-white transition-colors duration-500">View Full Menu</span>
+            <div className="absolute inset-0 bg-coffee-dark translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+          </motion.button>
+        </div>
+      </div>
     </section>
   );
 };
@@ -222,7 +608,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="bg-white pt-32 pb-0 px-6 md:pl-[97px] md:pr-[90px] overflow-hidden" id="about">
+    <section ref={sectionRef} className="pt-32 pb-0 px-6 md:pl-[97px] md:pr-[90px] overflow-hidden" id="about">
       <div className="max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-32">
           <motion.div
@@ -235,7 +621,7 @@ const AboutSection = () => {
           >
             <motion.div 
               style={{ y: yImg }} 
-              className="aspect-square overflow-hidden rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] relative z-10 ring-1 ring-black/5"
+              className="aspect-square overflow-hidden rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] relative z-10 ring-1 ring-coffee-dark/5"
             >
               <img 
                 src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777883362118-yx1u2n-generated-image-may-04-2026-11-25am-1.jpg" 
@@ -260,9 +646,9 @@ const AboutSection = () => {
               <span className="uppercase text-[10px] tracking-[0.4em] font-bold text-gold">Est. 2026</span>
             </motion.div>
             
-            <motion.h2 variants={itemVariants} className="text-5xl md:text-7xl text-coffee-dark uppercase leading-[0.9] font-bold tracking-tighter">
+            <motion.h2 variants={itemVariants} className="text-5xl md:text-7xl font-heading text-coffee-dark uppercase leading-[0.9] tracking-tighter">
               ROASTERY <br />
-              <span className="text-5xl md:text-7xl text-gold font-bold uppercase tracking-tighter">COFFEE AND</span><br />
+              <span className="text-5xl md:text-7xl text-gold font-heading uppercase tracking-tighter">COFFEE AND</span><br />
               SHOP
             </motion.h2>
             
@@ -323,7 +709,7 @@ const AboutSection = () => {
                 alt="Gallery Visual" 
                 referrerPolicy="no-referrer" 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-8 flex items-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-coffee-dark/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-8 flex items-end">
                 <span className="text-white uppercase text-[10px] tracking-[0.5em] font-bold">Discover More</span>
               </div>
             </motion.div>
@@ -355,7 +741,7 @@ const LocationsSection = () => {
   ];
 
   return (
-    <section className="pt-0 pb-32 px-6 md:pl-[92px] md:pr-[90px] bg-white" id="locations">
+    <section className="pt-0 pb-32 px-6 md:pl-[92px] md:pr-[90px]" id="locations">
       <div className="w-full">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -498,7 +884,7 @@ const ContactSection = () => {
             <span className="uppercase text-[10px] tracking-[0.4em] font-bold text-gold">Get In Touch</span>
           </motion.div>
           
-          <motion.h2 variants={itemVariants} className="text-6xl md:text-8xl font-heading leading-tight tracking-tighter uppercase font-bold">
+          <motion.h2 variants={itemVariants} className="text-6xl md:text-8xl font-heading leading-tight tracking-tighter uppercase">
             ARTISAN<br />
             CONNECTION
           </motion.h2>
@@ -560,7 +946,7 @@ const ContactSection = () => {
               </div>
               
               <button className="group relative w-full overflow-hidden border border-gold py-5 uppercase text-xs font-bold tracking-[0.4em] transition-all duration-500">
-                <span className="relative z-10 text-gold group-hover:text-black transition-colors duration-500">Submit Inquiry</span>
+                <span className="relative z-10 text-gold group-hover:text-coffee-dark transition-colors duration-500">Submit Inquiry</span>
                 <div className="absolute inset-0 bg-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
               </button>
             </form>
@@ -620,6 +1006,52 @@ const Footer = () => {
   );
 };
 
+const Navbar = () => {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#e4d4c5]/95 backdrop-blur-sm border-b border-coffee-dark/5 px-[130px] h-20 md:h-24 flex items-center justify-between">
+      {/* Left side links */}
+      <div className="flex-1 hidden lg:flex items-center gap-10">
+        <a href="#menu" className="text-[12px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">MENU</a>
+        <a href="#about" className="text-[12px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">OUR STORY</a>
+      </div>
+
+      {/* Center Logo */}
+      <div className="flex flex-col items-center justify-center lg:px-8">
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center group cursor-pointer"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <img 
+            src={LOGO_URL} 
+            alt="LA SOUQ" 
+            className="object-contain transition-transform duration-500 group-hover:scale-105" 
+            style={{ width: '192.646px', height: '48px', paddingBottom: '8px' }}
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+      </div>
+
+      {/* Right side links + CTA */}
+      <div className="flex-1 flex items-center justify-end gap-10">
+        <div className="hidden lg:flex items-center gap-10 mr-10">
+          <a href="#contact" className="text-[12px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">CONTACT</a>
+        </div>
+        
+        <a 
+          href="https://order.toasttab.com/online/la-souq-richardson-dallas"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark transition-all duration-300 hover:bg-coffee-dark hover:text-white"
+        >
+          ORDER AHEAD
+        </a>
+      </div>
+    </nav>
+  );
+};
+
 export default function App() {
   useEffect(() => {
     console.log("La Souq Roastery App Initialized");
@@ -629,6 +1061,8 @@ export default function App() {
     <div className="min-h-screen selection:bg-gold selection:text-white" id="main-app-container">
       <Navbar />
       <Hero />
+      <InspirationSection />
+      <MenuSection />
       <AboutSection />
       <LocationsSection />
       <ContactSection />
