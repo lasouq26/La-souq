@@ -155,7 +155,7 @@ const InspirationSection = () => {
   };
 
   return (
-    <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full bg-[#eee3d9]" id="inspiration">
+    <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full bg-[#e4d4c5]" id="inspiration">
       <div className="w-full px-6 md:px-24 lg:px-32">
         <motion.div 
           variants={containerVariants}
