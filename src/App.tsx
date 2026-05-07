@@ -155,7 +155,7 @@ const InspirationSection = () => {
   };
 
   return (
-    <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full bg-[#e4d4c5]" id="inspiration">
+    <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full bg-[#eee3d9]" id="inspiration">
       <div className="w-full px-6 md:px-24 lg:px-32">
         <motion.div 
           variants={containerVariants}
@@ -352,7 +352,7 @@ const MenuSection = () => {
   };
 
   return (
-    <section className="py-32 bg-[#e4d4c5] relative overflow-hidden" id="menu">
+    <section className="py-32 bg-[#eee3d9] relative overflow-hidden" id="menu">
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-coffee-dark/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
       
@@ -741,7 +741,7 @@ const LocationsSection = () => {
   ];
 
   return (
-    <section className="pt-0 pb-32 px-6 md:pl-[92px] md:pr-[90px]" id="locations">
+    <section className="pt-[90px] pb-32 px-6 md:pl-[92px] md:pr-[90px] bg-[#e4d4c5]" id="locations">
       <div className="w-full">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -1063,7 +1063,7 @@ export default function App() {
       <Hero />
       <InspirationSection />
       <MenuSection />
-      <AboutSection />
+      {/* <AboutSection /> */}
       <LocationsSection />
       <ContactSection />
       <Footer />
