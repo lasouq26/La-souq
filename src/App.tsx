@@ -47,7 +47,6 @@ const Hero = () => {
             muted 
             playsInline
             preload="auto"
-            poster="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777997722811-ar61ym-photo-2026-05-05-18-04-14.jpg"
             className="w-full h-full object-cover scale-110"
           />
           {/* Brand color overlay replacing the old black overlay */}
