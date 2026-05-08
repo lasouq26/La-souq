@@ -34,19 +34,22 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-start overflow-hidden px-6 md:px-24 lg:px-32" id="hero">
+    <section className="relative h-screen flex items-center justify-center overflow-hidden px-6" id="hero">
       <div className="absolute inset-0 overflow-hidden">
         <motion.div 
           className="absolute inset-x-0 h-[120%] -top-[10%]" 
           style={{ y, opacity }}
         >
-          <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777997722811-ar61ym-photo-2026-05-05-18-04-14.jpg" 
-            alt="La Souq Interior"
-            className="w-full h-full object-cover scale-110 pb-[5px]"
-            referrerPolicy="no-referrer"
+          <video 
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/0507.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zLzA1MDcubXA0IiwiaWF0IjoxNzc4MTc1ODU0LCJleHAiOjE3ODA3Njc4NTR9.CQe3waYAbx_LhKhmKjqJII1jhIaHut_4DKiLJYOdkxk"
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="w-full h-full object-cover scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#e4d4c5] via-[#e4d4c5]/60 to-transparent"></div>
+          {/* Brand color overlay replacing the old black overlay */}
+          <div className="absolute inset-0 bg-[#e4d4c5]/50"></div>
         </motion.div>
       </div>
 
@@ -54,47 +57,50 @@ const Hero = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 max-w-2xl text-coffee-dark"
+        className="relative z-10 max-w-4xl text-coffee-dark text-center flex flex-col items-center pt-[90px]"
       >
-        <motion.p 
+        {/* Centered Logo */}
+        <motion.div 
           variants={itemVariants} 
-          className="uppercase tracking-[0.4em] text-[10px] md:text-xs mb-1 pl-[3px] ml-1 font-bold text-coffee-dark/90"
+          className="mb-8"
         >
-          LA SOUQ COFFEE
-        </motion.p>
-        
-        <motion.h1 
-          variants={itemVariants}
-          className="text-6xl md:text-8xl lg:text-9xl font-heading leading-[0.9] mb-8 tracking-tight text-coffee-dark flex flex-col"
-        >
-          <span>COFFEE IS</span>
-          <span>A DAY</span>
-          <span>DREAM</span>
-        </motion.h1>
+          <img 
+            src={LOGO_URL} 
+            alt="LA SOUQ" 
+            className="h-32 md:h-48 w-auto object-contain"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
 
         <motion.p 
           variants={itemVariants} 
-          className="text-coffee-dark/80 text-base md:text-lg lg:text-xl max-w-md mb-12 font-light leading-relaxed"
+          className="uppercase tracking-[0.6em] text-[16px] mb-12 font-bold text-coffee-dark/60"
         >
-          Specialty coffee in a space inspired by timeless design and quiet moments.
+          ARTISAN ROASTERY COFFEE & SHOP
         </motion.p>
         
         <motion.div variants={itemVariants}>
-          <a 
+          <motion.a 
             href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-4 bg-coffee-dark hover:bg-coffee-dark/90 text-white px-10 py-4 rounded-full text-xs tracking-[0.2em] font-bold transition-all duration-500 hover:scale-105 shadow-xl"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative inline-flex items-center gap-4 px-12 py-5 overflow-hidden border border-coffee-dark/20 uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
+            style={{ borderWidth: '2.11111px' }}
             id="order-button"
           >
-            ORDER AHEAD
-            <motion.span 
-              animate={{ x: [0, 5, 0] }} 
-              transition={{ repeat: Infinity, duration: 2 }}
-            >
-              →
-            </motion.span>
-          </a>
+            <span className="relative z-10 text-coffee-dark group-hover:text-white transition-colors duration-500 flex items-center gap-4 text-[12px]">
+              ORDER AHEAD
+              <motion.span 
+                animate={{ x: [0, 5, 0] }} 
+                transition={{ repeat: Infinity, duration: 2 }}
+              >
+                →
+              </motion.span>
+            </span>
+            <div className="absolute inset-0 bg-coffee-dark translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+          </motion.a>
         </motion.div>
       </motion.div>
 
@@ -1043,7 +1049,7 @@ const Navbar = () => {
           href="https://order.toasttab.com/online/la-souq-richardson-dallas"
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark transition-all duration-300 hover:bg-coffee-dark hover:text-white"
+          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark transition-all duration-300 hover:bg-coffee-dark hover:text-white pt-[10px]"
         >
           ORDER AHEAD
         </a>
