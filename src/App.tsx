@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Instagram, Facebook, Plus } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Use the user-provided logo URL
 const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/FafArtboard_1.png?v=1778162215";
@@ -90,7 +90,7 @@ const Hero = () => {
             style={{ borderWidth: '2.11111px' }}
             id="order-button"
           >
-            <span className="relative z-10 text-coffee-dark group-hover:text-white transition-colors duration-500 flex items-center gap-4 text-[12px]">
+            <span className="relative z-10 text-coffee-dark group-hover:text-[#e4d4c5] transition-colors duration-500 flex items-center gap-4 text-[12px]">
               ORDER AHEAD
               <motion.span 
                 animate={{ x: [0, 5, 0] }} 
@@ -175,7 +175,7 @@ const InspirationSection = () => {
           <div 
             className="flex-1 flex flex-col md:flex-row items-center gap-10 lg:pr-16 mb-20 lg:mb-0"
           >
-            <motion.div variants={itemVariants} className="w-[320px] h-[420px] flex-none bg-coffee-dark/5 overflow-hidden shadow-2xl relative group rounded-[2rem]">
+            <motion.div variants={itemVariants} className="w-[320px] h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
               <video 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 autoPlay
@@ -196,7 +196,7 @@ const InspirationSection = () => {
               <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-4">
                 La Souq is where Arab heritage meets the laid-back rhythm of California. Our spaces are inspired by architecture, light, and tradition — created for connection.
               </p>
-              <a href="#about" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:text-gold transition-colors">
+              <a href="#about" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
                 OUR STORY <span className="text-xs">→</span>
               </a>
             </motion.div>
@@ -207,7 +207,7 @@ const InspirationSection = () => {
             className="flex-1 flex flex-col items-center gap-10 lg:pl-16"
           >
             <div className="flex flex-col sm:flex-row items-center gap-10 w-full">
-              <motion.div variants={itemVariants} className="w-[320px] h-[420px] flex-none bg-coffee-dark/5 overflow-hidden shadow-2xl relative group rounded-[2rem]">
+              <motion.div variants={itemVariants} className="w-[320px] h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
                 <video 
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   autoPlay
@@ -228,7 +228,7 @@ const InspirationSection = () => {
                 <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-3">
                   Smooth espresso, warm milk, and a touch of cardamom. A quiet comfort.
                 </p>
-                <a href="#menu" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:text-gold transition-colors">
+                <a href="#menu" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
                   VIEW MENU <span className="text-xs">→</span>
                 </a>
               </motion.div>
@@ -348,12 +348,15 @@ const MenuSection = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    hidden: { opacity: 0, y: 40, scale: 0.98 },
     visible: { 
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
+      transition: { 
+        duration: 2.0, 
+        ease: [0.19, 1, 0.22, 1] 
+      } 
     }
   };
 
@@ -403,8 +406,12 @@ const MenuSection = () => {
               <motion.div
                 key={`${item.id}-${index}`}
                 variants={itemVariants}
-                whileHover={{ y: -12, scale: 1.02 }}
-                className="flex-none w-[340px] md:w-[520px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group transition-all duration-700 shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(35,31,20,0.15)]"
+                whileHover={{ 
+                  y: -15, 
+                  scale: 1.02,
+                  transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
+                }}
+                className="flex-none w-[340px] md:w-[520px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
@@ -503,8 +510,12 @@ const MenuSection = () => {
               <motion.div
                 key={`${item.id}-${index}`}
                 variants={itemVariants}
-                whileHover={{ y: -12, scale: 1.02 }}
-                className="flex-none w-[340px] md:w-[520px] h-[350px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group transition-all duration-700 shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(35,31,20,0.15)]"
+                whileHover={{ 
+                  y: -15, 
+                  scale: 1.02,
+                  transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
+                }}
+                className="flex-none w-[340px] md:w-[520px] h-[350px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
@@ -1013,8 +1024,20 @@ const Footer = () => {
 };
 
 const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#e4d4c5]/95 backdrop-blur-sm border-b border-coffee-dark/5 px-[130px] h-20 md:h-24 flex items-center justify-between">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 ${
+      isScrolled ? 'bg-[#e4d4c5] backdrop-blur-md shadow-sm' : 'bg-[#e4d4c5]/10 backdrop-blur-sm'
+    }`}>
       {/* Left side links */}
       <div className="flex-1 hidden lg:flex items-center gap-10">
         <a href="#menu" className="text-[12px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">MENU</a>
@@ -1041,7 +1064,7 @@ const Navbar = () => {
 
       {/* Right side links + CTA */}
       <div className="flex-1 flex items-center justify-end gap-10">
-        <div className="hidden lg:flex items-center gap-10 mr-10">
+        <div className="hidden lg:flex items-center gap-10">
           <a href="#contact" className="text-[12px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">CONTACT</a>
         </div>
         
@@ -1049,7 +1072,7 @@ const Navbar = () => {
           href="https://order.toasttab.com/online/la-souq-richardson-dallas"
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark transition-all duration-300 hover:bg-coffee-dark hover:text-white pt-[10px]"
+          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark transition-all duration-300 hover:bg-coffee-dark hover:text-[#e4d4c5] pt-[10px]"
         >
           ORDER AHEAD
         </a>
