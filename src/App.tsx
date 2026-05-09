@@ -1036,9 +1036,12 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 ${
-      isScrolled ? 'bg-[#e4d4c5] backdrop-blur-md shadow-sm' : 'bg-[#e4d4c5]/10 backdrop-blur-sm'
-    }`}>
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 ${
+        isScrolled ? 'bg-[#e4d4c5] backdrop-blur-md shadow-sm' : 'bg-[#e4d4c5]/10 backdrop-blur-sm'
+      }`}
+      style={{ borderBottomWidth: '4.22222px' }}
+    >
       {/* Left side Logo */}
       <div className="flex-none">
         <motion.div 
