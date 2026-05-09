@@ -87,7 +87,7 @@ const Hero = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative inline-flex items-center gap-4 px-12 py-5 overflow-hidden border border-coffee-dark/20 uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
+            className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 mb-12 overflow-hidden border border-coffee-dark/20 uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
             style={{ borderWidth: '2.11111px' }}
             id="order-button"
           >
@@ -372,7 +372,7 @@ const MenuSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="px-6 md:px-24 lg:px-32 flex flex-col mb-5 pl-[128px]"
+          className="px-6 md:px-24 lg:px-32 flex flex-col mb-5 pl-6"
         >
           <motion.p 
             variants={itemVariants}
@@ -401,7 +401,7 @@ const MenuSection = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="flex gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6"
+            className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6 px-6 md:px-12"
           >
             {[...menuItems, ...menuItems].map((item, index) => (
               <motion.div
@@ -412,40 +412,40 @@ const MenuSection = () => {
                   scale: 1.02,
                   transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
                 }}
-                className="flex-none w-[340px] md:w-[520px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
+                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
                 
-                <div className="flex-1 p-8 md:p-12 flex flex-col justify-between relative z-10">
+                <div className="flex-1 p-6 md:p-12 flex flex-col justify-between relative z-10">
                   <div className="relative">
                     {/* Item Index */}
-                    <span className="inline-block text-[9px] tracking-[0.4em] font-bold text-gold/60 uppercase mb-6">
+                    <span className="hidden md:inline-block text-[9px] tracking-[0.4em] font-bold text-gold/60 uppercase mb-4 md:mb-6">
                       COLLECTION NO. 0{menuItems.indexOf(item) + 1}
                     </span>
                     
-                    <h3 className="text-xl md:text-2xl font-heading text-coffee-dark mb-4 tracking-tight group-hover:text-[#e4d4c5] transition-colors duration-500 uppercase">
+                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-3 md:mb-4 tracking-tight group-hover:text-[#e4d4c5] transition-colors duration-500 uppercase">
                       {item.name}
                     </h3>
                     
-                    <div className="w-12 h-[1px] bg-gold/30 mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
+                    <div className="w-12 h-[1px] bg-gold/30 mb-4 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
                     
-                    <p className="text-[13px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px]">
+                    <p className="text-[12px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px]">
                       {item.description}
                     </p>
                   </div>
                   
-                  <div className="mt-8 flex items-center justify-between">
-                    <span className="text-[11px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
+                  <div className="mt-6 md:mt-8 flex items-center justify-between">
+                    <span className="hidden md:inline-block text-[10px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
                       Premium Selection
                     </span>
-                    <span className="text-[13px] tracking-widest font-bold text-[#e4d4c5] bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-gold/10 shadow-sm">
+                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold text-[#e4d4c5] bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm">
                       {item.price}
                     </span>
                   </div>
                 </div>
                 
-                <div className="w-[140px] md:w-[220px] h-full relative overflow-hidden flex-none">
+                <div className="w-[110px] md:w-[220px] h-full relative overflow-hidden flex-none">
                   <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
                   <img 
                     src={item.image} 
@@ -505,7 +505,7 @@ const MenuSection = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="flex gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6"
+            className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6 px-6 md:px-12"
           >
             {[...signatureMenuItems, ...signatureMenuItems].map((item, index) => (
               <motion.div
@@ -516,40 +516,40 @@ const MenuSection = () => {
                   scale: 1.02,
                   transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
                 }}
-                className="flex-none w-[340px] md:w-[520px] h-[350px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
+                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] h-[350px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
                 
-                <div className="flex-1 pt-8 pl-8 md:pl-12 pr-8 pb-8 md:pb-12 flex flex-col justify-between relative z-10">
+                <div className="flex-1 pt-6 md:pt-8 pl-6 md:pl-12 pr-6 pb-6 md:pb-12 flex flex-col justify-between relative z-10">
                   <div className="relative">
                     {/* Item Index */}
-                    <span className="inline-block text-[9px] tracking-[0.4em] font-bold text-gold/60 uppercase mb-6">
+                    <span className="hidden md:inline-block text-[9px] tracking-[0.4em] font-bold text-gold/60 uppercase mb-4 md:mb-6">
                       SIGNATURE NO. 0{signatureMenuItems.indexOf(item) + 1}
                     </span>
                     
-                    <h3 className="text-xl md:text-2xl font-heading text-coffee-dark mb-4 tracking-tight group-hover:text-[#e4d4c5] transition-colors duration-500 uppercase text-balance">
+                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-3 md:mb-4 tracking-tight group-hover:text-[#e4d4c5] transition-colors duration-500 uppercase text-balance">
                       {item.name}
                     </h3>
                     
-                    <div className="w-12 h-[1px] bg-gold/30 mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
+                    <div className="w-12 h-[1px] bg-gold/30 mb-4 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
                     
-                    <p className="text-[13px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px]">
+                    <p className="text-[12px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px]">
                       {item.description}
                     </p>
                   </div>
                   
-                  <div className="mt-8 flex items-center justify-between">
-                    <span className="text-[11px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
+                  <div className="mt-6 md:mt-8 flex items-center justify-between">
+                    <span className="hidden md:inline-block text-[10px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
                       Limited Release
                     </span>
-                    <span className="text-[13px] tracking-widest font-bold text-[#e4d4c5] bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-gold/10 shadow-sm">
+                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold text-[#e4d4c5] bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm">
                       {item.price}
                     </span>
                   </div>
                 </div>
                 
-                <div className="w-[140px] md:w-[220px] h-full relative overflow-hidden flex-none">
+                <div className="w-[110px] md:w-[220px] h-full relative overflow-hidden flex-none">
                   <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
                   <img 
                     src={item.image} 
@@ -1036,44 +1036,40 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 ${
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 ${
       isScrolled ? 'bg-[#e4d4c5] backdrop-blur-md shadow-sm' : 'bg-[#e4d4c5]/10 backdrop-blur-sm'
     }`}>
-      {/* Left side links */}
-      <div className="flex-1 hidden lg:flex items-center gap-10">
-        <a href="#menu" className="text-[12px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">MENU</a>
-        <a href="#about" className="text-[12px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">OUR STORY</a>
-      </div>
-
-      {/* Center Logo */}
-      <div className="flex flex-col items-center justify-center lg:px-8">
+      {/* Left side Logo */}
+      <div className="flex-none">
         <motion.div 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center group cursor-pointer"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="group cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <img 
             src={LOGO_URL} 
             alt="LA SOUQ" 
-            className="object-contain transition-transform duration-500 group-hover:scale-105" 
-            style={{ width: '192.646px', height: '48px', paddingBottom: '8px' }}
+            className="h-6 md:h-7 w-auto object-contain transition-transform duration-500 group-hover:scale-105" 
             referrerPolicy="no-referrer"
           />
         </motion.div>
       </div>
 
-      {/* Right side links + CTA */}
-      <div className="flex-1 flex items-center justify-end gap-10">
-        <div className="hidden lg:flex items-center gap-10">
-          <a href="#contact" className="text-[12px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">CONTACT</a>
-        </div>
-        
+      {/* Center links (hidden on mobile) */}
+      <div className="hidden lg:flex items-center gap-10">
+        <a href="#menu" className="text-[11px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">MENU</a>
+        <a href="#about" className="text-[11px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">OUR STORY</a>
+        <a href="#contact" className="text-[11px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">CONTACT</a>
+      </div>
+
+      {/* Right side CTA */}
+      <div className="flex-none">
         <a 
           href="https://order.toasttab.com/online/la-souq-richardson-dallas"
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark transition-all duration-300 hover:bg-coffee-dark hover:text-[#e4d4c5] pt-[10px]"
+          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark transition-all duration-300 hover:bg-coffee-dark hover:text-[#e4d4c5] pt-[10px] uppercase"
         >
           ORDER AHEAD
         </a>
