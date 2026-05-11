@@ -3,9 +3,50 @@ import { Instagram, Facebook, Plus } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 // Use the user-provided logo URL
-const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/FafArtboard_1.png?v=1778162215";
+const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/FafArtboard_1_8b5db3c5-8d10-44e8-9c18-21c3cff3f540.png?v=1778514580";
 
-const Hero = () => {
+const THEMES = [
+  {
+    id: 1,
+    name: 'Theme 1: Arabic Earth',
+    heroOverlay: '#2e1814',
+    sectionBg: '#9da18a',
+    menuBg: '#e8e3c9',
+    highlightText: '#e8e3c9',
+    buttonHoverBg: '#9da18a',
+    buttonHoverText: '#e8e3c9',
+    navBg: '#9da18a',
+    footerBg: '#9da18a',
+    coffeeDark: '#231f14',
+    contactOverlay: '#231f14',
+    menuButtonText: '#231f14',
+    menuButtonBorder: 'rgba(35, 31, 20, 0.2)',
+    accent: '#9da18a',
+    cardTitle: '#231f14',
+    testimonialBg: '#e8e3c9'
+  },
+  {
+    id: 2,
+    name: 'Theme 2: Mojave Sand',
+    heroOverlay: '#231a12',
+    sectionBg: '#b69b79',
+    menuBg: '#f4f4f4',
+    highlightText: '#f4f4f4',
+    buttonHoverBg: '#b69b79',
+    buttonHoverText: '#f4f4f4',
+    navBg: '#b69b79',
+    footerBg: '#b69b79',
+    coffeeDark: '#231f14',
+    contactOverlay: '#231a12',
+    menuButtonText: '#2e1814',
+    menuButtonBorder: '#231a12',
+    accent: '#b69b79',
+    cardTitle: '#b69b79',
+    testimonialBg: '#e8e3c9'
+  }
+];
+
+const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800], [0, 300]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0.4]);
@@ -40,17 +81,14 @@ const Hero = () => {
           className="absolute inset-x-0 h-[120%] -top-[10%]" 
           style={{ y, opacity }}
         >
-          <video 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/0507.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zLzA1MDcubXA0IiwiaWF0IjoxNzc4MTc1ODU0LCJleHAiOjE3ODA3Njc4NTR9.CQe3waYAbx_LhKhmKjqJII1jhIaHut_4DKiLJYOdkxk"
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            preload="auto"
+          <img 
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg"
+            alt="La Souq Richardson"
             className="w-full h-full object-cover scale-110"
+            referrerPolicy="no-referrer"
           />
           {/* Brand color overlay replacing the old black overlay */}
-          <div className="absolute inset-0 bg-[#e4d4c5]/50"></div>
+          <div className="absolute inset-0 transition-colors duration-1000" style={{ backgroundColor: `${theme.heroOverlay}CC` }}></div>
         </motion.div>
       </div>
 
@@ -58,7 +96,8 @@ const Hero = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 max-w-4xl text-coffee-dark text-center flex flex-col items-center pt-[90px]"
+        className="relative z-10 max-w-4xl text-center flex flex-col items-center pt-[90px]"
+        style={{ color: theme.coffeeDark }}
       >
         {/* Centered Logo */}
         <motion.div 
@@ -75,7 +114,8 @@ const Hero = () => {
 
         <motion.p 
           variants={itemVariants} 
-          className="uppercase tracking-[0.6em] text-[16px] mb-12 font-bold text-coffee-dark/60"
+          className="uppercase tracking-[0.6em] text-[16px] mb-12 font-normal"
+          style={{ color: theme.highlightText }}
         >
           ARTISAN ROASTERY COFFEE & SHOP
         </motion.p>
@@ -87,11 +127,11 @@ const Hero = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 mb-12 overflow-hidden border border-coffee-dark/20 uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
-            style={{ borderWidth: '2.11111px' }}
+            className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 mb-12 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
+            style={{ borderWidth: '1px', borderColor: theme.highlightText, color: theme.highlightText }}
             id="order-button"
           >
-            <span className="relative z-10 text-coffee-dark group-hover:text-[#e4d4c5] transition-colors duration-500 flex items-center gap-4 text-[12px]">
+            <span className="relative z-10 group-hover:text-[#e8e3c9] transition-colors duration-500 flex items-center gap-4 text-[12px]" style={{ color: theme.highlightText, borderColor: theme.highlightText }}>
               ORDER AHEAD
               <motion.span 
                 animate={{ x: [0, 5, 0] }} 
@@ -100,7 +140,7 @@ const Hero = () => {
                 →
               </motion.span>
             </span>
-            <div className="absolute inset-0 bg-coffee-dark translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+            <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.buttonHoverBg }}></div>
           </motion.a>
         </motion.div>
       </motion.div>
@@ -144,7 +184,7 @@ const Hero = () => {
   );
 };
 
-const InspirationSection = () => {
+const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -162,7 +202,7 @@ const InspirationSection = () => {
   };
 
   return (
-    <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full bg-[#e4d4c5]" id="inspiration">
+    <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="inspiration">
       <div className="w-full px-6 md:px-24 lg:px-32">
         <motion.div 
           variants={containerVariants}
@@ -190,7 +230,7 @@ const InspirationSection = () => {
             </motion.div>
             
             <motion.div variants={itemVariants} className="w-full md:w-1/2 space-y-6">
-              <span className="text-[10px] tracking-[0.4em] font-bold text-coffee-dark/30 uppercase">Inspired By</span>
+              <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Inspired By</span>
               <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
                 Arabic Roots.<br />California Soul.
               </h2>
@@ -222,7 +262,7 @@ const InspirationSection = () => {
               </motion.div>
 
               <motion.div variants={itemVariants} className="flex-1 space-y-6">
-                <span className="text-[10px] tracking-[0.4em] font-bold text-coffee-dark/30 uppercase">Featured Drink</span>
+                <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Featured Drink</span>
                 <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
                   Cardamom<br />Latte
                 </h2>
@@ -242,7 +282,7 @@ const InspirationSection = () => {
   );
 };
 
-const MenuSection = () => {
+const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const signatureScrollRef = useRef<HTMLDivElement>(null);
   const isHovered = useRef(false);
@@ -362,7 +402,7 @@ const MenuSection = () => {
   };
 
   return (
-    <section className="py-32 bg-[#eee3d9] relative overflow-hidden" id="menu">
+    <section className="py-32 relative overflow-hidden transition-colors duration-1000" style={{ backgroundColor: theme.menuBg }} id="menu">
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-coffee-dark/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
       
@@ -391,7 +431,7 @@ const MenuSection = () => {
         {/* Carousel container 1 */}
         <div className="relative group/carousel py-[10px]">
           {/* Left scroll fade indicator */}
-          <div className="absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-[#e4d4c5] via-[#e4d4c5]/80 to-transparent z-20 pointer-events-none opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-500"></div>
+          <div className="absolute top-0 left-0 h-full w-24 z-20 pointer-events-none opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to right, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
           
           <motion.div 
             ref={scrollRef}
@@ -424,7 +464,7 @@ const MenuSection = () => {
                       COLLECTION NO. 0{menuItems.indexOf(item) + 1}
                     </span>
                     
-                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-3 md:mb-4 tracking-tight group-hover:text-[#e4d4c5] transition-colors duration-500 uppercase">
+                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-3 md:mb-4 tracking-tight transition-colors duration-500 uppercase" style={{ color: theme.cardTitle }}>
                       {item.name}
                     </h3>
                     
@@ -439,7 +479,7 @@ const MenuSection = () => {
                     <span className="hidden md:inline-block text-[10px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
                       Premium Selection
                     </span>
-                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold text-[#e4d4c5] bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm">
+                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: theme.id === 1 ? '#9da18a' : theme.buttonHoverBg }}>
                       {item.price}
                     </span>
                   </div>
@@ -467,7 +507,7 @@ const MenuSection = () => {
           </motion.div>
           
           {/* Right scroll fade indicator */}
-          <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-[#e4d4c5] via-[#e4d4c5]/80 to-transparent z-20 pointer-events-none transition-opacity duration-500"></div>
+          <div className="absolute top-0 right-0 h-full w-24 z-20 pointer-events-none transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to left, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
         </div>
 
         {/* Signature Coffee Section */}
@@ -495,7 +535,7 @@ const MenuSection = () => {
         {/* Carousel container 2 (Signature) */}
         <div className="relative group/carousel-sig py-[10px]">
           {/* Left scroll fade indicator */}
-          <div className="absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-[#e4d4c5] via-[#e4d4c5]/80 to-transparent z-20 pointer-events-none opacity-0 group-hover/carousel-sig:opacity-100 transition-opacity duration-500"></div>
+          <div className="absolute top-0 left-0 h-full w-24 z-20 pointer-events-none opacity-0 group-hover/carousel-sig:opacity-100 transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to right, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
           
           <motion.div 
             ref={signatureScrollRef}
@@ -516,7 +556,7 @@ const MenuSection = () => {
                   scale: 1.02,
                   transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
                 }}
-                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] h-[350px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
+                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
@@ -528,7 +568,7 @@ const MenuSection = () => {
                       SIGNATURE NO. 0{signatureMenuItems.indexOf(item) + 1}
                     </span>
                     
-                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-3 md:mb-4 tracking-tight group-hover:text-[#e4d4c5] transition-colors duration-500 uppercase text-balance">
+                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-3 md:mb-4 tracking-tight transition-colors duration-500 uppercase text-balance" style={{ color: theme.cardTitle }}>
                       {item.name}
                     </h3>
                     
@@ -543,7 +583,7 @@ const MenuSection = () => {
                     <span className="hidden md:inline-block text-[10px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
                       Limited Release
                     </span>
-                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold text-[#e4d4c5] bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm">
+                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: theme.id === 1 ? '#9da18a' : theme.buttonHoverBg }}>
                       {item.price}
                     </span>
                   </div>
@@ -571,21 +611,22 @@ const MenuSection = () => {
           </motion.div>
           
           {/* Right scroll fade indicator */}
-          <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-[#e4d4c5] via-[#e4d4c5]/80 to-transparent z-20 pointer-events-none transition-opacity duration-500"></div>
+          <div className="absolute top-0 right-0 h-full w-24 z-20 pointer-events-none transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to left, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
         </div>
 
         {/* 'More' Button Section */}
-        <div className="flex justify-center mt-20">
+        <div className="flex justify-center mt-20 transition-colors duration-1000" style={{ backgroundColor: theme.menuBg, borderColor: theme.menuBg }}>
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative px-12 py-5 overflow-hidden border border-coffee-dark/20 uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
+            className="group relative px-12 py-5 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
+            style={{ borderColor: theme.id === 2 ? theme.menuButtonBorder : 'rgba(35, 31, 20, 0.2)' }}
           >
-            <span className="relative z-10 text-coffee-dark group-hover:text-white transition-colors duration-500">View Full Menu</span>
-            <div className="absolute inset-0 bg-coffee-dark translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+            <span className="relative z-10 text-coffee-dark transition-colors duration-500" style={{ color: theme.menuButtonText }}>View Full Menu</span>
+            <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.buttonHoverBg }}></div>
           </motion.button>
         </div>
       </div>
@@ -738,7 +779,7 @@ const AboutSection = () => {
   );
 };
 
-const LocationsSection = () => {
+const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   const locations = [
     {
       id: 'richardson-main',
@@ -759,7 +800,7 @@ const LocationsSection = () => {
   ];
 
   return (
-    <section className="pt-[90px] pb-32 px-6 md:pl-[92px] md:pr-[90px] bg-[#e4d4c5]" id="locations">
+    <section className="pt-[90px] pb-32 px-6 md:pl-[92px] md:pr-[90px] transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="locations">
       <div className="w-full">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -771,12 +812,12 @@ const LocationsSection = () => {
           <h2 className="text-6xl md:text-7xl font-heading text-coffee-dark mb-4 tracking-tight">
             Our Locations
           </h2>
-          <div className="w-24 h-1 bg-gold"></div>
+          <div className="w-24 h-1 transition-colors duration-1000" style={{ backgroundColor: theme.id === 2 ? '#e8e3c9' : '#c5a367' }}></div>
         </motion.div>
         
         <div className="mb-16">
           <h3 className="text-3xl font-bold text-coffee-dark mb-2">Richardson, TX</h3>
-          <p className="text-gray-400 text-xs uppercase tracking-[0.3em] font-medium">{locations.length} locations</p>
+          <p className="text-xs uppercase tracking-[0.3em] font-medium transition-colors duration-1000" style={{ color: theme.id === 2 ? '#e8e3c9' : '#9ca3af' }}>{locations.length} locations</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-24">
@@ -798,16 +839,35 @@ const LocationsSection = () => {
                 />
               </div>
               <div className="space-y-4">
-                <h4 className="text-2xl font-bold border-b border-coffee-dark pb-1 inline-block cursor-pointer transition-all duration-300 hover:text-gold hover:border-gold">
+                <h4 
+                  className="text-2xl font-bold border-b pb-1 inline-block cursor-pointer transition-all duration-300"
+                  style={{ 
+                    borderColor: theme.coffeeDark,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = theme.accent;
+                    e.currentTarget.style.borderColor = theme.accent;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = '';
+                    e.currentTarget.style.borderColor = theme.coffeeDark;
+                  }}
+                >
                   {loc.name}
                 </h4>
-                <div className="text-gray-500 text-sm md:text-base leading-relaxed font-light">
+                <div className="text-sm md:text-base leading-relaxed font-light transition-colors duration-1000" style={{ color: theme.highlightText }}>
                   <p>{loc.address}</p>
                   <p>{loc.phone}</p>
                 </div>
-                <p className="text-coffee-dark font-bold text-sm md:text-base mt-6">{loc.hours}</p>
+                <p className="font-bold text-sm md:text-base mt-6 transition-colors duration-1000" style={{ color: theme.id === 2 ? '#231f14' : theme.coffeeDark }}>{loc.hours}</p>
                 <div className="pt-6">
-                  <a href="#" className="group/link inline-flex items-center space-x-3 text-[12px] tracking-[0.4em] font-bold text-coffee-dark hover:text-gold transition-colors">
+                  <a 
+                    href="#" 
+                    className="group/link inline-flex items-center space-x-3 text-[12px] tracking-[0.4em] font-bold transition-colors"
+                    style={{ color: theme.id === 2 ? '#231f14' : theme.coffeeDark }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = theme.accent}
+                    onMouseLeave={(e) => e.currentTarget.style.color = theme.id === 2 ? '#231f14' : theme.coffeeDark}
+                  >
                     <span>ORDER AHEAD</span>
                     <motion.span 
                       animate={{ x: [0, 4, 0] }}
@@ -822,7 +882,7 @@ const LocationsSection = () => {
           ))}
         </div>
 
-        <div className="max-w-5xl mx-auto px-6 py-20 bg-gray-50 rounded-3xl relative overflow-hidden mt-32">
+        <div className="max-w-5xl mx-auto px-6 py-20 rounded-3xl relative overflow-hidden mt-32 transition-colors duration-1000" style={{ backgroundColor: theme.testimonialBg }}>
           <div className="absolute top-0 right-0 w-32 h-32 border-r border-t border-gold opacity-20 -m-4"></div>
           <div className="absolute bottom-0 left-0 w-32 h-32 border-l border-b border-gold opacity-20 -m-4"></div>
           
@@ -834,7 +894,7 @@ const LocationsSection = () => {
             className="text-center relative z-10"
             id="secondary-text"
           >
-            <p className="text-gray-600 leading-[2] text-lg lg:text-xl font-light italic font-serif">
+            <p className="leading-[2] text-lg lg:text-xl font-light italic font-serif transition-colors duration-1000" style={{ color: theme.id === 2 ? '#2b2d24' : '#4b5563' }}>
               "It won’t be long now until you can enjoy a delicious fresh-brewed coffee with your friends at La Souq. We’ve poured our hearts into every detail of this venue, working with local craftspeople to create a space that doesn't just serve coffee, but serves the community. Join us soon for an unforgettable encounter."
             </p>
             <div className="mt-8 flex justify-center space-x-1">
@@ -847,7 +907,7 @@ const LocationsSection = () => {
   );
 };
 
-const ContactSection = () => {
+const ContactSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
@@ -872,7 +932,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="relative py-40 px-6 md:px-[90px] overflow-hidden min-h-[800px] flex items-center bg-coffee-dark" id="contact">
+    <section className="relative py-40 px-6 md:px-[90px] overflow-hidden min-h-[800px] flex items-center transition-colors duration-1000" style={{ backgroundColor: theme.id === 1 ? '#231f14' : '#141414' }} id="contact">
       <div className="absolute inset-0 z-0">
         <motion.div 
           className="absolute inset-x-0 h-[120%] -top-[10%]" 
@@ -884,7 +944,7 @@ const ContactSection = () => {
             className="w-full h-full object-cover opacity-30 scale-105"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-coffee-dark via-coffee-dark/80 to-transparent"></div>
+          <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(to right, ${theme.contactOverlay}, ${theme.contactOverlay}CC, transparent)` }}></div>
         </motion.div>
       </div>
 
@@ -898,8 +958,8 @@ const ContactSection = () => {
           id="contact-info"
         >
           <motion.div variants={itemVariants} className="flex items-center space-x-4">
-            <div className="w-12 h-px bg-gold"></div>
-            <span className="uppercase text-[10px] tracking-[0.4em] font-bold text-gold">Get In Touch</span>
+            <div className="w-12 h-px" style={{ backgroundColor: theme.accent }}></div>
+            <span className="uppercase text-[10px] tracking-[0.4em] font-bold" style={{ color: theme.accent }}>Get In Touch</span>
           </motion.div>
           
           <motion.h2 variants={itemVariants} className="text-6xl md:text-8xl font-heading leading-tight tracking-tighter uppercase">
@@ -913,13 +973,13 @@ const ContactSection = () => {
 
           <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-12 pt-8">
             <div className="space-y-3">
-              <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold text-gold/50">Visit Us</h4>
+              <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Visit Us</h4>
               <p className="text-base font-medium tracking-wide leading-relaxed">
                 150 W Main St, Suite 900<br />Richardson, TX 75080
               </p>
             </div>
             <div className="space-y-3">
-              <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold text-gold/50">Say Hello</h4>
+              <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Say Hello</h4>
               <p className="text-base font-medium tracking-wide leading-relaxed">
                 hello@lasouq.com<br />(214) 579-9550
               </p>
@@ -938,7 +998,7 @@ const ContactSection = () => {
           <div className="space-y-8">
             <div className="space-y-2">
               <h3 className="text-3xl font-bold uppercase tracking-tight">Send a message</h3>
-              <div className="w-16 h-1 bg-gold"></div>
+              <div className="w-16 h-1" style={{ backgroundColor: theme.accent }}></div>
             </div>
 
             <form className="space-y-8" id="contact-form">
@@ -946,26 +1006,35 @@ const ContactSection = () => {
                 <input 
                   type="text" 
                   placeholder="Full Name" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light outline-none focus:border-gold transition-colors placeholder:text-white/20" 
+                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light outline-none transition-colors placeholder:text-white/20" 
+                  onFocus={(e) => e.target.style.borderColor = theme.accent}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
                 />
               </div>
               <div className="relative group">
                 <input 
                   type="email" 
                   placeholder="Email Address" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light outline-none focus:border-gold transition-colors placeholder:text-white/20" 
+                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light outline-none transition-colors placeholder:text-white/20" 
+                  onFocus={(e) => e.target.style.borderColor = theme.accent}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
                 />
               </div>
               <div className="relative group">
                 <textarea 
                   placeholder="Your Message" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light h-32 outline-none focus:border-gold transition-colors resize-none placeholder:text-white/20"
+                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light h-32 outline-none transition-colors resize-none placeholder:text-white/20"
+                  onFocus={(e) => e.target.style.borderColor = theme.accent}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
                 ></textarea>
               </div>
               
-              <button className="group relative w-full overflow-hidden border border-gold py-5 uppercase text-xs font-bold tracking-[0.4em] transition-all duration-500">
-                <span className="relative z-10 text-gold group-hover:text-coffee-dark transition-colors duration-500">Submit Inquiry</span>
-                <div className="absolute inset-0 bg-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+              <button 
+                className="group relative w-full overflow-hidden border py-5 uppercase text-xs font-bold tracking-[0.4em] transition-all duration-500"
+                style={{ borderColor: theme.accent, color: theme.accent }}
+              >
+                <span className="relative z-10 group-hover:text-coffee-dark transition-colors duration-500">Submit Inquiry</span>
+                <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.accent }}></div>
               </button>
             </form>
           </div>
@@ -975,9 +1044,9 @@ const ContactSection = () => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeToggle: () => void }) => {
   return (
-    <footer className="bg-gold py-16 px-6 md:px-[90px]" id="footer">
+    <footer className="py-16 px-6 md:px-[90px] transition-colors duration-1000" style={{ backgroundColor: theme.footerBg }} id="footer">
       <div className="w-full max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 mb-16">
           <div className="space-y-6" id="footer-brand">
@@ -990,29 +1059,39 @@ const Footer = () => {
             <p className="text-coffee-dark/70 text-xs leading-relaxed max-w-md">
               Won’t be long now until you can enjoy a delicious fresh-brewed coffee with your friends at La Souq in Richardson, TX. Roasted memories serving the community since 2026.
             </p>
+
+            {/* Theme Toggle Button */}
+            <div className="pt-4">
+              <button 
+                onClick={onThemeToggle}
+                className="px-6 py-2 border border-coffee-dark/20 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark hover:bg-coffee-dark hover:text-white transition-all uppercase"
+              >
+                Switch to {theme.id === 1 ? 'Theme 2' : 'Theme 1'}
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-12" id="footer-links">
             <div className="space-y-4">
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR WEBSITE</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
-                <li><a href="#" className="hover:text-gold transition-colors">HOME</a></li>
-                <li><a href="#about" className="hover:text-gold transition-colors">ABOUT</a></li>
-                <li><a href="#contact" className="hover:text-gold transition-colors">CONTACT US</a></li>
-                <li><a href="#" className="hover:text-gold transition-colors">MESSAGE</a></li>
+                <li><a href="#" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>HOME</a></li>
+                <li><a href="#about" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>ABOUT</a></li>
+                <li><a href="#contact" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
+                <li><a href="#" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MESSAGE</a></li>
               </ul>
             </div>
             <div className="space-y-4">
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR SOCIALS</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
-                <li><a href="#" className="flex items-center hover:text-gold transition-colors"><Facebook className="w-3 h-3 mr-2" /> FACEBOOK</a></li>
-                <li><a href="#" className="flex items-center hover:text-gold transition-colors"><Instagram className="w-3 h-3 mr-2" /> INSTAGRAM</a></li>
+                <li><a href="#" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Facebook className="w-3 h-3 mr-2" /> FACEBOOK</a></li>
+                <li><a href="#" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Instagram className="w-3 h-3 mr-2" /> INSTAGRAM</a></li>
               </ul>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-coffee-dark/10 pt-6 flex flex-col md:flex-row justify-between items-center text-[9px] tracking-widest text-coffee-dark/50 uppercase space-y-4 md:space-y-0">
+        <div className="pt-6 flex flex-col md:flex-row justify-between items-center text-[9px] tracking-widest text-coffee-dark/50 uppercase space-y-4 md:space-y-0" style={{ borderTop: `1px solid ${theme.id === 2 ? theme.accent : 'rgba(35, 31, 20, 0.1)'}` }}>
           <p>© 2026 LA SOUQ. ALL RIGHTS RESERVED.</p>
           <div className="flex space-x-8">
             <a href="#" className="hover:text-coffee-dark transition-colors">PRIVACY POLICY</a>
@@ -1024,7 +1103,7 @@ const Footer = () => {
   );
 };
 
-const Navbar = () => {
+const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -1038,9 +1117,12 @@ const Navbar = () => {
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 ${
-        isScrolled ? 'bg-[#e4d4c5] backdrop-blur-md shadow-sm' : 'bg-[#e4d4c5]/10 backdrop-blur-sm'
+        isScrolled ? 'backdrop-blur-md shadow-sm' : 'backdrop-blur-sm'
       }`}
-      style={{ borderBottomWidth: '4.22222px' }}
+      style={{ 
+        borderBottomWidth: '4.22222px', 
+        backgroundColor: isScrolled ? theme.navBg : `${theme.navBg}1A` 
+      }}
     >
       {/* Left side Logo */}
       <div className="flex-none">
@@ -1061,9 +1143,9 @@ const Navbar = () => {
 
       {/* Center links (hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-10">
-        <a href="#menu" className="text-[11px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">MENU</a>
-        <a href="#about" className="text-[11px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">OUR STORY</a>
-        <a href="#contact" className="text-[11px] tracking-[0.3em] font-bold text-coffee-dark hover:underline underline-offset-8 transition-all uppercase">CONTACT</a>
+        <a href="#menu" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.highlightText }}>MENU</a>
+        <a href="#about" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.highlightText, borderColor: theme.highlightText }}>OUR STORY</a>
+        <a href="#contact" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.highlightText, borderColor: theme.highlightText }}>CONTACT</a>
       </div>
 
       {/* Right side CTA */}
@@ -1072,7 +1154,19 @@ const Navbar = () => {
           href="https://order.toasttab.com/online/la-souq-richardson-dallas"
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark transition-all duration-300 hover:bg-coffee-dark hover:text-[#e4d4c5] pt-[10px] uppercase"
+          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[10px] uppercase"
+          style={{ 
+            color: theme.highlightText, 
+            borderColor: theme.highlightText,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = theme.buttonHoverBg;
+            e.currentTarget.style.color = theme.buttonHoverText;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.color = theme.highlightText;
+          }}
         >
           ORDER AHEAD
         </a>
@@ -1082,20 +1176,27 @@ const Navbar = () => {
 };
 
 export default function App() {
+  const [themeIndex, setThemeIndex] = useState(1);
+  const theme = THEMES[themeIndex];
+
+  const handleThemeToggle = () => {
+    setThemeIndex((prev) => (prev === 0 ? 1 : 0));
+  };
+
   useEffect(() => {
-    console.log("La Souq Roastery App Initialized");
-  }, []);
+    console.log(`La Souq Roastery App Initialized with ${theme.name}`);
+  }, [themeIndex]);
 
   return (
     <div className="min-h-screen selection:bg-gold selection:text-white" id="main-app-container">
-      <Navbar />
-      <Hero />
-      <InspirationSection />
-      <MenuSection />
-      {/* <AboutSection /> */}
-      <LocationsSection />
-      <ContactSection />
-      <Footer />
+      <Navbar theme={theme} />
+      <Hero theme={theme} />
+      <InspirationSection theme={theme} />
+      <MenuSection theme={theme} />
+      {/* <AboutSection theme={theme} /> */}
+      <LocationsSection theme={theme} />
+      <ContactSection theme={theme} />
+      <Footer theme={theme} onThemeToggle={handleThemeToggle} />
     </div>
   );
 }
