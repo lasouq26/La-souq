@@ -3,13 +3,13 @@ import { Instagram, Facebook, Plus } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 // Use the user-provided logo URL
-const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/FafArtboard_1_8b5db3c5-8d10-44e8-9c18-21c3cff3f540.png?v=1778514580";
+const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/FafArtboard_1.png?v=1778162215";
 
 const THEMES = [
   {
     id: 1,
     name: 'Theme 1: Arabic Earth',
-    heroOverlay: '#2e1814',
+    heroOverlay: '#b69b79',
     sectionBg: '#9da18a',
     menuBg: '#e8e3c9',
     highlightText: '#e8e3c9',
@@ -28,7 +28,7 @@ const THEMES = [
   {
     id: 2,
     name: 'Theme 2: Mojave Sand',
-    heroOverlay: '#231a12',
+    heroOverlay: '#b69b79',
     sectionBg: '#b69b79',
     menuBg: '#f4f4f4',
     highlightText: '#f4f4f4',
@@ -82,13 +82,13 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           style={{ y, opacity }}
         >
           <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg"
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777997722811-ar61ym-photo-2026-05-05-18-04-14.jpg"
             alt="La Souq Richardson"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
           />
           {/* Brand color overlay replacing the old black overlay */}
-          <div className="absolute inset-0 transition-colors duration-1000" style={{ backgroundColor: `${theme.heroOverlay}CC` }}></div>
+          <div className="absolute inset-0 transition-colors duration-1000" style={{ backgroundColor: `${theme.heroOverlay}80` }}></div>
         </motion.div>
       </div>
 
@@ -114,8 +114,8 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
 
         <motion.p 
           variants={itemVariants} 
-          className="uppercase tracking-[0.6em] text-[16px] mb-12 font-normal"
-          style={{ color: theme.highlightText }}
+          className="uppercase tracking-[0.6em] text-[16px] mb-12 font-bold"
+          style={{ color: theme.coffeeDark }}
         >
           ARTISAN ROASTERY COFFEE & SHOP
         </motion.p>
@@ -128,10 +128,10 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 mb-12 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
-            style={{ borderWidth: '1px', borderColor: theme.highlightText, color: theme.highlightText }}
+            style={{ borderWidth: '1px', borderColor: theme.coffeeDark, color: theme.coffeeDark }}
             id="order-button"
           >
-            <span className="relative z-10 group-hover:text-[#e8e3c9] transition-colors duration-500 flex items-center gap-4 text-[12px]" style={{ color: theme.highlightText, borderColor: theme.highlightText }}>
+            <span className="relative z-10 group-hover:text-[#e8e3c9] transition-colors duration-500 flex items-center gap-4 text-[12px]" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>
               ORDER AHEAD
               <motion.span 
                 animate={{ x: [0, 5, 0] }} 
@@ -1143,9 +1143,9 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
 
       {/* Center links (hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-10">
-        <a href="#menu" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.highlightText }}>MENU</a>
-        <a href="#about" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.highlightText, borderColor: theme.highlightText }}>OUR STORY</a>
-        <a href="#contact" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.highlightText, borderColor: theme.highlightText }}>CONTACT</a>
+        <a href="#menu" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark }}>MENU</a>
+        <a href="#about" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>OUR STORY</a>
+        <a href="#contact" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>CONTACT</a>
       </div>
 
       {/* Right side CTA */}
@@ -1156,8 +1156,8 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
           rel="noopener noreferrer"
           className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[10px] uppercase"
           style={{ 
-            color: theme.highlightText, 
-            borderColor: theme.highlightText,
+            color: theme.coffeeDark, 
+            borderColor: theme.coffeeDark,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = theme.buttonHoverBg;
@@ -1165,7 +1165,7 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = theme.highlightText;
+            e.currentTarget.style.color = theme.coffeeDark;
           }}
         >
           ORDER AHEAD
