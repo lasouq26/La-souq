@@ -32,14 +32,14 @@ const THEMES = [
     sectionBg: '#b69b79',
     menuBg: '#f4f4f4',
     highlightText: '#f4f4f4',
-    buttonHoverBg: '#b69b79',
+    buttonHoverBg: '#231f14',
     buttonHoverText: '#f4f4f4',
     navBg: '#b69b79',
     footerBg: '#b69b79',
     coffeeDark: '#231f14',
     contactOverlay: '#231a12',
-    menuButtonText: '#2e1814',
-    menuButtonBorder: '#231a12',
+    menuButtonText: '#231f14',
+    menuButtonBorder: '#231f14',
     accent: '#b69b79',
     cardTitle: '#b69b79',
     testimonialBg: '#e8e3c9'
@@ -82,7 +82,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           style={{ y, opacity }}
         >
           <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777997722811-ar61ym-photo-2026-05-05-18-04-14.jpg"
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778783208154-lskfe6-1-copy.jpg"
             alt="La Souq Richardson"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
@@ -120,29 +120,36 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           ARTISAN ROASTERY COFFEE & SHOP
         </motion.p>
         
-        <motion.div variants={itemVariants}>
-          <motion.a 
-            href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 mb-12 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
-            style={{ borderWidth: '1px', borderColor: theme.coffeeDark, color: theme.coffeeDark }}
-            id="order-button"
-          >
-            <span className="relative z-10 group-hover:text-[#e8e3c9] transition-colors duration-500 flex items-center gap-4 text-[12px]" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>
-              ORDER AHEAD
-              <motion.span 
-                animate={{ x: [0, 5, 0] }} 
-                transition={{ repeat: Infinity, duration: 2 }}
+            <motion.a 
+              href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 mb-12 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
+              style={{ borderWidth: '1px', borderColor: '#231f14', color: '#231f14' }}
+              id="order-button"
+            >
+              <span 
+                className="relative z-10 transition-colors duration-500 flex items-center gap-4 text-[12px]" 
+                style={{ color: '#231f14', borderColor: '#231f14' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = theme.buttonHoverText;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#231f14';
+                }}
               >
-                →
-              </motion.span>
-            </span>
-            <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.buttonHoverBg }}></div>
-          </motion.a>
-        </motion.div>
+                ORDER AHEAD
+                <motion.span 
+                  animate={{ x: [0, 5, 0] }} 
+                  transition={{ repeat: Infinity, duration: 2 }}
+                >
+                  →
+                </motion.span>
+              </span>
+              <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.buttonHoverBg }}></div>
+            </motion.a>
       </motion.div>
 
       {/* Hero Bottom Info */}
@@ -623,9 +630,20 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="group relative px-12 py-5 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
-            style={{ borderColor: theme.id === 2 ? theme.menuButtonBorder : 'rgba(35, 31, 20, 0.2)' }}
+            style={{ borderColor: '#231f14' }}
           >
-            <span className="relative z-10 text-coffee-dark transition-colors duration-500" style={{ color: theme.menuButtonText }}>View Full Menu</span>
+            <span 
+              className="relative z-10 transition-colors duration-500" 
+              style={{ color: '#231f14' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = theme.buttonHoverText;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#231f14';
+              }}
+            >
+              View Full Menu
+            </span>
             <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.buttonHoverBg }}></div>
           </motion.button>
         </div>
@@ -1116,12 +1134,10 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 ${
-        isScrolled ? 'backdrop-blur-md shadow-sm' : 'backdrop-blur-sm'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 shadow-sm"
       style={{ 
         borderBottomWidth: '4.22222px', 
-        backgroundColor: isScrolled ? theme.navBg : `${theme.navBg}1A` 
+        backgroundColor: theme.navBg
       }}
     >
       {/* Left side Logo */}
