@@ -459,7 +459,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   scale: 1.02,
                   transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
                 }}
-                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
+                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] h-[210px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
@@ -563,7 +563,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   scale: 1.02,
                   transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
                 }}
-                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
+                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] h-[210px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
@@ -648,6 +648,42 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           </motion.button>
         </div>
       </div>
+    </section>
+  );
+};
+
+const VideoSection = () => {
+  return (
+    <section className="relative w-full overflow-hidden bg-black aspect-video md:h-[85vh]" id="brand-video">
+      {/* Overlay to prevent dragging/clicking on the YouTube player */}
+      <div className="absolute inset-0 z-10 cursor-default"></div>
+      
+      <div className="w-full h-full relative pointer-events-none">
+        <iframe
+          className="absolute top-1/2 left-1/2 w-[112%] h-[115%] -translate-x-1/2 -translate-y-1/2"
+          src="https://www.youtube.com/embed/W1fLD63M6Uw?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=W1fLD63M6Uw&playsinline=1&iv_load_policy=3&disablekb=1&fs=0&origin=http://localhost:3000"
+          title="La Souq Experience"
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          style={{ border: 'none' }}
+        ></iframe>
+      </div>
+      
+      {/* Cinematic overlay for brand color integration */}
+      <div className="absolute inset-0 bg-[#231f14]/15 mix-blend-multiply pointer-events-none"></div>
+      
+      {/* Decorative text vignette */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
+      
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.5, delay: 0.5 }}
+        viewport={{ once: true }}
+        className="absolute bottom-12 left-12 md:left-24 z-20 hidden md:block"
+      >
+        <span className="text-[10px] tracking-[0.6em] font-bold text-white/60 uppercase">The Craft In Motion</span>
+      </motion.div>
     </section>
   );
 };
@@ -1209,6 +1245,7 @@ export default function App() {
       <Hero theme={theme} />
       <InspirationSection theme={theme} />
       <MenuSection theme={theme} />
+      <VideoSection />
       {/* <AboutSection theme={theme} /> */}
       <LocationsSection theme={theme} />
       <ContactSection theme={theme} />
