@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Instagram, Facebook, Plus } from 'lucide-react';
+import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 // Use the user-provided logo URL
@@ -652,38 +652,120 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   );
 };
 
-const VideoSection = () => {
+const VideoSection = ({ theme }: { theme: any }) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // Send command to the YouTube Player API
+  const sendYoutubeCommand = (command: string) => {
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: command, args: '' }),
+        '*'
+      );
+    }
+  };
+
+  const toggleMute = () => {
+    if (isMuted) {
+      sendYoutubeCommand('unmute');
+      setIsMuted(false);
+    } else {
+      sendYoutubeCommand('mute');
+      setIsMuted(true);
+    }
+  };
+
+  const togglePlay = () => {
+    if (isPlaying) {
+      sendYoutubeCommand('pauseVideo');
+      setIsPlaying(false);
+    } else {
+      sendYoutubeCommand('playVideo');
+      setIsPlaying(true);
+    }
+  };
+
+  // Dynamically resolve target origin
+  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+  const iframeSrc = `https://www.youtube.com/embed/W1fLD63M6Uw?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=W1fLD63M6Uw&playsinline=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin=${encodeURIComponent(currentOrigin)}`;
+
   return (
-    <section className="relative w-full overflow-hidden bg-black aspect-video md:h-[85vh]" id="brand-video">
-      {/* Overlay to prevent dragging/clicking on the YouTube player */}
-      <div className="absolute inset-0 z-10 cursor-default"></div>
-      
-      <div className="w-full h-full relative pointer-events-none">
-        <iframe
-          className="absolute top-1/2 left-1/2 w-[112%] h-[115%] -translate-x-1/2 -translate-y-1/2"
-          src="https://www.youtube.com/embed/W1fLD63M6Uw?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=W1fLD63M6Uw&playsinline=1&iv_load_policy=3&disablekb=1&fs=0&origin=http://localhost:3000"
-          title="La Souq Experience"
-          frameBorder="0"
-          allow="autoplay; encrypted-media"
-          style={{ border: 'none' }}
-        ></iframe>
+    <section className="relative w-full py-16 md:py-24 transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="brand-video">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="text-center mb-12 md:mb-16">
+          <span className="text-[10px] sm:text-xs tracking-[0.4em] font-bold uppercase block mb-3" style={{ color: '#e8e3c9' }}>Cinema Experience</span>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading tracking-tight font-serif mb-4" style={{ color: '#231f14' }}>
+            The Craft In Motion
+          </h2>
+          <div className="w-20 h-0.5 mx-auto" style={{ backgroundColor: '#e8e3c9' }}></div>
+        </div>
+
+        {/* Video Player Card - Keeps a pristine 16:9 ratio with no crop whatsoever */}
+        <div className="max-w-5xl mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] relative group bg-black border border-white/5">
+          
+          {/* Overlay to block native YouTube clicking behavior */}
+          <div className="absolute inset-0 z-10"></div>
+
+          {/* Actual 16:9 full size video - matches the exact outer container */}
+          <div className="w-full h-full relative pointer-events-none">
+            <iframe
+              ref={iframeRef}
+              className="absolute inset-0 w-full h-full border-none"
+              src={iframeSrc}
+              title="La Souq Experience"
+              allow="autoplay; encrypted-media"
+            ></iframe>
+          </div>
+
+          {/* Cinematic subtle color gradations */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-black/20 pointer-events-none z-20"></div>
+
+          {/* Custom Controls Overlay - Fully branded, reveals beautifully, handles precise mute/play toggles */}
+          <div className="absolute inset-x-0 bottom-0 z-30 p-4 sm:p-6 md:p-8 flex items-center justify-between opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/95 via-black/60 to-transparent">
+            
+            {/* Play/Pause custom controls */}
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={togglePlay}
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center bg-[#e8e3c9] hover:bg-[#c5a367] text-[#231f14] transition-all duration-300 transform active:scale-95 shadow-lg shadow-black/40"
+                aria-label={isPlaying ? 'Pause video' : 'Play video'}
+              >
+                {isPlaying ? <Pause className="w-4.5 h-4.5 fill-[#231f14] text-[#231f14]" /> : <Play className="w-4.5 h-4.5 fill-[#231f14] text-[#231f14] ml-0.5" />}
+              </button>
+              <div>
+                <span className="text-white font-medium text-xs tracking-wider uppercase">
+                  {isPlaying ? 'La Souq' : 'Paused'}
+                </span>
+                <p className="text-[9px] text-[#e8e3c9]/60 uppercase tracking-widest mt-0.5">Richardson, Dallas</p>
+              </div>
+            </div>
+
+            {/* Custom volume controls */}
+            <button 
+              onClick={toggleMute}
+              className="px-4 py-2.5 md:px-5 md:py-3 rounded-full flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-all duration-300 border border-white/15 active:scale-95"
+              aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+            >
+              {isMuted ? (
+                <>
+                  <VolumeX className="w-3.5 h-3.5 text-white" />
+                  <span className="text-[9px] font-bold tracking-[0.2em] uppercase">UNMUTE SOUND</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="w-3.5 h-3.5 text-white animate-pulse" />
+                  <span className="text-[9px] font-bold tracking-[0.2em] uppercase">MUTE SOUND</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
       </div>
-      
-      {/* Cinematic overlay for brand color integration */}
-      <div className="absolute inset-0 bg-[#231f14]/15 mix-blend-multiply pointer-events-none"></div>
-      
-      {/* Decorative text vignette */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
-      
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.5, delay: 0.5 }}
-        viewport={{ once: true }}
-        className="absolute bottom-12 left-12 md:left-24 z-20 hidden md:block"
-      >
-        <span className="text-[10px] tracking-[0.6em] font-bold text-white/60 uppercase">The Craft In Motion</span>
-      </motion.div>
     </section>
   );
 };
@@ -1245,7 +1327,7 @@ export default function App() {
       <Hero theme={theme} />
       <InspirationSection theme={theme} />
       <MenuSection theme={theme} />
-      <VideoSection />
+      <VideoSection theme={theme} />
       {/* <AboutSection theme={theme} /> */}
       <LocationsSection theme={theme} />
       <ContactSection theme={theme} />
