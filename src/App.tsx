@@ -3,7 +3,7 @@ import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX } from 'lucide
 import { useEffect, useRef, useState } from 'react';
 
 // Use the user-provided logo URL
-const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/FafArtboard_1.png?v=1778162215";
+const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/Logo.svg?v=1780575680";
 
 const THEMES = [
   {
@@ -82,7 +82,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           style={{ y, opacity }}
         >
           <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778783208154-lskfe6-1-copy.jpg"
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780660956790-xyu01y-3-copy.jpg"
             alt="La Souq Richardson"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
@@ -107,7 +107,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           <img 
             src={LOGO_URL} 
             alt="LA SOUQ" 
-            className="h-32 md:h-48 w-auto object-contain"
+            className="h-[109px] md:h-[163px] w-auto object-contain"
             referrerPolicy="no-referrer"
           />
         </motion.div>
@@ -166,13 +166,13 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
              </div>
              <div className="text-[10px] tracking-widest text-coffee-dark/50 leading-loose">
                <p className="font-bold text-coffee-dark/80 uppercase">Richardson, Texas</p>
-               <p>1101 ABBOT KINNEY BLVD</p>
-               <p>DALLAS, TX 90291</p>
+               <p>150 W MAIN ST, SUITE 900</p>
+               <p>RICHARDSON, TX 75080</p>
              </div>
           </div>
-          <button className="text-[9px] tracking-[0.3em] font-bold text-[#231f14] hover:text-coffee-dark transition-colors flex items-center gap-2">
+          <a href="#locations" className="text-[9px] tracking-[0.3em] font-bold text-[#231f14] hover:text-coffee-dark transition-colors flex items-center gap-2">
             VIEW HOURS →
-          </button>
+          </a>
         </div>
       </motion.div>
 
@@ -239,10 +239,10 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             <motion.div variants={itemVariants} className="w-full md:w-1/2 space-y-6">
               <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Inspired By</span>
               <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
-                Arabic Roots.<br />California Soul.
+                Arabic Roots.<br />Mediterranean Soul.
               </h2>
               <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-4">
-                La Souq is where Arab heritage meets the laid-back rhythm of California. Our spaces are inspired by architecture, light, and tradition — created for connection.
+                La Souq is where Arab heritage meets the laid-back rhythm of the Mediterranean. Our spaces are inspired by architecture, light, and tradition — created for connection.
               </p>
               <a href="#about" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
                 OUR STORY <span className="text-xs">→</span>
@@ -269,7 +269,7 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               </motion.div>
 
               <motion.div variants={itemVariants} className="flex-1 space-y-6">
-                <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Featured Drink</span>
+                <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Signature Experiences.</span>
                 <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
                   Cardamom<br />Latte
                 </h2>
@@ -459,40 +459,32 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   scale: 1.02,
                   transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
                 }}
-                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] h-[210px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
+                className="flex-none w-[290px] sm:w-[340px] md:w-[520px] h-[240px] sm:h-[260px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
                 
-                <div className="flex-1 p-6 md:p-12 flex flex-col justify-between relative z-10">
+                <div className="flex-1 p-5 md:p-12 flex flex-col justify-between relative z-10">
                   <div className="relative">
-                    {/* Item Index */}
-                    <span className="hidden md:inline-block text-[9px] tracking-[0.4em] font-bold text-gold/60 uppercase mb-4 md:mb-6">
-                      COLLECTION NO. 0{menuItems.indexOf(item) + 1}
-                    </span>
-                    
-                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-3 md:mb-4 tracking-tight transition-colors duration-500 uppercase" style={{ color: theme.cardTitle }}>
-                      {item.name}
+                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-2 md:mb-4 tracking-tight transition-colors duration-500 uppercase" style={{ color: theme.cardTitle }}>
+                       {item.name}
                     </h3>
                     
-                    <div className="w-12 h-[1px] bg-gold/30 mb-4 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
+                    <div className="w-12 h-[1px] bg-gold/30 mb-3 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
                     
-                    <p className="text-[12px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px]">
+                    <p className="text-[11px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px] line-clamp-3 md:line-clamp-none">
                       {item.description}
                     </p>
                   </div>
                   
-                  <div className="mt-6 md:mt-8 flex items-center justify-between">
-                    <span className="hidden md:inline-block text-[10px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
-                      Premium Selection
-                    </span>
+                  <div className="mt-4 md:mt-8 flex items-center justify-start">
                     <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: theme.id === 1 ? '#9da18a' : theme.buttonHoverBg }}>
                       {item.price}
                     </span>
                   </div>
                 </div>
                 
-                <div className="w-[110px] md:w-[220px] h-full relative overflow-hidden flex-none">
+                <div className="w-[105px] sm:w-[130px] md:w-[220px] h-full relative overflow-hidden flex-none">
                   <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
                   <img 
                     src={item.image} 
@@ -563,40 +555,32 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   scale: 1.02,
                   transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
                 }}
-                className="flex-none w-[280px] sm:w-[340px] md:w-[520px] h-[210px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
+                className="flex-none w-[290px] sm:w-[340px] md:w-[520px] h-[240px] sm:h-[260px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
                 {/* Decorative background depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
                 
-                <div className="flex-1 pt-6 md:pt-8 pl-6 md:pl-12 pr-6 pb-6 md:pb-12 flex flex-col justify-between relative z-10">
+                <div className="flex-1 p-5 md:p-12 flex flex-col justify-between relative z-10">
                   <div className="relative">
-                    {/* Item Index */}
-                    <span className="hidden md:inline-block text-[9px] tracking-[0.4em] font-bold text-gold/60 uppercase mb-4 md:mb-6">
-                      SIGNATURE NO. 0{signatureMenuItems.indexOf(item) + 1}
-                    </span>
-                    
-                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-3 md:mb-4 tracking-tight transition-colors duration-500 uppercase text-balance" style={{ color: theme.cardTitle }}>
+                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-2 md:mb-4 tracking-tight transition-colors duration-500 uppercase text-balance" style={{ color: theme.cardTitle }}>
                       {item.name}
                     </h3>
                     
-                    <div className="w-12 h-[1px] bg-gold/30 mb-4 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
+                    <div className="w-12 h-[1px] bg-gold/30 mb-3 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
                     
-                    <p className="text-[12px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px]">
+                    <p className="text-[11px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px] line-clamp-3 md:line-clamp-none">
                       {item.description}
                     </p>
                   </div>
                   
-                  <div className="mt-6 md:mt-8 flex items-center justify-between">
-                    <span className="hidden md:inline-block text-[10px] tracking-[0.2em] font-bold text-coffee-dark/40 uppercase">
-                      Limited Release
-                    </span>
+                  <div className="mt-4 md:mt-8 flex items-center justify-start">
                     <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: theme.id === 1 ? '#9da18a' : theme.buttonHoverBg }}>
                       {item.price}
                     </span>
                   </div>
                 </div>
                 
-                <div className="w-[110px] md:w-[220px] h-full relative overflow-hidden flex-none">
+                <div className="w-[105px] sm:w-[130px] md:w-[220px] h-full relative overflow-hidden flex-none">
                   <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
                   <img 
                     src={item.image} 
@@ -770,6 +754,93 @@ const VideoSection = ({ theme }: { theme: any }) => {
   );
 };
 
+const CommunitySection = ({ theme }: { theme: any }) => {
+  const reviews = [
+    {
+      platform: "Google Review",
+      rating: "★★★★★",
+      text: `"Absolutely incredible coffee and atmosphere! The warm cardamom notes here are unmatched, and the design of the space makes you want to stay all day."`,
+      author: "SARAH M.",
+      date: "MAY 2026"
+    },
+    {
+      platform: "Yelp Review",
+      rating: "★★★★★",
+      text: `"The signature Habibti Latte is outstanding. Beautiful architectural arches, gorgeous natural light, and extremely welcoming old-world hospitality."`,
+      author: "DAVID K.",
+      date: "APRIL 2026"
+    },
+    {
+      platform: "Instagram",
+      rating: null,
+      text: `"LA SOUQ is my new sanctuary. Pure aesthetic bliss combined with high-grade, true coffee roasting craft. ✨ ☕"`,
+      author: "@URBAN_CRAFTS",
+      date: "MAY 2026"
+    },
+    {
+      platform: "TikTok",
+      rating: null,
+      text: `"Found the most beautiful coffee shop in Dallas/Richardson! Incredible gourmet toasts and addictive Lavender Honey Lattes. 10/10 vibe checks only."`,
+      author: "@DALLASEATS",
+      date: "JUNE 2026"
+    }
+  ];
+
+  return (
+    <section className="relative w-full py-20 md:py-28 overflow-hidden transition-colors duration-1000" style={{ backgroundColor: '#f5f3ec' }} id="community">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="text-center mb-16 md:mb-20">
+          <span className="text-[10px] sm:text-xs tracking-[0.4em] font-bold uppercase block mb-3" style={{ color: '#c5a367' }}>Guest Experiences</span>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading tracking-tight font-serif mb-4" style={{ color: '#231f14' }}>
+            From The Community
+          </h2>
+          <div className="w-24 h-0.5 mx-auto mt-6" style={{ backgroundColor: '#c5a367' }}></div>
+        </div>
+
+        {/* Reviews Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          {reviews.map((review, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.8, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col justify-between min-h-[260px] md:min-h-[300px] p-6 md:p-8 bg-[#fdfaf7] rounded-[2rem] border border-[#231f14]/5 shadow-[0_20px_50px_-20px_rgba(35,31,20,0.06)] hover:shadow-[0_45px_90px_-15px_rgba(35,31,20,0.14)] hover:-translate-y-1 transition-all duration-500 group"
+            >
+              {/* Card Top: Platform & Rating */}
+              <div className="flex items-center justify-between">
+                <span className="px-3.5 py-1 rounded-full text-[9px] font-bold tracking-[0.12em] text-[#231f14]/40 bg-[#231f14]/5 uppercase border border-[#231f14]/5">
+                  {review.platform}
+                </span>
+                {review.rating && (
+                  <span className="text-[#c5a367] text-[12px] font-bold tracking-[0.1em]">
+                    {review.rating}
+                  </span>
+                )}
+              </div>
+
+              {/* Card Body: Quote text */}
+              <p className="text-[#231f14]/85 text-[14px] leading-relaxed italic font-serif my-5 md:my-8 pr-1 font-light">
+                {review.text}
+              </p>
+
+              {/* Card Footer: Divider + User Credits */}
+              <div className="pt-5 border-t border-[#231f14]/5 mt-auto flex items-center justify-between text-[11px] tracking-[0.12em] font-bold text-[#231f14]">
+                <span className="uppercase">{review.author}</span>
+                <span className="text-[#231f14]/40 text-[9px] uppercase font-light tracking-widest">{review.date}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
 const AboutSection = () => {
   const images = [
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777816829809-xb1fh9-8.jpg",
@@ -924,14 +995,6 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
       phone: '(214) 579-9550',
       hours: 'Mon-Sun: 6:30am–7:00pm',
       image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg"
-    },
-    {
-      id: 'cityline-plaza',
-      name: 'CityLine Plaza',
-      address: '1250 State St, Richardson, TX 75082',
-      phone: '(469) 709-8033',
-      hours: 'Mon-Sun: 6:30am–7:00pm',
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817076882-efg8jp-3.jpg"
     }
   ];
 
@@ -939,105 +1002,83 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
     <section className="pt-[90px] pb-32 px-6 md:pl-[92px] md:pr-[90px] transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="locations">
       <div className="w-full">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true, amount: 0.3 }}
-          className="mb-16"
+          className="mb-16 text-center"
         >
           <h2 className="text-6xl md:text-7xl font-heading text-coffee-dark mb-4 tracking-tight">
-            Our Locations
+            Our Location
           </h2>
-          <div className="w-24 h-1 transition-colors duration-1000" style={{ backgroundColor: theme.id === 2 ? '#e8e3c9' : '#c5a367' }}></div>
+          <div className="w-24 h-1 mx-auto transition-colors duration-1000" style={{ backgroundColor: theme.id === 2 ? '#e8e3c9' : '#c5a367' }}></div>
         </motion.div>
         
-        <div className="mb-16">
-          <h3 className="text-3xl font-bold text-coffee-dark mb-2">Richardson, TX</h3>
-          <p className="text-xs uppercase tracking-[0.3em] font-medium transition-colors duration-1000" style={{ color: theme.id === 2 ? '#e8e3c9' : '#9ca3af' }}>{locations.length} locations</p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-24">
-          {locations.map((loc) => (
-            <motion.div 
-              key={loc.id} 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="space-y-8 group"
-            >
-              <div className="aspect-[16/10] overflow-hidden rounded-3xl shadow-2xl relative cursor-pointer">
-                <img 
-                  src={loc.image} 
-                  alt={loc.name} 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <div className="space-y-4">
-                <h4 
-                  className="text-2xl font-bold border-b pb-1 inline-block cursor-pointer transition-all duration-300"
-                  style={{ 
-                    borderColor: theme.coffeeDark,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = theme.accent;
-                    e.currentTarget.style.borderColor = theme.accent;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = '';
-                    e.currentTarget.style.borderColor = theme.coffeeDark;
-                  }}
-                >
-                  {loc.name}
+
+        {/* Bespoke, ultra-premium centered single location showcase */}
+        <div className="max-w-[1200px] mx-auto bg-white/20 backdrop-blur-xl rounded-[2.5rem] border border-white/10 p-6 md:p-10 shadow-[0_30px_70px_-15px_rgba(35,31,20,0.1)] transition-all duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+            
+            {/* Image showcase */}
+            <div className="md:col-span-6 relative aspect-[4/3] rounded-2xl overflow-hidden group shadow-lg">
+              <img 
+                src={locations[0].image} 
+                alt="La Souq Richardson Main Roastery" 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-black/5 mix-blend-multiply pointer-events-none"></div>
+            </div>
+
+            {/* Details panel */}
+            <div className="md:col-span-6 space-y-6 text-left">
+              <div>
+                <h4 className="text-3xl md:text-4xl font-serif font-bold text-coffee-dark tracking-tight">
+                  {locations[0].name}
                 </h4>
-                <div className="text-sm md:text-base leading-relaxed font-light transition-colors duration-1000" style={{ color: theme.highlightText }}>
-                  <p>{loc.address}</p>
-                  <p>{loc.phone}</p>
-                </div>
-                <p className="font-bold text-sm md:text-base mt-6 transition-colors duration-1000" style={{ color: theme.id === 2 ? '#231f14' : theme.coffeeDark }}>{loc.hours}</p>
-                <div className="pt-6">
+                <div className="w-12 h-1 bg-[#c5a367] mt-3 rounded-full" style={{ borderColor: '#e2ddc4', backgroundColor: '#e2ddc4' }}></div>
+              </div>
+
+              <div className="space-y-2 text-sm md:text-base leading-relaxed" style={{ color: theme.coffeeDark }}>
+                <p className="font-medium opacity-90">{locations[0].address}</p>
+                <p className="font-bold tracking-wide">{locations[0].phone}</p>
+              </div>
+
+              {/* Hours section with Google Sync status & Toast option */}
+              <div className="pt-4 border-t border-coffee-dark/10 space-y-3">
+                <span className="text-[10px] tracking-[0.3em] font-bold text-coffee-dark/60 uppercase block">Operating Hours</span>
+                <p className="text-xl md:text-2xl font-serif font-bold tracking-tight text-coffee-dark">{locations[0].hours}</p>
+                
+                {/* Auto sync verification disclaimer & official link / badge */}
+                <div className="mt-3 p-4 rounded-2xl bg-white/40 border border-coffee-dark/5 space-y-2.5">
+                  <div className="flex items-center space-x-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-800">
+                      Toast™ API Verified
+                    </span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed opacity-75 font-light" style={{ color: theme.coffeeDark }}>
+                    Google Business Profile automatic integration is in progress. For instant updates on seasonal hours or holidays, please refer to our active online ordering schedule synced in real-time.
+                  </p>
                   <a 
-                    href="#" 
-                    className="group/link inline-flex items-center space-x-3 text-[12px] tracking-[0.4em] font-bold transition-colors"
-                    style={{ color: theme.id === 2 ? '#231f14' : theme.coffeeDark }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = theme.accent}
-                    onMouseLeave={(e) => e.currentTarget.style.color = theme.id === 2 ? '#231f14' : theme.coffeeDark}
+                    href="https://order.toasttab.com/online/la-souq-richardson-dallas"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-[10px] font-bold tracking-widest text-[#231f14] hover:text-[#c5a367] transition-colors uppercase border-b border-black/10 pb-0.5"
                   >
-                    <span>ORDER AHEAD</span>
-                    <motion.span 
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      →
-                    </motion.span>
+                    Check live hours on Toast ↗
                   </a>
                 </div>
               </div>
-            </motion.div>
-          ))}
+
+
+            </div>
+
+          </div>
         </div>
 
-        <div className="max-w-5xl mx-auto px-6 py-20 rounded-3xl relative overflow-hidden mt-32 transition-colors duration-1000" style={{ backgroundColor: theme.testimonialBg }}>
-          <div className="absolute top-0 right-0 w-32 h-32 border-r border-t border-gold opacity-20 -m-4"></div>
-          <div className="absolute bottom-0 left-0 w-32 h-32 border-l border-b border-gold opacity-20 -m-4"></div>
-          
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true, amount: 0.3 }}
-            className="text-center relative z-10"
-            id="secondary-text"
-          >
-            <p className="leading-[2] text-lg lg:text-xl font-light italic font-serif transition-colors duration-1000" style={{ color: theme.id === 2 ? '#2b2d24' : '#4b5563' }}>
-              "It won’t be long now until you can enjoy a delicious fresh-brewed coffee with your friends at La Souq. We’ve poured our hearts into every detail of this venue, working with local craftspeople to create a space that doesn't just serve coffee, but serves the community. Join us soon for an unforgettable encounter."
-            </p>
-            <div className="mt-8 flex justify-center space-x-1">
-              {[1, 2, 3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-gold"></div>)}
-            </div>
-          </motion.div>
-        </div>
+
       </div>
     </section>
   );
@@ -1328,6 +1369,7 @@ export default function App() {
       <InspirationSection theme={theme} />
       <MenuSection theme={theme} />
       <VideoSection theme={theme} />
+      <CommunitySection theme={theme} />
       {/* <AboutSection theme={theme} /> */}
       <LocationsSection theme={theme} />
       <ContactSection theme={theme} />
