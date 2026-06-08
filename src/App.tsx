@@ -82,7 +82,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           style={{ y, opacity }}
         >
           <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780660956790-xyu01y-3-copy.jpg"
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780921995171-2zy5pt-3-copy1.jpg"
             alt="La Souq Richardson"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
@@ -210,20 +210,20 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
 
   return (
     <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="inspiration">
-      <div className="w-full px-6 md:px-24 lg:px-32">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 w-full">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="flex flex-col lg:flex-row items-stretch gap-0 lg:divide-x divide-coffee-dark/10"
+          className="flex flex-col xl:flex-row items-stretch gap-16 xl:gap-0 xl:divide-x divide-coffee-dark/10"
         >
           
           {/* Inspired block */}
           <div 
-            className="flex-1 flex flex-col md:flex-row items-center gap-10 lg:pr-16 mb-20 lg:mb-0"
+            className="flex-1 flex flex-col sm:flex-row items-center gap-6 sm:gap-10 xl:pr-10 2xl:pr-16 mb-16 xl:mb-0"
           >
-            <motion.div variants={itemVariants} className="w-[320px] h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
+            <motion.div variants={itemVariants} className="w-full max-w-[320px] sm:w-[320px] sm:h-[420px] xl:w-[260px] xl:h-[350px] 2xl:w-[320px] 2xl:h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
               <video 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 autoPlay
@@ -236,7 +236,7 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
             </motion.div>
             
-            <motion.div variants={itemVariants} className="w-full md:w-1/2 space-y-6">
+            <motion.div variants={itemVariants} className="flex-1 space-y-6">
               <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Inspired By</span>
               <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
                 Arabic Roots.<br />Mediterranean Soul.
@@ -252,10 +252,10 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
 
           {/* Featured drink block */}
           <div 
-            className="flex-1 flex flex-col items-center gap-10 lg:pl-16"
+            className="flex-1 flex flex-col items-center xl:pl-10 2xl:pl-16"
           >
-            <div className="flex flex-col sm:flex-row items-center gap-10 w-full">
-              <motion.div variants={itemVariants} className="w-[320px] h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
+            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 w-full">
+              <motion.div variants={itemVariants} className="w-full max-w-[320px] sm:w-[320px] sm:h-[420px] xl:w-[260px] xl:h-[350px] 2xl:w-[320px] 2xl:h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
                 <video 
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   autoPlay
@@ -283,6 +283,202 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             </div>
           </div>
 
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
+  return (
+    <section className="py-24 border-b border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: '#f4f4f4' }} id="experiences">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 w-full">
+        {/* Style block for signature experiences rolling grid and parallax effects */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          @keyframes signatureScrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+          }
+          @keyframes signatureScrollDown {
+            0% { transform: translateY(-50%); }
+            100% { transform: translateY(0); }
+          }
+          .sig-scroll-up {
+            animation: signatureScrollUp var(--sig-speed, 25s) linear infinite;
+          }
+          .sig-scroll-down {
+            animation: signatureScrollDown var(--sig-speed, 25s) linear infinite;
+          }
+          .group\\/col:hover .sig-scroll-up,
+          .group\\/col:hover .sig-scroll-down {
+            animation-play-state: paused;
+          }
+          .scrollbar-none::-webkit-scrollbar {
+            display: none;
+          }
+          .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+        `}} />
+
+        {/* Header block modeled after the uploaded wireframe */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-16 md:mb-20"
+        >
+          <span 
+            className="text-[10px] sm:text-[11px] tracking-[0.45em] font-bold uppercase block transition-colors duration-1000 mb-0"
+            style={{ color: '#b69b79', marginBottom: '0px' }}
+          >
+            crafted moments for every guest.
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-[60px] font-serif text-coffee-dark tracking-normal max-w-2xl mx-auto leading-tight font-light mt-1">
+            Signature Experiences
+          </h2>
+          <div 
+            className="h-[2px] mx-auto mt-6 transition-colors duration-1000" 
+            style={{ backgroundColor: '#b69b79', borderColor: '#b69b79', width: '96px' }}
+          ></div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-row overflow-x-auto overflow-y-hidden gap-6 sm:gap-8 md:gap-10 pb-8 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 lg:snap-none"
+        >
+          {[
+            {
+              id: 1,
+              title: "Signature Drinks",
+              caption: "Handcrafted sips made to set the mood.",
+              direction: "up",
+              speed: "22s",
+              images: [
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060387049-p3o46u-chatgpt-image-may-6-2026-12-38-22-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060434831-gomena-chatgpt-image-may-6-2026-12-39-04-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060900663-6e4qri-chatgpt-image-may-6-2026-12-48-11-pm.jpg"
+              ]
+            },
+            {
+              id: 2,
+              title: "Gourmet Toasts",
+              caption: "Elevated bites with bold, memorable flavor.",
+              direction: "down",
+              speed: "26s",
+              images: [
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777816829809-xb1fh9-8.jpg"
+              ]
+            },
+            {
+              id: 3,
+              title: "Desserts",
+              caption: "Sweet finishes with a boutique touch.",
+              direction: "up",
+              speed: "24s",
+              images: [
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817076882-efg8jp-3.jpg"
+              ]
+            },
+            {
+              id: 4,
+              title: "Curated Boutique",
+              caption: "A refined selection of lifestyle finds.",
+              direction: "down",
+              speed: "28s",
+              images: [
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817656741-xzhp9p-la-souq-c946076fc6979dc0d3006c3258335f0f.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777818106383-49xstx-330660.jpg"
+              ]
+            },
+            {
+              id: 5,
+              title: "Workshops",
+              caption: "Handcrafted sips made to set the mood.",
+              direction: "up",
+              speed: "20s",
+              images: [
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777883362118-yx1u2n-generated-image-may-04-2026-11-25am-1.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780921995171-2zy5pt-3-copy1.jpg"
+              ]
+            }
+          ].map((item) => (
+            <div 
+              key={item.id} 
+              className="flex flex-col group/col flex-none w-[280px] sm:w-[320px] md:w-[360px] lg:w-auto lg:flex-1 snap-start"
+            >
+              {/* Column Card Frame replicating wireframe staggering with increased height */}
+              <div 
+                className="h-[380px] sm:h-[460px] md:h-[500px] w-full relative overflow-hidden rounded-[2.5rem] shadow-[0_20px_50px_-20px_rgba(35,31,20,0.12)]"
+                style={{ backgroundColor: `${theme.coffeeDark}0F` }}
+              >
+                {/* Decorative background depth & highlights */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none z-10 rounded-[2.5rem]"></div>
+                
+                {/* Top and bottom soft blend gradients to dissolve cards into background */}
+                <div 
+                  className="absolute top-0 inset-x-0 h-16 z-20 pointer-events-none transition-colors duration-1000" 
+                  style={{ backgroundImage: 'linear-gradient(to bottom, #f4f4f4, transparent)' }}
+                ></div>
+                <div 
+                  className="absolute bottom-0 inset-x-0 h-16 z-20 pointer-events-none transition-colors duration-1000" 
+                  style={{ backgroundImage: 'linear-gradient(to top, #f4f4f4, transparent)' }}
+                ></div>
+
+                {/* Staggered container of images repeating like the wireframe texture */}
+                <div 
+                  className={`flex flex-col gap-2 md:gap-3 absolute w-full ${
+                    item.direction === "up" ? "sig-scroll-up" : "sig-scroll-down"
+                  }`}
+                  style={{ 
+                    "--sig-speed": item.speed,
+                    top: 0
+                  } as any}
+                >
+                  {[...item.images, ...item.images].map((imgUrl, cardIdx) => (
+                    <div 
+                      key={cardIdx} 
+                      className="w-full h-[180px] sm:h-[230px] md:h-[270px] flex-none rounded-[1.8rem] overflow-hidden px-2 md:px-3"
+                    >
+                      <img 
+                        src={imgUrl}
+                        alt={item.title} 
+                        className="w-full h-full object-cover rounded-[1.8rem] shadow-sm transform group-hover/col:scale-105 transition-transform duration-1000"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Left-aligned Label and Caption below each column */}
+              <div className="mt-6 space-y-2 text-left">
+                <h3 
+                  className="text-[18px] font-serif tracking-wide block uppercase"
+                  style={{ color: theme.coffeeDark }}
+                >
+                  {item.title}
+                </h3>
+                <p 
+                  className="text-[12px] leading-relaxed font-light font-sans max-w-[240px]"
+                  style={{ color: `${theme.coffeeDark}CC` }}
+                >
+                  {item.caption}
+                </p>
+              </div>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>
@@ -1055,7 +1251,7 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   <div className="flex items-center space-x-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-800">
-                      Toast™ API Verified
+                      Toast™
                     </span>
                   </div>
                   <p className="text-[11px] leading-relaxed opacity-75 font-light" style={{ color: theme.coffeeDark }}>
@@ -1369,10 +1565,11 @@ export default function App() {
       <InspirationSection theme={theme} />
       <MenuSection theme={theme} />
       <VideoSection theme={theme} />
-      <CommunitySection theme={theme} />
+      <ExperiencesSection theme={theme} />
       {/* <AboutSection theme={theme} /> */}
       <LocationsSection theme={theme} />
-      <ContactSection theme={theme} />
+      <CommunitySection theme={theme} />
+      {/* <ContactSection theme={theme} /> */}
       <Footer theme={theme} onThemeToggle={handleThemeToggle} />
     </div>
   );
