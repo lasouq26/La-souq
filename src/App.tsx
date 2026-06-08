@@ -1,6 +1,8 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import cafeDetailPots from './assets/images/cafe_detail_pots_1777813549634.png';
+import coffeePouring from './assets/images/coffee_pouring_1777813533745.png';
 
 // Use the user-provided logo URL
 const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/Logo.svg?v=1780575680";
@@ -230,8 +232,9 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 loop
                 muted
                 playsInline
+                poster={cafeDetailPots}
               >
-                <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-bce97b3f-5125-48d2-8fa9-a14870aa09d7.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tYmNlOTdiM2YtNTEyNS00OGQyLThmYTktYTE0ODcwYWEwOWQ3Lm1wNCIsImlhdCI6MTc3ODE1ODgyOSwiZXhwIjoxNzgwNzUwODI5fQ.FG9ebsfCvZ6w63eGEIm3NAhxkQL5hNwJqz8nUipIbZo" type="video/mp4" />
+                <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-bce97b3f-5125-48d2-8fa9-a14870aa09d7.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tYmNlOTdiM2YtNTEyNS00OGQyLThmYTktYTE0ODcwYWEwOWQ3Lm1wNCIsImlhdCI6MTc4MDkzMjk3MiwiZXhwIjoxNzgzNTI0OTcyfQ.B1mOVtJb1zILmc9dMA6s6hhbd70ccfOSKvFY1PUvQqs" type="video/mp4" />
               </video>
               <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
             </motion.div>
@@ -262,8 +265,9 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   loop
                   muted
                   playsInline
+                  poster={coffeePouring}
                 >
-                  <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-36d5cc8e-d515-4cbc-8a2c-7be31d2a65ab.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tMzZkNWNjOGUtZDUxNS00Y2JjLThhMmMtN2JlMzFkMmE2NWFiLm1wNCIsImlhdCI6MTc3ODE1OTA5NSwiZXhwIjoxNzgwNzUxMDk1fQ.H6ABdAePcx-43cHIHePpiJTzvVlC1ZoUVXpjQWWogoQ" type="video/mp4" />
+                  <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-36d5cc8e-d515-4cbc-8a2c-7be31d2a65ab.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tMzZkNWNjOGUtZDUxNS00Y2JjLThhMmMtN2JlMzFkMmE2NWFiLm1wNCIsImlhdCI6MTc4MDkzMjk5NywiZXhwIjoxNzgzNTI0OTk3fQ._r8_gf7Hsi_yL7pNPcll_auSIDkVep4vzgyAiDJziqE" type="video/mp4" />
                 </video>
                 <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
               </motion.div>
@@ -289,7 +293,68 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   );
 };
 
+const EXPERIENCE_DETAILS: Record<number, {
+  tagline: string;
+  description: string;
+  detailsImage: string;
+  items: Array<{ name: string; description: string; price?: string }>;
+}> = {
+  1: {
+    tagline: "Sip of Artistry",
+    description: "Our signature drinks are custom crafted using premium single-origin roasts blended with floral waters, hand-ground spices, and house-made syrups to create sophisticated flavors that soothe the senses and evoke rich cultural heritages.",
+    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060900663-6e4qri-chatgpt-image-may-6-2026-12-48-11-pm.jpg",
+    items: [
+      { name: "Rose Cardamom Latte", description: "Espresso, real steam-infused milk, organic rose water, crushed green cardamom.", price: "$6.50" },
+      { name: "Spanish Saffron Cappuccino", description: "Rich espresso with saffron-infused microfoam and delicate real saffron threads.", price: "$7.00" },
+      { name: "Orange Blossom Cold Brew", description: "18-hour cold brew paired with orange blossom water and non-dairy sweet cream.", price: "$6.75" },
+      { name: "Pistachio Rose Matcha", description: "Ceremonial stoneground matcha with organic pistachio milk and light rose syrup.", price: "$7.20" }
+    ]
+  },
+  2: {
+    tagline: "Elevated Morning Rituals",
+    description: "Baked daily on thick-cut artisanal sourdough bread, our savory toasts blend rich Mediterranean textures, artisanal cheeses, and light premium toppings to start your morning with bold, memorable flavors.",
+    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg",
+    items: [
+      { name: "Truffle Avocado Toast", description: "Whipped fresh avocado, white truffle spray, sea salt flakes, toasted sesame, microgreens.", price: "$14.50" },
+      { name: "Burrata & Fig Jam Toast", description: "Fresh burrata ball, caramelised fig jam, toasted walnuts, fresh basil, hot honey drizzle.", price: "$15.00" },
+      { name: "Smoked Salmon & Capers", description: "Sourdough topped with herbed cream cheese, smoked wild salmon, red onion, capers, dill.", price: "$16.50" }
+    ]
+  },
+  3: {
+    tagline: "Handcrafted Confections",
+    description: "Every dessert is custom-selected for its boutique craft and distinctive presentation, pairing traditional Eastern dessert textures with modern patisserie aesthetics for a perfectly sweet finish.",
+    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
+    items: [
+      { name: "Pistachio Kunafa Cheesecake", description: "Decadent cheesecake layered with crunchy buttered kunafa pastry and orange blossom syrup.", price: "$9.50" },
+      { name: "Cardamom Affogato", description: "Double house espresso poured over vanilla bean gelato infused with hand-ground cardamom.", price: "$7.50" },
+      { name: "Saffron Rose Tres Leches", description: "Light sponge cake soaked in saffron milk, topped with whipped cream and rose petals.", price: "$8.50" }
+    ]
+  },
+  4: {
+    tagline: "Aesthetic Living Finds",
+    description: "Browse our hand-selected boutique items chosen to bring warmth and understated elegance into your home. Each artifact is sourced directly from independent Mediterranean and Middle Eastern design studios.",
+    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg",
+    items: [
+      { name: "Artisanal Arabic Terracotta Pots", description: "Hand-thrown terracotta pottery imported from legacy artisan cooperatives.", price: "$45.00" },
+      { name: "La Souq Signature Espresso Beans", description: "A 12oz bag of light-medium roast with notes of rose, cardamom, and dark honey.", price: "$24.00" },
+      { name: "Handcrafted Brass Turkish Coffee Set", description: "Traditional heavy-gauge copper cezve with elegant porcelain fincan cups.", price: "$89.00" }
+    ]
+  },
+  5: {
+    tagline: "Immersive Coffee Masterclasses",
+    description: "Go beyond the cup. Our intimate workshops offer hand-on guiding from master baristas, allowing you to learn the subtle science and arts of specialty espresso, roasting, and traditional sand brewing.",
+    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg",
+    items: [
+      { name: "Aromas of Arabia Barista Workshop", description: "A comprehensive session on integrating floral waters and hand-ground spices into espresso.", price: "$120.00" },
+      { name: "Traditional Turkish Sand Brewing", description: "Master the unique art of brewing rich coffee in hot sand bed systems.", price: "$95.00" },
+      { name: "Sourdough & Spread Masterclass", description: "Learn layout design, toppings pairing, and base carving for gourmet hosting.", price: "$85.00" }
+    ]
+  }
+};
+
 const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
+  const [selectedExperience, setSelectedExperience] = useState<any>(null);
+
   return (
     <section className="py-24 border-b border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: '#f4f4f4' }} id="experiences">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 w-full">
@@ -404,7 +469,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             {
               id: 5,
               title: "Workshops",
-              caption: "Handcrafted sips made to set the mood.",
+              caption: "Engaging coffee masterclasses and artisan sessions.",
               direction: "up",
               speed: "20s",
               images: [
@@ -476,10 +541,109 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 >
                   {item.caption}
                 </p>
+                <button
+                  id={`view-more-${item.id}`}
+                  onClick={() => setSelectedExperience(item)}
+                  className="mt-3 text-[11px] font-bold tracking-[0.2em] uppercase flex items-center gap-1 group/btn transition-colors hover:opacity-80"
+                  style={{ color: '#b69b79' }}
+                >
+                  View More
+                  <span className="transform group-hover/btn:translate-x-1 transition-transform">→</span>
+                </button>
               </div>
             </div>
           ))}
         </motion.div>
+
+        {/* Experience Details Modal */}
+        {selectedExperience && (
+          <div 
+            className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-6 cursor-pointer" 
+            onClick={() => setSelectedExperience(null)}
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              className="relative bg-[#fcfbfa] w-full max-w-4xl rounded-[2.5rem] shadow-2xl overflow-hidden cursor-default grid grid-cols-1 md:grid-cols-12 max-h-[90vh] md:max-h-[85vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button top-right */}
+              <button 
+                onClick={() => setSelectedExperience(null)}
+                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full hover:bg-coffee-dark/5 transition-colors z-30"
+                style={{ color: theme.coffeeDark }}
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Left Column: Visual panel */}
+              <div className="md:col-span-5 h-[180px] md:h-full relative overflow-hidden bg-coffee-dark/5">
+                <img 
+                  src={EXPERIENCE_DETAILS[selectedExperience.id]?.detailsImage || selectedExperience.images[0]} 
+                  alt={selectedExperience.title}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                <div className="absolute bottom-6 left-6 text-white text-left">
+                  <span className="text-[10px] tracking-[0.3em] font-semibold uppercase block text-[#e8e3c9] mb-1 font-sans">
+                    {EXPERIENCE_DETAILS[selectedExperience.id]?.tagline || "Artisan Craft"}
+                  </span>
+                  <h4 className="text-xl font-serif font-light">{selectedExperience.title}</h4>
+                </div>
+              </div>
+
+              {/* Right Column: Details Content */}
+              <div className="md:col-span-7 p-6 sm:p-8 md:p-12 flex flex-col justify-between overflow-y-auto max-h-[calc(90vh-180px)] md:max-h-[85vh]">
+                <div className="space-y-6 text-left">
+                  <div>
+                    <h3 className="text-2xl font-serif font-light text-coffee-dark mb-3">
+                      {selectedExperience.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm font-sans font-light leading-relaxed text-coffee-dark/70">
+                      {EXPERIENCE_DETAILS[selectedExperience.id]?.description}
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <span className="text-[10px] tracking-[0.25em] font-bold uppercase text-[#b69b79] block border-b border-coffee-dark/10 pb-2 font-sans">
+                      Curated Offerings
+                    </span>
+                    <div className="space-y-4 divide-y divide-coffee-dark/5">
+                      {EXPERIENCE_DETAILS[selectedExperience.id]?.items.map((offering, idx) => (
+                        <div key={idx} className={`pt-3 ${idx === 0 ? 'pt-0' : ''} flex items-start justify-between gap-4 text-left`}>
+                          <div className="space-y-1">
+                            <h5 className="text-xs font-bold tracking-wider text-coffee-dark uppercase font-sans">
+                              {offering.name}
+                            </h5>
+                            <p className="text-xs font-sans font-light text-coffee-dark/60 leading-relaxed max-w-[360px]">
+                              {offering.description}
+                            </p>
+                          </div>
+                          {offering.price && (
+                            <span className="text-sm font-serif text-[#b69b79] whitespace-nowrap font-medium">
+                              {offering.price}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-coffee-dark/5 flex justify-end">
+                  <button 
+                    onClick={() => setSelectedExperience(null)}
+                    className="px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all hover:bg-coffee-dark/5 border font-sans"
+                    style={{ borderColor: `${theme.coffeeDark}20`, color: theme.coffeeDark }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
       </div>
     </section>
   );
