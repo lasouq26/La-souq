@@ -357,7 +357,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
 
   return (
     <section className="py-24 border-b border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: '#f4f4f4' }} id="experiences">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 w-full">
+      <div className="w-full px-6 md:px-[120px]">
         {/* Style block for signature experiences rolling grid and parallax effects */}
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes signatureScrollUp {
