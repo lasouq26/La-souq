@@ -84,7 +84,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           style={{ y, opacity }}
         >
           <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780921995171-2zy5pt-3-copy1.jpg"
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780954392036-catgoz-3-copy-2.jpg"
             alt="La Souq Richardson"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
@@ -423,7 +423,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               title: "Signature Drinks",
               caption: "Handcrafted sips made to set the mood.",
               direction: "up",
-              speed: "22s",
+              speed: "35s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060387049-p3o46u-chatgpt-image-may-6-2026-12-38-22-pm.jpg",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060434831-gomena-chatgpt-image-may-6-2026-12-39-04-pm.jpg",
@@ -435,7 +435,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               title: "Gourmet Toasts",
               caption: "Elevated bites with bold, memorable flavor.",
               direction: "down",
-              speed: "26s",
+              speed: "42s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg",
@@ -447,7 +447,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               title: "Desserts",
               caption: "Sweet finishes with a boutique touch.",
               direction: "up",
-              speed: "24s",
+              speed: "38s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg",
@@ -459,7 +459,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               title: "Curated Boutique",
               caption: "A refined selection of lifestyle finds.",
               direction: "down",
-              speed: "28s",
+              speed: "45s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817656741-xzhp9p-la-souq-c946076fc6979dc0d3006c3258335f0f.jpg",
@@ -471,7 +471,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               title: "Workshops",
               caption: "Engaging coffee masterclasses and artisan sessions.",
               direction: "up",
-              speed: "20s",
+              speed: "32s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777883362118-yx1u2n-generated-image-may-04-2026-11-25am-1.jpg",
@@ -528,28 +528,32 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               </div>
 
               {/* Left-aligned Label and Caption below each column */}
-              <div className="mt-6 space-y-2 text-left">
-                <h3 
-                  className="text-[18px] font-serif tracking-wide block uppercase"
-                  style={{ color: theme.coffeeDark }}
-                >
-                  {item.title}
-                </h3>
-                <p 
-                  className="text-[12px] leading-relaxed font-light font-sans max-w-[240px]"
-                  style={{ color: `${theme.coffeeDark}CC` }}
-                >
-                  {item.caption}
-                </p>
-                <button
-                  id={`view-more-${item.id}`}
-                  onClick={() => setSelectedExperience(item)}
-                  className="mt-3 text-[11px] font-bold tracking-[0.2em] uppercase flex items-center gap-1 group/btn transition-colors hover:opacity-80"
-                  style={{ color: '#b69b79' }}
-                >
-                  View More
-                  <span className="transform group-hover/btn:translate-x-1 transition-transform">→</span>
-                </button>
+              <div className="mt-6 text-left flex-1 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <h3 
+                    className="text-[18px] font-serif tracking-wide block uppercase"
+                    style={{ color: theme.coffeeDark }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p 
+                    className="text-[12px] leading-relaxed font-light font-sans max-w-[240px]"
+                    style={{ color: `${theme.coffeeDark}CC` }}
+                  >
+                    {item.caption}
+                  </p>
+                </div>
+                <div className="pt-3">
+                  <button
+                    id={`view-more-${item.id}`}
+                    onClick={() => setSelectedExperience(item)}
+                    className="text-[11px] font-bold tracking-[0.2em] uppercase flex items-center gap-1 group/btn transition-colors hover:opacity-80"
+                    style={{ color: '#b69b79' }}
+                  >
+                    View More
+                    <span className="transform group-hover/btn:translate-x-1 transition-transform">→</span>
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -785,7 +789,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             variants={itemVariants}
             className="text-[12px] tracking-[0.5em] font-bold text-coffee-dark/30 uppercase mb-0"
           >
-            THE COLLECTION
+            our menu
           </motion.p>
           <motion.h2 
             variants={itemVariants}
@@ -1727,12 +1731,12 @@ export default function App() {
       <Navbar theme={theme} />
       <Hero theme={theme} />
       <InspirationSection theme={theme} />
+      <ExperiencesSection theme={theme} />
       <MenuSection theme={theme} />
       <VideoSection theme={theme} />
-      <ExperiencesSection theme={theme} />
       {/* <AboutSection theme={theme} /> */}
-      <LocationsSection theme={theme} />
       <CommunitySection theme={theme} />
+      <LocationsSection theme={theme} />
       {/* <ContactSection theme={theme} /> */}
       <Footer theme={theme} onThemeToggle={handleThemeToggle} />
     </div>
