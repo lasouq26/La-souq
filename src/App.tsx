@@ -1648,16 +1648,6 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
 };
 
 const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <nav 
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 shadow-sm"
