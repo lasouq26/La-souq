@@ -197,6 +197,9 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
 };
 
 const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
+  const [video1Loaded, setVideo1Loaded] = useState(false);
+  const [video2Loaded, setVideo2Loaded] = useState(false);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -230,16 +233,22 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           >
             <motion.div variants={itemVariants} className="w-full max-w-[320px] sm:w-[320px] sm:h-[420px] xl:w-[260px] xl:h-[350px] 2xl:w-[320px] 2xl:h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
               <video 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${video1Loaded ? 'opacity-100' : 'opacity-0'}`}
                 autoPlay
                 loop
                 muted
                 playsInline
-                poster={cafeDetailPots}
+                preload="auto"
+                onLoadedData={() => setVideo1Loaded(true)}
               >
                 <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-bce97b3f-5125-48d2-8fa9-a14870aa09d7.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tYmNlOTdiM2YtNTEyNS00OGQyLThmYTktYTE0ODcwYWEwOWQ3Lm1wNCIsImlhdCI6MTc4MDkzMjk3MiwiZXhwIjoxNzgzNTI0OTcyfQ.B1mOVtJb1zILmc9dMA6s6hhbd70ccfOSKvFY1PUvQqs" type="video/mp4" />
               </video>
               <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
+              {!video1Loaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-coffee-dark/10">
+                  <div className="w-5 h-5 rounded-full border-2 border-coffee-dark/20 border-t-coffee-dark animate-spin"></div>
+                </div>
+              )}
             </motion.div>
             
             <motion.div variants={itemVariants} className="flex-1 space-y-6">
@@ -263,16 +272,22 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 w-full">
               <motion.div variants={itemVariants} className="w-full max-w-[320px] sm:w-[320px] sm:h-[420px] xl:w-[260px] xl:h-[350px] 2xl:w-[320px] 2xl:h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
                 <video 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${video2Loaded ? 'opacity-100' : 'opacity-0'}`}
                   autoPlay
                   loop
                   muted
                   playsInline
-                  poster={coffeePouring}
+                  preload="auto"
+                  onLoadedData={() => setVideo2Loaded(true)}
                 >
                   <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-36d5cc8e-d515-4cbc-8a2c-7be31d2a65ab.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tMzZkNWNjOGUtZDUxNS00Y2JjLThhMmMtN2JlMzFkMmE2NWFiLm1wNCIsImlhdCI6MTc4MDkzMjk5NywiZXhwIjoxNzgzNTI0OTk3fQ._r8_gf7Hsi_yL7pNPcll_auSIDkVep4vzgyAiDJziqE" type="video/mp4" />
                 </video>
                 <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
+                {!video2Loaded && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-coffee-dark/10">
+                    <div className="w-5 h-5 rounded-full border-2 border-coffee-dark/20 border-t-coffee-dark animate-spin"></div>
+                  </div>
+                )}
               </motion.div>
 
               <motion.div variants={itemVariants} className="flex-1 space-y-6">
