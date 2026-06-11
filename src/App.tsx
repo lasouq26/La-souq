@@ -83,12 +83,15 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           className="absolute inset-x-0 h-[120%] -top-[10%]" 
           style={{ y, opacity }}
         >
-          <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780954392036-catgoz-3-copy-2.jpg"
-            alt="La Souq Richardson"
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
             className="w-full h-full object-cover scale-110"
-            referrerPolicy="no-referrer"
-          />
+          >
+            <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/0507.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zLzA1MDcubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4MTE4MjE4MCwiZXhwIjoxODEyNzE4MTgwfQ.Ji4EVtMXsJCFv0kEInnCVXXg-jNlDMSddh49BXBBh_A" type="video/mp4" />
+          </video>
           {/* Brand color overlay replacing the old black overlay */}
           <div className="absolute inset-0 transition-colors duration-1000" style={{ backgroundColor: `${theme.heroOverlay}80` }}></div>
         </motion.div>
@@ -247,7 +250,7 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-4">
                 La Souq is where Arab heritage meets the laid-back rhythm of the Mediterranean. Our spaces are inspired by architecture, light, and tradition — created for connection.
               </p>
-              <a href="#about" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
+              <a href="#brand-video" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
                 OUR STORY <span className="text-xs">→</span>
               </a>
             </motion.div>
@@ -280,7 +283,12 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-3">
                   Smooth espresso, warm milk, and a touch of cardamom. A quiet comfort.
                 </p>
-                <a href="#menu" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
+                <a 
+                  href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all"
+                >
                   VIEW MENU <span className="text-xs">→</span>
                 </a>
               </motion.div>
@@ -313,7 +321,7 @@ const EXPERIENCE_DETAILS: Record<number, {
   2: {
     tagline: "Elevated Morning Rituals",
     description: "Baked daily on thick-cut artisanal sourdough bread, our savory toasts blend rich Mediterranean textures, artisanal cheeses, and light premium toppings to start your morning with bold, memorable flavors.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg",
+    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_31%20PM.png",
     items: [
       { name: "Truffle Avocado Toast", description: "Whipped fresh avocado, white truffle spray, sea salt flakes, toasted sesame, microgreens.", price: "$14.50" },
       { name: "Burrata & Fig Jam Toast", description: "Fresh burrata ball, caramelised fig jam, toasted walnuts, fresh basil, hot honey drizzle.", price: "$15.00" },
@@ -323,7 +331,7 @@ const EXPERIENCE_DETAILS: Record<number, {
   3: {
     tagline: "Handcrafted Confections",
     description: "Every dessert is custom-selected for its boutique craft and distinctive presentation, pairing traditional Eastern dessert textures with modern patisserie aesthetics for a perfectly sweet finish.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
+    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
     items: [
       { name: "Pistachio Kunafa Cheesecake", description: "Decadent cheesecake layered with crunchy buttered kunafa pastry and orange blossom syrup.", price: "$9.50" },
       { name: "Cardamom Affogato", description: "Double house espresso poured over vanilla bean gelato infused with hand-ground cardamom.", price: "$7.50" },
@@ -425,9 +433,10 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "up",
               speed: "35s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060387049-p3o46u-chatgpt-image-may-6-2026-12-38-22-pm.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060434831-gomena-chatgpt-image-may-6-2026-12-39-04-pm.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060900663-6e4qri-chatgpt-image-may-6-2026-12-48-11-pm.jpg"
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
               ]
             },
             {
@@ -437,9 +446,10 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "down",
               speed: "42s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777816829809-xb1fh9-8.jpg"
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_31%20PM.png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_40%20PM.png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_47%20PM.png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_54%20PM.png"
               ]
             },
             {
@@ -447,11 +457,11 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               title: "Desserts",
               caption: "Sweet finishes with a boutique touch.",
               direction: "up",
-              speed: "38s",
+              speed: "35s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817076882-efg8jp-3.jpg"
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2001_59_50%20PM.png"
               ]
             },
             {
@@ -461,9 +471,8 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "down",
               speed: "45s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817656741-xzhp9p-la-souq-c946076fc6979dc0d3006c3258335f0f.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777818106383-49xstx-330660.jpg"
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_56_38%20PM%20(1).png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_56_39%20PM%20(2).png"
               ]
             },
             {
@@ -473,9 +482,10 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "up",
               speed: "32s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777883362118-yx1u2n-generated-image-may-04-2026-11-25am-1.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780921995171-2zy5pt-3-copy1.jpg"
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_28_54%20PM.png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_33_17%20PM.png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_30_57%20PM.png",
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_35_14%20PM.png"
               ]
             }
           ].map((item) => (
@@ -544,15 +554,17 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   </p>
                 </div>
                 <div className="pt-3">
-                  <button
+                  <a
                     id={`view-more-${item.id}`}
-                    onClick={() => setSelectedExperience(item)}
+                    href="https://order.toasttab.com/online/la-souq-richardson-dallas"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-[11px] font-bold tracking-[0.2em] uppercase flex items-center gap-1 group/btn transition-colors hover:opacity-80"
                     style={{ color: '#b69b79' }}
                   >
                     View More
                     <span className="transform group-hover/btn:translate-x-1 transition-transform">→</span>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -842,7 +854,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   </div>
                   
                   <div className="mt-4 md:mt-8 flex items-center justify-start">
-                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: theme.id === 1 ? '#9da18a' : theme.buttonHoverBg }}>
+                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: '#b69b79' }}>
                       {item.price}
                     </span>
                   </div>
@@ -938,7 +950,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                   </div>
                   
                   <div className="mt-4 md:mt-8 flex items-center justify-start">
-                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: theme.id === 1 ? '#9da18a' : theme.buttonHoverBg }}>
+                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: '#b69b79' }}>
                       {item.price}
                     </span>
                   </div>
@@ -971,17 +983,20 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
 
         {/* 'More' Button Section */}
         <div className="flex justify-center mt-20 transition-colors duration-1000" style={{ backgroundColor: theme.menuBg, borderColor: theme.menuBg }}>
-          <motion.button
+          <motion.a
+            href="https://order.toasttab.com/online/la-souq-richardson-dallas"
+            target="_blank"
+            rel="noopener noreferrer"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative px-12 py-5 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
+            className="group relative px-12 py-5 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500 inline-block text-center"
             style={{ borderColor: '#231f14' }}
           >
             <span 
-              className="relative z-10 transition-colors duration-500" 
+              className="relative z-10 transition-colors duration-500 block" 
               style={{ color: '#231f14' }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = theme.buttonHoverText;
@@ -993,7 +1008,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               View Full Menu
             </span>
             <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.buttonHoverBg }}></div>
-          </motion.button>
+          </motion.a>
         </div>
       </div>
     </section>
@@ -1001,43 +1016,29 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
 };
 
 const VideoSection = ({ theme }: { theme: any }) => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // Send command to the YouTube Player API
-  const sendYoutubeCommand = (command: string) => {
-    if (iframeRef.current && iframeRef.current.contentWindow) {
-      iframeRef.current.contentWindow.postMessage(
-        JSON.stringify({ event: 'command', func: command, args: '' }),
-        '*'
-      );
-    }
-  };
-
   const toggleMute = () => {
-    if (isMuted) {
-      sendYoutubeCommand('unmute');
-      setIsMuted(false);
-    } else {
-      sendYoutubeCommand('mute');
-      setIsMuted(true);
+    if (videoRef.current) {
+      const newMuteState = !videoRef.current.muted;
+      videoRef.current.muted = newMuteState;
+      setIsMuted(newMuteState);
     }
   };
 
   const togglePlay = () => {
-    if (isPlaying) {
-      sendYoutubeCommand('pauseVideo');
-      setIsPlaying(false);
-    } else {
-      sendYoutubeCommand('playVideo');
-      setIsPlaying(true);
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef.current.play().catch(err => console.log(err));
+        setIsPlaying(true);
+      }
     }
   };
-
-  // Dynamically resolve target origin
-  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
-  const iframeSrc = `https://www.youtube.com/embed/W1fLD63M6Uw?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&playlist=W1fLD63M6Uw&playsinline=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin=${encodeURIComponent(currentOrigin)}`;
 
   return (
     <section className="relative w-full py-16 md:py-24 transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="brand-video">
@@ -1055,18 +1056,21 @@ const VideoSection = ({ theme }: { theme: any }) => {
         {/* Video Player Card - Keeps a pristine 16:9 ratio with no crop whatsoever */}
         <div className="max-w-5xl mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] relative group bg-black border border-white/5">
           
-          {/* Overlay to block native YouTube clicking behavior */}
+          {/* Overlay to block native clicking behavior */}
           <div className="absolute inset-0 z-10"></div>
 
           {/* Actual 16:9 full size video - matches the exact outer container */}
           <div className="w-full h-full relative pointer-events-none">
-            <iframe
-              ref={iframeRef}
-              className="absolute inset-0 w-full h-full border-none"
-              src={iframeSrc}
-              title="La Souq Experience"
-              allow="autoplay; encrypted-media"
-            ></iframe>
+            <video
+              ref={videoRef}
+              className="absolute inset-0 w-full h-full object-cover border-none"
+              src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/lasouq.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2xhc291cS5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgxMTgyNTg5LCJleHAiOjE4MTI3MTg1ODl9.O_D2a_8y6xYJbpYlxqk-1XAUtvnSNQy6w0ckSrim32U"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+            />
           </div>
 
           {/* Cinematic subtle color gradations */}
@@ -1079,7 +1083,7 @@ const VideoSection = ({ theme }: { theme: any }) => {
             <div className="flex items-center gap-4">
               <button 
                 onClick={togglePlay}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center bg-[#e8e3c9] hover:bg-[#c5a367] text-[#231f14] transition-all duration-300 transform active:scale-95 shadow-lg shadow-black/40"
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center bg-[#e8e3c9] hover:bg-[#c5a367] text-[#231f14] transition-all duration-300 transform active:scale-95 shadow-lg shadow-black/40 pointer-events-auto"
                 aria-label={isPlaying ? 'Pause video' : 'Play video'}
               >
                 {isPlaying ? <Pause className="w-4.5 h-4.5 fill-[#231f14] text-[#231f14]" /> : <Play className="w-4.5 h-4.5 fill-[#231f14] text-[#231f14] ml-0.5" />}
@@ -1095,7 +1099,7 @@ const VideoSection = ({ theme }: { theme: any }) => {
             {/* Custom volume controls */}
             <button 
               onClick={toggleMute}
-              className="px-4 py-2.5 md:px-5 md:py-3 rounded-full flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-all duration-300 border border-white/15 active:scale-95"
+              className="px-4 py-2.5 md:px-5 md:py-3 rounded-full flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-all duration-300 border border-white/15 active:scale-95 pointer-events-auto"
               aria-label={isMuted ? 'Unmute video' : 'Mute video'}
             >
               {isMuted ? (
@@ -1617,16 +1621,15 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR WEBSITE</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
                 <li><a href="#" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>HOME</a></li>
-                <li><a href="#about" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>ABOUT</a></li>
-                <li><a href="#contact" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
-                <li><a href="#" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MESSAGE</a></li>
+                <li><a href="#brand-video" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>OUR STORY</a></li>
+                <li><a href="#locations" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
               </ul>
             </div>
             <div className="space-y-4">
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR SOCIALS</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
-                <li><a href="#" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Facebook className="w-3 h-3 mr-2" /> FACEBOOK</a></li>
-                <li><a href="#" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Instagram className="w-3 h-3 mr-2" /> INSTAGRAM</a></li>
+                <li><a href="https://www.facebook.com/profile.php?id=61566543663898" target="_blank" rel="noopener noreferrer" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Facebook className="w-3 h-3 mr-2" /> FACEBOOK</a></li>
+                <li><a href="https://www.instagram.com/lasouqcoffee?igsh=MXg3bHA1eGRiMXRkeg==" target="_blank" rel="noopener noreferrer" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Instagram className="w-3 h-3 mr-2" /> INSTAGRAM</a></li>
               </ul>
             </div>
           </div>
@@ -1683,8 +1686,8 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
       {/* Center links (hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-10">
         <a href="#menu" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark }}>MENU</a>
-        <a href="#about" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>OUR STORY</a>
-        <a href="#contact" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>CONTACT</a>
+        <a href="#brand-video" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>OUR STORY</a>
+        <a href="#locations" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>CONTACT</a>
       </div>
 
       {/* Right side CTA */}
