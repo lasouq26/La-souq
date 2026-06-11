@@ -257,7 +257,7 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 Arabic Roots.<br />Mediterranean Soul.
               </h2>
               <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-4">
-                La Souq is where Arab heritage meets the laid-back rhythm of the Mediterranean. Our spaces are inspired by architecture, light, and tradition — created for connection.
+                Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience designed to linger.
               </p>
               <a href="#brand-video" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
                 OUR STORY <span className="text-xs">→</span>
@@ -291,13 +291,10 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               </motion.div>
 
               <motion.div variants={itemVariants} className="flex-1 space-y-6">
-                <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Signature Experiences.</span>
+                <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Brewing conversations</span>
                 <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
-                  Cardamom<br />Latte
+                  CRAFTING CONNECTIONS
                 </h2>
-                <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-3">
-                  Smooth espresso, warm milk, and a touch of cardamom. A quiet comfort.
-                </p>
                 <a 
                   href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
                   target="_blank"
