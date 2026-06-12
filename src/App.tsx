@@ -1614,7 +1614,7 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
               referrerPolicy="no-referrer"
             />
             <p className="text-coffee-dark/70 text-xs leading-relaxed max-w-md">
-              Won’t be long now until you can enjoy a delicious fresh-brewed coffee with your friends at La Souq in Richardson, TX. Roasted memories serving the community since 2026.
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience.
             </p>
 
             {/* Theme Toggle Button */}
