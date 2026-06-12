@@ -295,6 +295,9 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
                   CRAFTING CONNECTIONS
                 </h2>
+                <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-4">
+                  Our spaces are inspired by architecture, light, and tradition — created for connection.
+                </p>
                 <a 
                   href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
                   target="_blank"
