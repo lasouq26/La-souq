@@ -1,11 +1,12 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X } from 'lucide-react';
+import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X, Music } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import cafeDetailPots from './assets/images/cafe_detail_pots_1777813549634.png';
 import coffeePouring from './assets/images/coffee_pouring_1777813533745.png';
+import heroCafeInterior from './assets/images/hero_cafe_interior_1777813516367.png';
 
 // Use the user-provided logo URL
-const LOGO_URL = "https://cdn.shopify.com/s/files/1/0559/1213/6861/files/Logo.svg?v=1780575680";
+const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782397620/usaAsset_2ldpi_vwuta5.svg";
 
 const THEMES = [
   {
@@ -83,15 +84,12 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           className="absolute inset-x-0 h-[120%] -top-[10%]" 
           style={{ y, opacity }}
         >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
+          <img
+            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780954392036-catgoz-3-copy-2.jpg"
+            alt="La Souq Cafe Interior"
             className="w-full h-full object-cover scale-110"
-          >
-            <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/0507.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zLzA1MDcubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4MTE4MjE4MCwiZXhwIjoxODEyNzE4MTgwfQ.Ji4EVtMXsJCFv0kEInnCVXXg-jNlDMSddh49BXBBh_A" type="video/mp4" />
-          </video>
+            referrerPolicy="no-referrer"
+          />
           {/* Brand color overlay replacing the old black overlay */}
           <div className="absolute inset-0 transition-colors duration-1000" style={{ backgroundColor: `${theme.heroOverlay}80` }}></div>
         </motion.div>
@@ -172,7 +170,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
              <div className="text-[10px] tracking-widest text-coffee-dark/50 leading-loose">
                <p className="font-bold text-coffee-dark/80 uppercase">Richardson, Texas</p>
                <p>150 W MAIN ST, SUITE 900</p>
-               <p>RICHARDSON, TX 75080</p>
+               <p>RICHARDSON, TX 75081</p>
              </div>
           </div>
           <a href="#locations" className="text-[9px] tracking-[0.3em] font-bold text-[#231f14] hover:text-coffee-dark transition-colors flex items-center gap-2">
@@ -235,7 +233,7 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               preload="auto"
               onLoadedData={() => setVideo1Loaded(true)}
             >
-              <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-b5f53e76-5cfb-4986-8961-ed28ba739aba%20(1).mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tYmVmNTNlNzYtNWNmYi00OTg2LTg5NjEtZWQyOGJhNzM5YWJhICgxKS5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgyMzk2MjM2LCJleHAiOjE4MTM5MzIyMzZ9.0BJu__SxzVCnCLpUAzsr_3xnpURVeoZ4XzBThCjS6oM" type="video/mp4" />
+              <source src="https://res.cloudinary.com/dhylipuur/video/upload/v1782398379/new_km3qmh.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
             {!video1Loaded && (
@@ -1321,7 +1319,7 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
     {
       id: 'richardson-main',
       name: 'Richardson Main',
-      address: '150 W Main St, Suite 900, Richardson, TX 75080',
+      address: '150 W Main St., Suite 900 • Richardson, TX 75081',
       phone: '(214) 579-9550',
       hours: 'Mon-Sun: 6:30am–7:00pm',
       image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg"
@@ -1462,7 +1460,7 @@ const ContactSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             <div className="space-y-3">
               <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Visit Us</h4>
               <p className="text-base font-medium tracking-wide leading-relaxed">
-                150 W Main St, Suite 900<br />Richardson, TX 75080
+                150 W Main St., Suite 900<br />Richardson, TX 75081
               </p>
             </div>
             <div className="space-y-3">
@@ -1562,7 +1560,7 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
             <div className="space-y-4">
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR WEBSITE</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
-                <li><a href="#" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>HOME</a></li>
+                <li><a href="https://order.toasttab.com/online/la-souq-richardson-dallas" target="_blank" rel="noopener noreferrer" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MENU</a></li>
                 <li><a href="#brand-video" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>OUR STORY</a></li>
                 <li><a href="#locations" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
               </ul>
@@ -1572,6 +1570,7 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
                 <li><a href="https://www.facebook.com/profile.php?id=61566543663898" target="_blank" rel="noopener noreferrer" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Facebook className="w-3 h-3 mr-2" /> FACEBOOK</a></li>
                 <li><a href="https://www.instagram.com/lasouqcoffee?igsh=MXg3bHA1eGRiMXRkeg==" target="_blank" rel="noopener noreferrer" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Instagram className="w-3 h-3 mr-2" /> INSTAGRAM</a></li>
+                <li><a href="https://vm.tiktok.com/ZS96rXAeH1sXW-vwxRA/" target="_blank" rel="noopener noreferrer" className="flex items-center transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}><Music className="w-3 h-3 mr-2" /> TIKTOK</a></li>
               </ul>
             </div>
           </div>
