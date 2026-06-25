@@ -198,7 +198,6 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
 
 const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   const [video1Loaded, setVideo1Loaded] = useState(false);
-  const [video2Loaded, setVideo2Loaded] = useState(false);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -218,98 +217,46 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
 
   return (
     <section className="py-24 border-y border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="inspiration">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 w-full">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 w-full flex justify-center">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="flex flex-col xl:flex-row items-stretch gap-16 xl:gap-0 xl:divide-x divide-coffee-dark/10"
+          className="w-full max-w-5xl flex flex-col md:flex-row items-center gap-10 md:gap-16 lg:gap-24"
         >
+          <motion.div variants={itemVariants} className="w-full max-w-[340px] aspect-[3/4] md:w-[340px] md:h-[450px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-2xl">
+            <video 
+              className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${video1Loaded ? 'opacity-100' : 'opacity-0'}`}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              onLoadedData={() => setVideo1Loaded(true)}
+            >
+              <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-b5f53e76-5cfb-4986-8961-ed28ba739aba%20(1).mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tYmVmNTNlNzYtNWNmYi00OTg2LTg5NjEtZWQyOGJhNzM5YWJhICgxKS5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgyMzk2MjM2LCJleHAiOjE4MTM5MzIyMzZ9.0BJu__SxzVCnCLpUAzsr_3xnpURVeoZ4XzBThCjS6oM" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
+            {!video1Loaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-coffee-dark/10">
+                <div className="w-5 h-5 rounded-full border-2 border-coffee-dark/20 border-t-coffee-dark animate-spin"></div>
+              </div>
+            )}
+          </motion.div>
           
-          {/* Inspired block */}
-          <div 
-            className="flex-1 flex flex-col sm:flex-row items-center gap-6 sm:gap-10 xl:pr-10 2xl:pr-16 mb-16 xl:mb-0"
-          >
-            <motion.div variants={itemVariants} className="w-full max-w-[320px] sm:w-[320px] sm:h-[420px] xl:w-[260px] xl:h-[350px] 2xl:w-[320px] 2xl:h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
-              <video 
-                className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${video1Loaded ? 'opacity-100' : 'opacity-0'}`}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                onLoadedData={() => setVideo1Loaded(true)}
-              >
-                <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-bce97b3f-5125-48d2-8fa9-a14870aa09d7.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tYmNlOTdiM2YtNTEyNS00OGQyLThmYTktYTE0ODcwYWEwOWQ3Lm1wNCIsImlhdCI6MTc4MDkzMjk3MiwiZXhwIjoxNzgzNTI0OTcyfQ.B1mOVtJb1zILmc9dMA6s6hhbd70ccfOSKvFY1PUvQqs" type="video/mp4" />
-              </video>
-              <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
-              {!video1Loaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-coffee-dark/10">
-                  <div className="w-5 h-5 rounded-full border-2 border-coffee-dark/20 border-t-coffee-dark animate-spin"></div>
-                </div>
-              )}
-            </motion.div>
-            
-            <motion.div variants={itemVariants} className="flex-1 space-y-6">
-              <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Inspired By</span>
-              <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
-                Arabic Roots.<br />Mediterranean Soul.
-              </h2>
-              <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-4">
-                Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience designed to linger.
-              </p>
-              <a href="#brand-video" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
-                OUR STORY <span className="text-xs">→</span>
-              </a>
-            </motion.div>
-          </div>
-
-          {/* Featured drink block */}
-          <div 
-            className="flex-1 flex flex-col items-center xl:pl-10 2xl:pl-16"
-          >
-            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 w-full">
-              <motion.div variants={itemVariants} className="w-full max-w-[320px] sm:w-[320px] sm:h-[420px] xl:w-[260px] xl:h-[350px] 2xl:w-[320px] 2xl:h-[420px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-xl">
-                <video 
-                  className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${video2Loaded ? 'opacity-100' : 'opacity-0'}`}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  onLoadedData={() => setVideo2Loaded(true)}
-                >
-                  <source src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/grok-video-36d5cc8e-d515-4cbc-8a2c-7be31d2a65ab.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2dyb2stdmlkZW8tMzZkNWNjOGUtZDUxNS00Y2JjLThhMmMtN2JlMzFkMmE2NWFiLm1wNCIsImlhdCI6MTc4MDkzMjk5NywiZXhwIjoxNzgzNTI0OTk3fQ._r8_gf7Hsi_yL7pNPcll_auSIDkVep4vzgyAiDJziqE" type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-coffee-dark/5 mix-blend-overlay"></div>
-                {!video2Loaded && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-coffee-dark/10">
-                    <div className="w-5 h-5 rounded-full border-2 border-coffee-dark/20 border-t-coffee-dark animate-spin"></div>
-                  </div>
-                )}
-              </motion.div>
-
-              <motion.div variants={itemVariants} className="flex-1 space-y-6">
-                <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Brewing conversations</span>
-                <h2 className="text-3xl md:text-4xl font-heading leading-[1.1] text-coffee-dark uppercase">
-                  CRAFTING CONNECTIONS
-                </h2>
-                <p className="text-coffee-dark/60 text-sm leading-relaxed font-light line-clamp-4">
-                  Our spaces are inspired by architecture, light, and tradition — created for connection.
-                </p>
-                <a 
-                  href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all"
-                >
-                  VIEW MENU <span className="text-xs">→</span>
-                </a>
-              </motion.div>
-            </div>
-          </div>
-
+          <motion.div variants={itemVariants} className="flex-1 space-y-6">
+            <span className="text-[10px] tracking-[0.4em] font-bold uppercase transition-colors duration-1000" style={{ color: theme.highlightText }}>Inspired By</span>
+            <h2 className="text-3xl md:text-5xl font-heading leading-[1.1] text-coffee-dark uppercase">
+              Arabic Roots.<br />Mediterranean Soul.
+            </h2>
+            <p className="text-coffee-dark/60 text-sm leading-relaxed font-light">
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience designed to linger.
+            </p>
+            <a href="#brand-video" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
+              OUR STORY <span className="text-xs">→</span>
+            </a>
+          </motion.div>
         </motion.div>
       </div>
     </section>
@@ -481,7 +428,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             },
             {
               id: 4,
-              title: "Curated Boutique",
+              title: "Curated Marketplace",
               caption: "A refined selection of lifestyle finds.",
               direction: "down",
               speed: "45s",
@@ -1433,26 +1380,6 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 <span className="text-[10px] tracking-[0.3em] font-bold text-coffee-dark/60 uppercase block">Operating Hours</span>
                 <p className="text-xl md:text-2xl font-serif font-bold tracking-tight text-coffee-dark">{locations[0].hours}</p>
                 
-                {/* Auto sync verification disclaimer & official link / badge */}
-                <div className="mt-3 p-4 rounded-2xl bg-white/40 border border-coffee-dark/5 space-y-2.5">
-                  <div className="flex items-center space-x-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-800">
-                      Toast™
-                    </span>
-                  </div>
-                  <p className="text-[11px] leading-relaxed opacity-75 font-light" style={{ color: theme.coffeeDark }}>
-                    Google Business Profile automatic integration is in progress. For instant updates on seasonal hours or holidays, please refer to our active online ordering schedule synced in real-time.
-                  </p>
-                  <a 
-                    href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-[10px] font-bold tracking-widest text-[#231f14] hover:text-[#c5a367] transition-colors uppercase border-b border-black/10 pb-0.5"
-                  >
-                    Check live hours on Toast ↗
-                  </a>
-                </div>
               </div>
 
 
@@ -1700,7 +1627,15 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
 
       {/* Center links (hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-10">
-        <a href="#menu" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark }}>MENU</a>
+        <a 
+          href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
+          style={{ color: theme.coffeeDark }}
+        >
+          MENU
+        </a>
         <a href="#brand-video" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>OUR STORY</a>
         <a href="#locations" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>CONTACT</a>
       </div>
@@ -1750,11 +1685,11 @@ export default function App() {
       <Hero theme={theme} />
       <InspirationSection theme={theme} />
       <ExperiencesSection theme={theme} />
-      <MenuSection theme={theme} />
-      <VideoSection theme={theme} />
+      {/* <MenuSection theme={theme} /> */}
+      {/* <VideoSection theme={theme} /> */}
       {/* <AboutSection theme={theme} /> */}
-      <CommunitySection theme={theme} />
       <LocationsSection theme={theme} />
+      <CommunitySection theme={theme} />
       {/* <ContactSection theme={theme} /> */}
       <Footer theme={theme} onThemeToggle={handleThemeToggle} />
     </div>
