@@ -251,9 +251,6 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             <p className="text-coffee-dark/60 text-sm leading-relaxed font-light">
               Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience designed to linger.
             </p>
-            <a href="#brand-video" className="inline-flex items-center gap-3 text-[9px] tracking-[0.4em] font-extrabold text-coffee-dark hover:underline underline-offset-4 transition-all">
-              OUR STORY <span className="text-xs">→</span>
-            </a>
           </motion.div>
         </motion.div>
       </div>
@@ -311,7 +308,7 @@ const EXPERIENCE_DETAILS: Record<number, {
   5: {
     tagline: "Immersive Coffee Masterclasses",
     description: "Go beyond the cup. Our intimate workshops offer hand-on guiding from master baristas, allowing you to learn the subtle science and arts of specialty espresso, roasting, and traditional sand brewing.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg",
+    detailsImage: "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png",
     items: [
       { name: "Aromas of Arabia Barista Workshop", description: "A comprehensive session on integrating floral waters and hand-ground spices into espresso.", price: "$120.00" },
       { name: "Traditional Turkish Sand Brewing", description: "Master the unique art of brewing rich coffee in hot sand bed systems.", price: "$95.00" },
@@ -445,7 +442,8 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_28_54%20PM.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_33_17%20PM.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_30_57%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_35_14%20PM.png"
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_35_14%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png"
               ]
             }
           ].map((item) => (
@@ -1320,7 +1318,7 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
       id: 'richardson-main',
       name: 'Richardson Main',
       address: '150 W Main St., Suite 900 • Richardson, TX 75081',
-      phone: '(214) 579-9550',
+      phone: '281-686-7750',
       hours: 'Mon-Sun: 6:30am–7:00pm',
       image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg"
     }
@@ -1371,6 +1369,7 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               <div className="space-y-2 text-sm md:text-base leading-relaxed" style={{ color: theme.coffeeDark }}>
                 <p className="font-medium opacity-90">{locations[0].address}</p>
                 <p className="font-bold tracking-wide">{locations[0].phone}</p>
+                <p className="opacity-90">info@lasouq.com</p>
               </div>
 
               {/* Hours section with Google Sync status & Toast option */}
@@ -1466,7 +1465,7 @@ const ContactSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             <div className="space-y-3">
               <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Say Hello</h4>
               <p className="text-base font-medium tracking-wide leading-relaxed">
-                hello@lasouq.com<br />(214) 579-9550
+                info@lasouq.com<br />281-686-7750
               </p>
             </div>
           </motion.div>
