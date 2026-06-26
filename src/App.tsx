@@ -439,11 +439,13 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "up",
               speed: "32s",
               images: [
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_28_54%20PM.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_33_17%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_30_57%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_35_14%20PM.png",
-                "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png"
+                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_35_14%20PM.png"
+                
               ]
             }
           ].map((item) => (
