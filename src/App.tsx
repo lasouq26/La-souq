@@ -108,7 +108,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           className="mb-8"
         >
           <img 
-            src={LOGO_URL} 
+            src="https://res.cloudinary.com/dhylipuur/image/upload/v1782544229/LaSouqAsset_1_pjnfjo.svg"
             alt="LA SOUQ" 
             className="h-[109px] md:h-[163px] w-auto object-contain"
             referrerPolicy="no-referrer"
@@ -1371,7 +1371,7 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               <div className="space-y-2 text-sm md:text-base leading-relaxed" style={{ color: theme.coffeeDark }}>
                 <p className="font-medium opacity-90">{locations[0].address}</p>
                 <p className="font-bold tracking-wide">{locations[0].phone}</p>
-                <p className="opacity-90">info@lasouq.com</p>
+                <p className="font-bold opacity-90">info@lasouq.com</p>
               </div>
 
               {/* Hours section with Google Sync status & Toast option */}
