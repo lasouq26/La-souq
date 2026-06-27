@@ -108,7 +108,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
           className="mb-8"
         >
           <img 
-            src="https://res.cloudinary.com/dhylipuur/image/upload/v1782544229/LaSouqAsset_1_pjnfjo.svg"
+            src="https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/lassAsset_2ldpi_a9proq.svg"
             alt="LA SOUQ" 
             className="h-[109px] md:h-[163px] w-auto object-contain"
             referrerPolicy="no-referrer"
@@ -319,10 +319,30 @@ const EXPERIENCE_DETAILS: Record<number, {
 
 const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   const [selectedExperience, setSelectedExperience] = useState<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleScroll = () => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const scrollLeft = container.scrollLeft;
+    const children = container.children;
+    let minDiff = Infinity;
+    let activeIdx = 0;
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i] as HTMLElement;
+      const diff = Math.abs(child.offsetLeft - container.offsetLeft - scrollLeft);
+      if (diff < minDiff) {
+        minDiff = diff;
+        activeIdx = i;
+      }
+    }
+    setActiveIndex(activeIdx);
+  };
 
   return (
-    <section className="py-24 border-b border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: '#f4f4f4' }} id="experiences">
-      <div className="w-full px-6 md:px-[120px]">
+    <section className="border-b border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: '#f4f4f4', paddingTop: '72px', paddingBottom: '36px' }} id="experiences">
+      <div className="w-full pl-6 pr-0 md:pl-[120px] md:pr-0" style={{ paddingRight: '0px' }}>
         {/* Style block for signature experiences rolling grid and parallax effects */}
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes signatureScrollUp {
@@ -362,7 +382,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
         >
           <span 
             className="text-[10px] sm:text-[11px] tracking-[0.45em] font-bold uppercase block transition-colors duration-1000 mb-0"
-            style={{ color: '#b69b79', marginBottom: '0px' }}
+            style={{ color: '#b69b79', marginBottom: '0px', paddingRight: '0px', textAlign: 'center' }}
           >
             crafted moments for every guest.
           </span>
@@ -376,6 +396,8 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
         </motion.div>
 
         <motion.div
+          ref={containerRef}
+          onScroll={handleScroll}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
@@ -451,7 +473,8 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           ].map((item) => (
             <div 
               key={item.id} 
-              className="flex flex-col group/col flex-none w-[280px] sm:w-[320px] md:w-[360px] lg:w-auto lg:flex-1 snap-start"
+              className="flex flex-col group/col flex-none w-[280px] sm:w-[320px] md:w-[360px] lg:w-auto lg:flex-1 snap-start cursor-pointer select-none transition-transform duration-300 hover:translate-y-[-4px]"
+              onClick={() => setSelectedExperience(item)}
             >
               {/* Column Card Frame replicating wireframe staggering with increased height */}
               <div 
@@ -519,6 +542,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                     href="https://order.toasttab.com/online/la-souq-richardson-dallas"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="text-[11px] font-bold tracking-[0.2em] uppercase flex items-center gap-1 group/btn transition-colors hover:opacity-80"
                     style={{ color: '#b69b79' }}
                   >
@@ -531,18 +555,51 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           ))}
         </motion.div>
 
-        {/* Experience Details Modal */}
+        {/* Carousel Pagination Dots for Mobile - matching the active-pill design */}
+        <div className="flex items-center justify-center gap-2.5 mt-4 pb-4 lg:hidden">
+          {[0, 1, 2, 3, 4].map((index) => {
+            const isActive = activeIndex === index;
+            return (
+              <button
+                key={index}
+                onClick={() => {
+                  if (!containerRef.current) return;
+                  const container = containerRef.current;
+                  const children = container.children;
+                  if (children[index]) {
+                    const child = children[index] as HTMLElement;
+                    container.scrollTo({
+                      left: child.offsetLeft - container.offsetLeft,
+                      behavior: 'smooth'
+                    });
+                    setActiveIndex(index);
+                  }
+                }}
+                className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
+                  isActive ? 'w-6 bg-[#b69b79]' : 'w-2 bg-[#d6d6d6]'
+                }`}
+                aria-label={`Go to experience card ${index + 1}`}
+              />
+            );
+          })}
+        </div>
+
+        {/* Experience Details Modal / Bottom Drawer for Mobile */}
         {selectedExperience && (
           <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-6 cursor-pointer" 
+            className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-end md:items-center justify-center p-0 md:p-6 cursor-pointer" 
             onClick={() => setSelectedExperience(null)}
           >
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              initial={typeof window !== 'undefined' && window.innerWidth < 768 ? { y: '100%' } : { opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              className="relative bg-[#fcfbfa] w-full max-w-4xl rounded-[2.5rem] shadow-2xl overflow-hidden cursor-default grid grid-cols-1 md:grid-cols-12 max-h-[90vh] md:max-h-[85vh]"
+              transition={{ type: "spring", damping: 28, stiffness: 240 }}
+              className="relative bg-[#fcfbfa] w-full max-w-4xl rounded-t-[2.5rem] rounded-b-none md:rounded-[2.5rem] md:rounded-b-[2.5rem] shadow-2xl overflow-hidden cursor-default grid grid-cols-1 md:grid-cols-12 max-h-[85vh] md:max-h-[85vh]"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Mobile Drawer Drag Notch / Pull Handle */}
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-1 bg-white/40 backdrop-blur-sm rounded-full z-30 md:hidden" />
+
               {/* Close Button top-right */}
               <button 
                 onClick={() => setSelectedExperience(null)}
@@ -553,7 +610,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               </button>
 
               {/* Left Column: Visual panel */}
-              <div className="md:col-span-5 h-[180px] md:h-full relative overflow-hidden bg-coffee-dark/5">
+              <div className="md:col-span-5 h-[200px] md:h-full relative overflow-hidden bg-coffee-dark/5">
                 <img 
                   src={EXPERIENCE_DETAILS[selectedExperience.id]?.detailsImage || selectedExperience.images[0]} 
                   alt={selectedExperience.title}
