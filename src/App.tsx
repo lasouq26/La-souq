@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X, Music } from 'lucide-react';
+import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X, Music, Clock, Calendar, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import cafeDetailPots from './assets/images/cafe_detail_pots_1777813549634.png';
 import coffeePouring from './assets/images/coffee_pouring_1777813533745.png';
@@ -49,7 +49,176 @@ const THEMES = [
   }
 ];
 
-const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
+const LiveHoursCard = ({ 
+  hoursData, 
+  hoursLoading, 
+  hoursError, 
+  theme,
+  isDark = false
+}: { 
+  hoursData: any; 
+  hoursLoading: boolean; 
+  hoursError: string | null; 
+  theme: typeof THEMES[0];
+  isDark?: boolean;
+}) => {
+  const [showFullHours, setShowFullHours] = useState(false);
+
+  if (hoursLoading) {
+    return (
+      <div className={`p-6 md:p-8 rounded-[2rem] border animate-pulse space-y-4 shadow-md w-full ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-[#fdfaf7] border-coffee-dark/5 text-coffee-dark'}`}>
+        <div className="h-5 w-32 bg-[#b69b79]/20 rounded mb-4"></div>
+        <div className="space-y-3">
+          {[...Array(7)].map((_, i) => (
+            <div key={i} className="flex justify-between items-center py-1">
+              <div className="h-4 w-20 bg-[#b69b79]/10 rounded"></div>
+              <div className="h-4 w-28 bg-[#b69b79]/10 rounded"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (hoursError || !hoursData) {
+    return (
+      <div className={`p-6 md:p-8 rounded-[2rem] border flex items-start gap-4 shadow-md w-full ${isDark ? 'bg-rose-950/20 border-rose-900/30 text-rose-200' : 'bg-red-50/50 border-red-200/50 text-red-900'}`}>
+        <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-500" />
+        <div>
+          <h5 className="font-serif font-bold text-base mb-1">Operating Hours</h5>
+          <p className="text-sm font-medium opacity-90">{hoursError || "Hours unavailable — please call to confirm."}</p>
+          <p className="text-xs opacity-75 mt-2 font-mono">Call: 281-686-7750</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Find today's day of the week to highlight it
+  const currentDayName = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    weekday: "long"
+  }).format(new Date());
+
+  // Find today's row and the other days
+  const todayRow = hoursData.weeklyHours.find((dayText: string) => 
+    dayText.toLowerCase().startsWith(currentDayName.toLowerCase())
+  ) || hoursData.weeklyHours[0];
+
+  const otherRows = hoursData.weeklyHours.filter((dayText: string) => 
+    dayText !== todayRow
+  );
+
+  return (
+    <div className={`p-6 md:p-8 rounded-[2rem] border transition-all duration-500 shadow-xl w-full ${
+      isDark 
+        ? 'bg-[#1c1813]/40 border-white/10 text-white hover:border-[#b69b79]/40' 
+        : 'bg-[#fdfaf7]/90 backdrop-blur-md border-[#b69b79]/10 text-coffee-dark hover:border-[#b69b79]/30'
+    }`}>
+      {/* Live status badge */}
+      <div className="flex items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-2">
+          <Clock className="w-5 h-5 opacity-70 text-[#b69b79]" />
+          <h4 className="font-serif font-bold text-lg md:text-xl">Weekly Hours</h4>
+        </div>
+        <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] tracking-widest font-bold uppercase ${
+          hoursData.openNow 
+            ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' 
+            : 'bg-rose-500/10 text-rose-500 border border-rose-500/20'
+        }`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${hoursData.openNow ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
+          {hoursData.openNow ? 'Open Now' : 'Closed'}
+        </div>
+      </div>
+
+      {/* Days list */}
+      <div className="space-y-2.5 font-sans">
+        {/* Today's row - always visible */}
+        <div 
+          className={`flex justify-between items-center text-xs md:text-sm py-1.5 px-3 rounded-xl transition-all duration-300 ${
+            isDark 
+              ? 'bg-[#b69b79]/20 font-bold border border-[#b69b79]/30 text-white' 
+              : 'bg-[#b69b79]/15 font-bold border border-[#b69b79]/20 text-[#231f14]' 
+          }`}
+        >
+          <span className="tracking-wide">
+            {todayRow.split(':')[0]}
+            <span className="ml-2 text-[9px] uppercase tracking-widest font-sans font-bold bg-[#b69b79] text-white px-1.5 py-0.5 rounded-full">Today</span>
+          </span>
+          <span className="font-mono text-xs font-semibold">
+            {todayRow.split(':').slice(1).join(':').trim()}
+          </span>
+        </div>
+
+        {/* Other days - animated container */}
+        <motion.div
+          id="weekly-hours-content"
+          initial={false}
+          animate={{ 
+            height: showFullHours ? "auto" : 0, 
+            opacity: showFullHours ? 1 : 0,
+            marginTop: showFullHours ? "10px" : "0px"
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="overflow-hidden space-y-2.5"
+        >
+          {otherRows.map((dayText: string, idx: number) => {
+            return (
+              <div 
+                key={idx} 
+                className="flex justify-between items-center text-xs md:text-sm py-1.5 px-3 rounded-xl transition-all duration-300 text-current opacity-75"
+              >
+                <span className="tracking-wide">
+                  {dayText.split(':')[0]}
+                </span>
+                <span className="font-mono text-xs font-semibold">
+                  {dayText.split(':').slice(1).join(':').trim()}
+                </span>
+              </div>
+            );
+          })}
+        </motion.div>
+      </div>
+      
+      {/* Footer sync badge */}
+      <div 
+        className="border-t border-dashed border-current/10 flex items-center gap-2 justify-center text-[10px] tracking-widest font-bold uppercase opacity-60"
+        style={{ paddingTop: '0px', marginTop: '-1px' }}
+      >
+        <CheckCircle2 className={`w-3.5 h-3.5 ${hoursData.isLive ? 'text-emerald-500' : 'text-[#b69b79]'}`} />
+        {hoursData.isLive ? 'Synced Live via Google Places' : 'Scheduled Operating Hours'}
+      </div>
+
+      {/* Expand/Collapse Button */}
+      <div className="flex justify-center" style={{ marginTop: '8px' }}>
+        <button
+          onClick={() => setShowFullHours(!showFullHours)}
+          aria-expanded={showFullHours}
+          aria-controls="weekly-hours-content"
+          className={`px-5 py-2 rounded-full border text-[10px] tracking-wider uppercase font-sans font-bold transition-all duration-300 shadow-sm outline-none cursor-pointer ${
+            isDark
+              ? 'bg-[#b69b79]/15 border-[#b69b79]/30 text-[#e6dfd5] hover:bg-[#b69b79]/25 hover:border-[#b69b79]/50'
+              : 'bg-[#b69b79]/10 border-[#b69b79]/20 text-coffee-dark hover:bg-[#b69b79]/20 hover:border-[#b69b79]/40'
+          }`}
+          style={{ paddingLeft: '20px' }}
+        >
+          {showFullHours ? 'Hide Weekly Hours' : 'View Full Weekly Hours'}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const Hero = ({ 
+  theme, 
+  hoursData, 
+  hoursLoading, 
+  hoursError 
+}: { 
+  theme: typeof THEMES[0];
+  hoursData: any;
+  hoursLoading: boolean;
+  hoursError: string | null;
+}) => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800], [0, 300]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0.4]);
@@ -117,7 +286,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
 
         <motion.p 
           variants={itemVariants} 
-          className="uppercase tracking-[0.6em] text-[16px] mb-12 font-bold"
+          className="uppercase tracking-[0.6em] text-[16px] mb-8 font-bold"
           style={{ color: theme.coffeeDark }}
         >
           ARTISAN ROASTERY COFFEE & SHOP
@@ -173,9 +342,34 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
                <p>RICHARDSON, TX 75081</p>
              </div>
           </div>
-          <a href="#locations" className="text-[9px] tracking-[0.3em] font-bold text-[#231f14] hover:text-coffee-dark transition-colors flex items-center gap-2">
-            VIEW HOURS →
-          </a>
+          <div className="flex items-center gap-3">
+            {hoursLoading ? (
+              <span className="inline-flex items-center gap-1 bg-white/40 dark:bg-black/10 px-2 py-0.5 rounded-full border border-[#231f14]/10 animate-pulse text-[8px] tracking-widest font-bold uppercase text-gray-500 font-sans">
+                <span className="w-1 h-1 rounded-full bg-gray-400"></span>
+                Syncing...
+              </span>
+            ) : hoursError ? (
+              <span className="inline-flex items-center gap-1 bg-rose-500/5 px-2 py-0.5 rounded-full border border-rose-500/10 text-[8px] tracking-widest font-bold uppercase text-rose-500 font-sans">
+                <span className="w-1 h-1 rounded-full bg-rose-400"></span>
+                Closed
+              </span>
+            ) : hoursData ? (
+              <div 
+                className="inline-flex items-center gap-1.5 bg-white/80 dark:bg-[#1c1813]/40 backdrop-blur-xs px-2.5 py-0.5 rounded-full border border-[#b69b79]/20 shadow-xs transition-all duration-300"
+                style={{ backgroundColor: '#c5c5c5' }}
+              >
+                <span className="relative flex h-1.5 w-1.5">
+                  {hoursData.openNow && (
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  )}
+                  <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${hoursData.openNow ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
+                </span>
+                <span className={`text-[8px] tracking-widest font-bold uppercase font-sans ${hoursData.openNow ? 'text-emerald-700' : 'text-rose-700'}`} style={{ color: hoursData.openNow ? '#059669' : '#e11d48' }}>
+                  {hoursData.openNow ? 'Open Now' : 'Closed'}
+                </span>
+              </div>
+            ) : null}
+          </div>
         </div>
       </motion.div>
 
@@ -1371,7 +1565,17 @@ const AboutSection = () => {
   );
 };
 
-const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
+const LocationsSection = ({ 
+  theme, 
+  hoursData, 
+  hoursLoading, 
+  hoursError 
+}: { 
+  theme: typeof THEMES[0];
+  hoursData: any;
+  hoursLoading: boolean;
+  hoursError: string | null;
+}) => {
   const locations = [
     {
       id: 'richardson-main',
@@ -1431,11 +1635,15 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 <p className="font-bold opacity-90">info@lasouq.com</p>
               </div>
 
-              {/* Hours section with Google Sync status & Toast option */}
-              <div className="pt-4 border-t border-coffee-dark/10 space-y-3">
-                <span className="text-[10px] tracking-[0.3em] font-bold text-coffee-dark/60 uppercase block">Operating Hours</span>
-                <p className="text-xl md:text-2xl font-serif font-bold tracking-tight text-coffee-dark">{locations[0].hours}</p>
-                
+              {/* Hours section with Google Sync status */}
+              <div className="pt-4 border-t border-coffee-dark/10">
+                <LiveHoursCard 
+                  hoursData={hoursData} 
+                  hoursLoading={hoursLoading} 
+                  hoursError={hoursError} 
+                  theme={theme}
+                  isDark={false}
+                />
               </div>
 
 
@@ -1450,7 +1658,17 @@ const LocationsSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   );
 };
 
-const ContactSection = ({ theme }: { theme: typeof THEMES[0] }) => {
+const ContactSection = ({ 
+  theme, 
+  hoursData, 
+  hoursLoading, 
+  hoursError 
+}: { 
+  theme: typeof THEMES[0];
+  hoursData: any;
+  hoursLoading: boolean;
+  hoursError: string | null;
+}) => {
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
@@ -1527,6 +1745,16 @@ const ContactSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 info@lasouq.com<br />281-686-7750
               </p>
             </div>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="pt-4 max-w-md">
+            <LiveHoursCard 
+              hoursData={hoursData} 
+              hoursLoading={hoursLoading} 
+              hoursError={hoursError} 
+              theme={theme}
+              isDark={true}
+            />
           </motion.div>
         </motion.div>
 
@@ -1724,9 +1952,23 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
   );
 };
 
+interface StoreHoursData {
+  businessName: string;
+  openNow: boolean | null;
+  todayHours: string;
+  weeklyHours: string[];
+  nextOpenTime: string | null;
+  nextCloseTime: string | null;
+  isLive?: boolean;
+}
+
 export default function App() {
   const [themeIndex, setThemeIndex] = useState(1);
   const theme = THEMES[themeIndex];
+
+  const [hoursData, setHoursData] = useState<StoreHoursData | null>(null);
+  const [hoursLoading, setHoursLoading] = useState(true);
+  const [hoursError, setHoursError] = useState<string | null>(null);
 
   const handleThemeToggle = () => {
     setThemeIndex((prev) => (prev === 0 ? 1 : 0));
@@ -1736,18 +1978,64 @@ export default function App() {
     console.log(`La Souq Roastery App Initialized with ${theme.name}`);
   }, [themeIndex]);
 
+  useEffect(() => {
+    let active = true;
+    const fetchHours = async () => {
+      try {
+        setHoursLoading(true);
+        const res = await fetch("/api/place-hours");
+        if (!res.ok) {
+          throw new Error("Failed to fetch store hours");
+        }
+        const data = await res.json();
+        if (active) {
+          setHoursData(data);
+          setHoursError(null);
+        }
+      } catch (err) {
+        console.error("Error fetching live hours:", err);
+        if (active) {
+          setHoursError("Hours unavailable — please call to confirm.");
+        }
+      } finally {
+        if (active) {
+          setHoursLoading(false);
+        }
+      }
+    };
+    fetchHours();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen selection:bg-gold selection:text-white" id="main-app-container">
       <Navbar theme={theme} />
-      <Hero theme={theme} />
+      <Hero 
+        theme={theme} 
+        hoursData={hoursData} 
+        hoursLoading={hoursLoading} 
+        hoursError={hoursError} 
+      />
       <InspirationSection theme={theme} />
       <ExperiencesSection theme={theme} />
       {/* <MenuSection theme={theme} /> */}
       {/* <VideoSection theme={theme} /> */}
       {/* <AboutSection theme={theme} /> */}
-      <LocationsSection theme={theme} />
+      <LocationsSection 
+        theme={theme} 
+        hoursData={hoursData} 
+        hoursLoading={hoursLoading} 
+        hoursError={hoursError} 
+      />
       <CommunitySection theme={theme} />
-      {/* <ContactSection theme={theme} /> */}
+      {/* <ContactSection 
+        theme={theme} 
+        hoursData={hoursData} 
+        hoursLoading={hoursLoading} 
+        hoursError={hoursError} 
+      /> */}
       <Footer theme={theme} onThemeToggle={handleThemeToggle} />
     </div>
   );
