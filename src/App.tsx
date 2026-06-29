@@ -6,7 +6,7 @@ import coffeePouring from './assets/images/coffee_pouring_1777813533745.png';
 import heroCafeInterior from './assets/images/hero_cafe_interior_1777813516367.png';
 
 // Use the user-provided logo URL
-const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782397620/usaAsset_2ldpi_vwuta5.svg";
+const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/lassAsset_2ldpi_a9proq.svg";
 
 const THEMES = [
   {
