@@ -1663,7 +1663,7 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
               referrerPolicy="no-referrer"
             />
             <p className="text-coffee-dark/70 text-xs leading-relaxed max-w-md">
-              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience.
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an experience.
             </p>
 
             {/* Theme Toggle Button */}
