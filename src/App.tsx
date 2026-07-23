@@ -64,34 +64,17 @@ const LiveHoursCard = ({
 }) => {
   const [showFullHours, setShowFullHours] = useState(false);
 
-  if (hoursLoading) {
-    return (
-      <div className={`p-6 md:p-8 rounded-[2rem] border animate-pulse space-y-4 shadow-md w-full ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-[#fdfaf7] border-coffee-dark/5 text-coffee-dark'}`}>
-        <div className="h-5 w-32 bg-[#b69b79]/20 rounded mb-4"></div>
-        <div className="space-y-3">
-          {[...Array(7)].map((_, i) => (
-            <div key={i} className="flex justify-between items-center py-1">
-              <div className="h-4 w-20 bg-[#b69b79]/10 rounded"></div>
-              <div className="h-4 w-28 bg-[#b69b79]/10 rounded"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  const defaultWeeklyHours = [
+    "Monday: 6:30 AM – 7:00 PM",
+    "Tuesday: 6:30 AM – 7:00 PM",
+    "Wednesday: 6:30 AM – 7:00 PM",
+    "Thursday: 6:30 AM – 7:00 PM",
+    "Friday: 6:30 AM – 7:00 PM",
+    "Saturday: 6:30 AM – 7:00 PM",
+    "Sunday: 6:30 AM – 7:00 PM"
+  ];
 
-  if (hoursError || !hoursData) {
-    return (
-      <div className={`p-6 md:p-8 rounded-[2rem] border flex items-start gap-4 shadow-md w-full ${isDark ? 'bg-rose-950/20 border-rose-900/30 text-rose-200' : 'bg-red-50/50 border-red-200/50 text-red-900'}`}>
-        <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-500" />
-        <div>
-          <h5 className="font-serif font-bold text-base mb-1">Operating Hours</h5>
-          <p className="text-sm font-medium opacity-90">{hoursError || "Hours unavailable — please call to confirm."}</p>
-          <p className="text-xs opacity-75 mt-2 font-mono">Call: 281-686-7750</p>
-        </div>
-      </div>
-    );
-  }
+  const weeklyHours = hoursData?.weeklyHours || defaultWeeklyHours;
 
   // Find today's day of the week to highlight it
   const currentDayName = new Intl.DateTimeFormat("en-US", {
@@ -100,11 +83,11 @@ const LiveHoursCard = ({
   }).format(new Date());
 
   // Find today's row and the other days
-  const todayRow = hoursData.weeklyHours.find((dayText: string) => 
+  const todayRow = weeklyHours.find((dayText: string) => 
     dayText.toLowerCase().startsWith(currentDayName.toLowerCase())
-  ) || hoursData.weeklyHours[0];
+  ) || weeklyHours[0];
 
-  const otherRows = hoursData.weeklyHours.filter((dayText: string) => 
+  const otherRows = weeklyHours.filter((dayText: string) => 
     dayText !== todayRow
   );
 
@@ -114,35 +97,30 @@ const LiveHoursCard = ({
         ? 'bg-[#1c1813]/40 border-white/10 text-white hover:border-[#b69b79]/40' 
         : 'bg-[#fdfaf7]/90 backdrop-blur-md border-[#b69b79]/10 text-coffee-dark hover:border-[#b69b79]/30'
     }`}>
-      {/* Live status badge */}
+      {/* Operating Hours Header */}
       <div className="flex items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-2">
           <Clock className="w-5 h-5 opacity-70 text-[#b69b79]" />
-          <h4 className="font-serif font-bold text-lg md:text-xl">Weekly Hours</h4>
+          <h4 className="font-serif font-bold text-lg md:text-xl">Operating Hours</h4>
         </div>
-        <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] tracking-widest font-bold uppercase ${
-          hoursData.openNow 
-            ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' 
-            : 'bg-rose-500/10 text-rose-500 border border-rose-500/20'
-        }`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${hoursData.openNow ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
-          {hoursData.openNow ? 'Open Now' : 'Closed'}
-        </div>
+        <span className="text-[10px] tracking-widest font-bold uppercase text-[#b69b79] bg-[#b69b79]/10 px-3 py-1 rounded-full border border-[#b69b79]/20">
+          Daily 6:30 AM – 7:00 PM
+        </span>
       </div>
 
       {/* Days list */}
       <div className="space-y-2.5 font-sans">
         {/* Today's row - always visible */}
         <div 
-          className={`flex justify-between items-center text-xs md:text-sm py-1.5 px-3 rounded-xl transition-all duration-300 ${
+          className={`flex justify-between items-center text-xs md:text-sm py-2 px-3.5 rounded-xl transition-all duration-300 ${
             isDark 
               ? 'bg-[#b69b79]/20 font-bold border border-[#b69b79]/30 text-white' 
               : 'bg-[#b69b79]/15 font-bold border border-[#b69b79]/20 text-[#231f14]' 
           }`}
         >
-          <span className="tracking-wide">
+          <span className="tracking-wide flex items-center gap-2">
             {todayRow.split(':')[0]}
-            <span className="ml-2 text-[9px] uppercase tracking-widest font-sans font-bold bg-[#b69b79] text-white px-1.5 py-0.5 rounded-full">Today</span>
+            <span className="text-[9px] uppercase tracking-widest font-sans font-bold bg-[#b69b79] text-white px-2 py-0.5 rounded-full">Today</span>
           </span>
           <span className="font-mono text-xs font-semibold">
             {todayRow.split(':').slice(1).join(':').trim()}
@@ -178,18 +156,9 @@ const LiveHoursCard = ({
           })}
         </motion.div>
       </div>
-      
-      {/* Footer sync badge */}
-      <div 
-        className="border-t border-dashed border-current/10 flex items-center gap-2 justify-center text-[10px] tracking-widest font-bold uppercase opacity-60"
-        style={{ paddingTop: '0px', marginTop: '-1px' }}
-      >
-        <CheckCircle2 className={`w-3.5 h-3.5 ${hoursData.isLive ? 'text-emerald-500' : 'text-[#b69b79]'}`} />
-        {hoursData.isLive ? 'Synced Live via Google Places' : 'Scheduled Operating Hours'}
-      </div>
 
       {/* Expand/Collapse Button */}
-      <div className="flex justify-center" style={{ marginTop: '8px' }}>
+      <div className="flex justify-center mt-4">
         <button
           onClick={() => setShowFullHours(!showFullHours)}
           aria-expanded={showFullHours}
@@ -199,7 +168,6 @@ const LiveHoursCard = ({
               ? 'bg-[#b69b79]/15 border-[#b69b79]/30 text-[#e6dfd5] hover:bg-[#b69b79]/25 hover:border-[#b69b79]/50'
               : 'bg-[#b69b79]/10 border-[#b69b79]/20 text-coffee-dark hover:bg-[#b69b79]/20 hover:border-[#b69b79]/40'
           }`}
-          style={{ paddingLeft: '20px' }}
         >
           {showFullHours ? 'Hide Weekly Hours' : 'View Full Weekly Hours'}
         </button>
@@ -342,33 +310,9 @@ const Hero = ({
                <p>RICHARDSON, TX 75081</p>
              </div>
           </div>
-          <div className="flex items-center gap-3">
-            {hoursLoading ? (
-              <span className="inline-flex items-center gap-1 bg-white/40 dark:bg-black/10 px-2 py-0.5 rounded-full border border-[#231f14]/10 animate-pulse text-[8px] tracking-widest font-bold uppercase text-gray-500 font-sans">
-                <span className="w-1 h-1 rounded-full bg-gray-400"></span>
-                Syncing...
-              </span>
-            ) : hoursError ? (
-              <span className="inline-flex items-center gap-1 bg-rose-500/5 px-2 py-0.5 rounded-full border border-rose-500/10 text-[8px] tracking-widest font-bold uppercase text-rose-500 font-sans">
-                <span className="w-1 h-1 rounded-full bg-rose-400"></span>
-                Closed
-              </span>
-            ) : hoursData ? (
-              <div 
-                className="inline-flex items-center gap-1.5 bg-white/80 dark:bg-[#1c1813]/40 backdrop-blur-xs px-2.5 py-0.5 rounded-full border border-[#b69b79]/20 shadow-xs transition-all duration-300"
-                style={{ backgroundColor: '#c5c5c5' }}
-              >
-                <span className="relative flex h-1.5 w-1.5">
-                  {hoursData.openNow && (
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  )}
-                  <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${hoursData.openNow ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
-                </span>
-                <span className={`text-[8px] tracking-widest font-bold uppercase font-sans ${hoursData.openNow ? 'text-emerald-700' : 'text-rose-700'}`} style={{ color: hoursData.openNow ? '#059669' : '#e11d48' }}>
-                  {hoursData.openNow ? 'Open Now' : 'Closed'}
-                </span>
-              </div>
-            ) : null}
+          <div className="flex items-center gap-2 pt-1 text-[9px] tracking-widest font-bold uppercase text-coffee-dark/70 font-sans">
+            <Clock className="w-3 h-3 text-[#b69b79]" />
+            <span>MON – SUN: 6:30 AM – 7:00 PM</span>
           </div>
         </div>
       </motion.div>
@@ -443,7 +387,7 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               Arabic Roots.<br />Mediterranean Soul.
             </h2>
             <p className="text-coffee-dark/60 text-sm leading-relaxed font-light">
-              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience designed to linger.
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an experience designed to linger.
             </p>
           </motion.div>
         </motion.div>
@@ -512,7 +456,6 @@ const EXPERIENCE_DETAILS: Record<number, {
 };
 
 const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
-  const [selectedExperience, setSelectedExperience] = useState<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -633,8 +576,9 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               speed: "35s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2001_59_50%20PM.png"
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg",
               ]
             },
             {
@@ -650,8 +594,8 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             },
             {
               id: 5,
-              title: "Workshops",
-              caption: "Engaging coffee masterclasses and artisan sessions.",
+              title: "Events & Collaborations",
+              caption: "Engaging workshop and artisan sessions.",
               direction: "up",
               speed: "32s",
               images: [
@@ -667,8 +611,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           ].map((item) => (
             <div 
               key={item.id} 
-              className="flex flex-col group/col flex-none w-[280px] sm:w-[320px] md:w-[360px] lg:w-auto lg:flex-1 snap-start cursor-pointer select-none transition-transform duration-300 hover:translate-y-[-4px]"
-              onClick={() => setSelectedExperience(item)}
+              className="flex flex-col group/col flex-none w-[280px] sm:w-[320px] md:w-[360px] lg:w-auto lg:flex-1 snap-start select-none"
             >
               {/* Column Card Frame replicating wireframe staggering with increased height */}
               <div 
@@ -730,20 +673,6 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                     {item.caption}
                   </p>
                 </div>
-                <div className="pt-3">
-                  <a
-                    id={`view-more-${item.id}`}
-                    href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-[11px] font-bold tracking-[0.2em] uppercase flex items-center gap-1 group/btn transition-colors hover:opacity-80"
-                    style={{ color: '#b69b79' }}
-                  >
-                    View More
-                    <span className="transform group-hover/btn:translate-x-1 transition-transform">→</span>
-                  </a>
-                </div>
               </div>
             </div>
           ))}
@@ -777,100 +706,6 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             );
           })}
         </div>
-
-        {/* Experience Details Modal / Bottom Drawer for Mobile */}
-        {selectedExperience && (
-          <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-end md:items-center justify-center p-0 md:p-6 cursor-pointer" 
-            onClick={() => setSelectedExperience(null)}
-          >
-            <motion.div 
-              initial={typeof window !== 'undefined' && window.innerWidth < 768 ? { y: '100%' } : { opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ type: "spring", damping: 28, stiffness: 240 }}
-              className="relative bg-[#fcfbfa] w-full max-w-4xl rounded-t-[2.5rem] rounded-b-none md:rounded-[2.5rem] md:rounded-b-[2.5rem] shadow-2xl overflow-hidden cursor-default grid grid-cols-1 md:grid-cols-12 max-h-[85vh] md:max-h-[85vh]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Mobile Drawer Drag Notch / Pull Handle */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-1 bg-white/40 backdrop-blur-sm rounded-full z-30 md:hidden" />
-
-              {/* Close Button top-right */}
-              <button 
-                onClick={() => setSelectedExperience(null)}
-                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full hover:bg-coffee-dark/5 transition-colors z-30"
-                style={{ color: theme.coffeeDark }}
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Left Column: Visual panel */}
-              <div className="md:col-span-5 h-[200px] md:h-full relative overflow-hidden bg-coffee-dark/5">
-                <img 
-                  src={EXPERIENCE_DETAILS[selectedExperience.id]?.detailsImage || selectedExperience.images[0]} 
-                  alt={selectedExperience.title}
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white text-left">
-                  <span className="text-[10px] tracking-[0.3em] font-semibold uppercase block text-[#e8e3c9] mb-1 font-sans">
-                    {EXPERIENCE_DETAILS[selectedExperience.id]?.tagline || "Artisan Craft"}
-                  </span>
-                  <h4 className="text-xl font-serif font-light">{selectedExperience.title}</h4>
-                </div>
-              </div>
-
-              {/* Right Column: Details Content */}
-              <div className="md:col-span-7 p-6 sm:p-8 md:p-12 flex flex-col justify-between overflow-y-auto max-h-[calc(90vh-180px)] md:max-h-[85vh]">
-                <div className="space-y-6 text-left">
-                  <div>
-                    <h3 className="text-2xl font-serif font-light text-coffee-dark mb-3">
-                      {selectedExperience.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm font-sans font-light leading-relaxed text-coffee-dark/70">
-                      {EXPERIENCE_DETAILS[selectedExperience.id]?.description}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <span className="text-[10px] tracking-[0.25em] font-bold uppercase text-[#b69b79] block border-b border-coffee-dark/10 pb-2 font-sans">
-                      Curated Offerings
-                    </span>
-                    <div className="space-y-4 divide-y divide-coffee-dark/5">
-                      {EXPERIENCE_DETAILS[selectedExperience.id]?.items.map((offering, idx) => (
-                        <div key={idx} className={`pt-3 ${idx === 0 ? 'pt-0' : ''} flex items-start justify-between gap-4 text-left`}>
-                          <div className="space-y-1">
-                            <h5 className="text-xs font-bold tracking-wider text-coffee-dark uppercase font-sans">
-                              {offering.name}
-                            </h5>
-                            <p className="text-xs font-sans font-light text-coffee-dark/60 leading-relaxed max-w-[360px]">
-                              {offering.description}
-                            </p>
-                          </div>
-                          {offering.price && (
-                            <span className="text-sm font-serif text-[#b69b79] whitespace-nowrap font-medium">
-                              {offering.price}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-6 border-t border-coffee-dark/5 flex justify-end">
-                  <button 
-                    onClick={() => setSelectedExperience(null)}
-                    className="px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all hover:bg-coffee-dark/5 border font-sans"
-                    style={{ borderColor: `${theme.coffeeDark}20`, color: theme.coffeeDark }}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
       </div>
     </section>
   );
@@ -1887,14 +1722,14 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
 
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 shadow-sm"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-4 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 shadow-sm"
       style={{ 
         borderBottomWidth: '4.22222px', 
         backgroundColor: theme.navBg
       }}
     >
       {/* Left side Logo */}
-      <div className="flex-none">
+      <div className="flex items-center gap-4 md:gap-6 flex-none">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -1921,8 +1756,22 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
         >
           MENU
         </a>
-        <a href="#brand-video" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>OUR STORY</a>
-        <a href="#locations" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>CONTACT</a>
+        
+        <a 
+          href="#brand-video" 
+          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
+          style={{ color: theme.coffeeDark }}
+        >
+          OUR STORY
+        </a>
+
+        <a 
+          href="#locations" 
+          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
+          style={{ color: theme.coffeeDark }}
+        >
+          CONTACT
+        </a>
       </div>
 
       {/* Right side CTA */}
@@ -1931,7 +1780,7 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
           href="https://order.toasttab.com/online/la-souq-richardson-dallas"
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[10px] uppercase"
+          className="border border-coffee-dark/20 hover:border-coffee-dark px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[8px] md:pt-[10px] uppercase whitespace-nowrap"
           style={{ 
             color: theme.coffeeDark, 
             borderColor: theme.coffeeDark,
@@ -2030,12 +1879,6 @@ export default function App() {
         hoursError={hoursError} 
       />
       <CommunitySection theme={theme} />
-      {/* <ContactSection 
-        theme={theme} 
-        hoursData={hoursData} 
-        hoursLoading={hoursLoading} 
-        hoursError={hoursError} 
-      /> */}
       <Footer theme={theme} onThemeToggle={handleThemeToggle} />
     </div>
   );
