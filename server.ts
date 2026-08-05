@@ -28,7 +28,7 @@ app.get("/api/place-hours", async (req, res) => {
   // Graceful fallback hours data generator
   const getFallbackHours = () => {
     let openNow = false;
-    let todayHours = "6:30 AM – 7:00 PM";
+    let todayHours = "8:00 AM – 7:00 PM";
     try {
       const formatter = new Intl.DateTimeFormat("en-US", {
         timeZone: "America/Chicago",
@@ -43,7 +43,7 @@ app.get("/api/place-hours", async (req, res) => {
         const hour = parseInt(hourPart.value, 10);
         const minute = parseInt(minutePart.value, 10);
         const totalMinutes = hour * 60 + minute;
-        const openMinutes = 6 * 60 + 30; // 6:30 AM
+        const openMinutes = 8 * 60; // 8:00 AM
         const closeMinutes = 19 * 60; // 7:00 PM
         if (totalMinutes >= openMinutes && totalMinutes < closeMinutes) {
           openNow = true;
@@ -58,13 +58,13 @@ app.get("/api/place-hours", async (req, res) => {
       openNow,
       todayHours,
       weeklyHours: [
-        "Monday: 6:30 AM – 7:00 PM",
-        "Tuesday: 6:30 AM – 7:00 PM",
-        "Wednesday: 6:30 AM – 7:00 PM",
-        "Thursday: 6:30 AM – 7:00 PM",
-        "Friday: 6:30 AM – 7:00 PM",
-        "Saturday: 6:30 AM – 7:00 PM",
-        "Sunday: 6:30 AM – 7:00 PM"
+        "Monday: 8:00 AM – 7:00 PM",
+        "Tuesday: 8:00 AM – 7:00 PM",
+        "Wednesday: 8:00 AM – 7:00 PM",
+        "Thursday: 8:00 AM – 7:00 PM",
+        "Friday: 8:00 AM – 7:00 PM",
+        "Saturday: 8:00 AM – 7:00 PM",
+        "Sunday: 8:00 AM – 7:00 PM"
       ],
       nextOpenTime: null,
       nextCloseTime: null,
@@ -117,7 +117,7 @@ app.get("/api/place-hours", async (req, res) => {
       [];
 
     // Extract today's hours dynamically based on local timezone in America/Chicago
-    let todayHours = "6:30 AM – 7:00 PM"; // Default fallback
+    let todayHours = "8:00 AM – 7:00 PM"; // Default fallback
     try {
       const formatter = new Intl.DateTimeFormat("en-US", {
         timeZone: "America/Chicago",

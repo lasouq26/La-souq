@@ -65,13 +65,13 @@ const LiveHoursCard = ({
   const [showFullHours, setShowFullHours] = useState(false);
 
   const defaultWeeklyHours = [
-    "Monday: 6:30 AM – 7:00 PM",
-    "Tuesday: 6:30 AM – 7:00 PM",
-    "Wednesday: 6:30 AM – 7:00 PM",
-    "Thursday: 6:30 AM – 7:00 PM",
-    "Friday: 6:30 AM – 7:00 PM",
-    "Saturday: 6:30 AM – 7:00 PM",
-    "Sunday: 6:30 AM – 7:00 PM"
+    "Monday: 8:00 AM – 7:00 PM",
+    "Tuesday: 8:00 AM – 7:00 PM",
+    "Wednesday: 8:00 AM – 7:00 PM",
+    "Thursday: 8:00 AM – 7:00 PM",
+    "Friday: 8:00 AM – 7:00 PM",
+    "Saturday: 8:00 AM – 7:00 PM",
+    "Sunday: 8:00 AM – 7:00 PM"
   ];
 
   const weeklyHours = hoursData?.weeklyHours || defaultWeeklyHours;
@@ -98,13 +98,13 @@ const LiveHoursCard = ({
         : 'bg-[#fdfaf7]/90 backdrop-blur-md border-[#b69b79]/10 text-coffee-dark hover:border-[#b69b79]/30'
     }`}>
       {/* Operating Hours Header */}
-      <div className="flex items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 mb-6">
         <div className="flex items-center gap-2">
           <Clock className="w-5 h-5 opacity-70 text-[#b69b79]" />
           <h4 className="font-serif font-bold text-lg md:text-xl">Operating Hours</h4>
         </div>
-        <span className="text-[10px] tracking-widest font-bold uppercase text-[#b69b79] bg-[#b69b79]/10 px-3 py-1 rounded-full border border-[#b69b79]/20">
-          Daily 6:30 AM – 7:00 PM
+        <span className="self-start sm:self-auto text-[10px] tracking-widest font-bold uppercase text-[#b69b79] bg-[#b69b79]/10 px-3 py-1 rounded-full border border-[#b69b79]/20">
+          Daily 8:00 AM – 7:00 PM
         </span>
       </div>
 
@@ -112,7 +112,7 @@ const LiveHoursCard = ({
       <div className="space-y-2.5 font-sans">
         {/* Today's row - always visible */}
         <div 
-          className={`flex justify-between items-center text-xs md:text-sm py-2 px-3.5 rounded-xl transition-all duration-300 ${
+          className={`flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-xs md:text-sm py-2 px-3.5 rounded-xl transition-all duration-300 ${
             isDark 
               ? 'bg-[#b69b79]/20 font-bold border border-[#b69b79]/30 text-white' 
               : 'bg-[#b69b79]/15 font-bold border border-[#b69b79]/20 text-[#231f14]' 
@@ -143,7 +143,7 @@ const LiveHoursCard = ({
             return (
               <div 
                 key={idx} 
-                className="flex justify-between items-center text-xs md:text-sm py-1.5 px-3 rounded-xl transition-all duration-300 text-current opacity-75"
+                className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-0.5 sm:gap-2 text-xs md:text-sm py-1.5 px-3 rounded-xl transition-all duration-300 text-current opacity-75"
               >
                 <span className="tracking-wide">
                   {dayText.split(':')[0]}
@@ -312,7 +312,7 @@ const Hero = ({
           </div>
           <div className="flex items-center gap-2 pt-1 text-[9px] tracking-widest font-bold uppercase text-coffee-dark/70 font-sans">
             <Clock className="w-3 h-3 text-[#b69b79]" />
-            <span>MON – SUN: 6:30 AM – 7:00 PM</span>
+            <span>MON – SUN: 8:00 AM – 7:00 PM</span>
           </div>
         </div>
       </motion.div>
@@ -387,7 +387,7 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               Arabic Roots.<br />Mediterranean Soul.
             </h2>
             <p className="text-coffee-dark/60 text-sm leading-relaxed font-light">
-              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an experience designed to linger.
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an experience.
             </p>
           </motion.div>
         </motion.div>
@@ -479,7 +479,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
 
   return (
     <section className="border-b border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: '#f4f4f4', paddingTop: '72px', paddingBottom: '36px' }} id="experiences">
-      <div className="w-full pl-6 pr-0 md:pl-[120px] md:pr-0" style={{ paddingRight: '0px' }}>
+      <div className="w-full px-0" style={{ paddingLeft: '16px', paddingRight: '0px' }}>
         {/* Style block for signature experiences rolling grid and parallax effects */}
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes signatureScrollUp {
@@ -539,7 +539,8 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-row overflow-x-auto overflow-y-hidden gap-6 sm:gap-8 md:gap-10 pb-8 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 lg:snap-none"
+          className="flex flex-row overflow-x-auto overflow-y-hidden gap-6 sm:gap-8 md:gap-10 pb-8 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 lg:snap-none pl-6 pr-6 md:pl-[120px] md:pr-[120px]"
+          style={{ paddingLeft: '120px', paddingRight: '120px' }}
         >
           {[
             {
@@ -550,8 +551,9 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               speed: "35s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964985/new_qgu7qu.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964985/new_qgu7qu.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
               ]
             },
@@ -563,9 +565,9 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               speed: "42s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_31%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964225/DSC07504_copy_cgchyy.jpg",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_40%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_47%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_54%20PM.png"
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964223/DSC07910_copy_sqw0lz.jpg"
               ]
             },
             {
@@ -577,8 +579,9 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964153/PISTA-AFFOGATO_xxq5yu.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
-                "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg"
               ]
             },
             {
@@ -588,8 +591,10 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "down",
               speed: "45s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_56_38%20PM%20(1).png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_56_39%20PM%20(2).png"
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964207/chocolate_ukoljk.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964204/honey_vfgmz3.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964205/olive_hlqbax.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964149/cap_cpfy2u.jpg"
               ]
             },
             {
