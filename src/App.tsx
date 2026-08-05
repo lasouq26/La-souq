@@ -553,7 +553,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1785964985/new_qgu7qu.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
-                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964985/new_qgu7qu.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964744/HALWA_LATTE_bleobz.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
               ]
             },
