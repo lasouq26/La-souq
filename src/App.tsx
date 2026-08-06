@@ -66,13 +66,13 @@ const LiveHoursCard = ({
   const [showFullHours, setShowFullHours] = useState(false);
 
   const defaultWeeklyHours = [
-    "Monday: 8:00 AM – 7:00 PM",
-    "Tuesday: 8:00 AM – 7:00 PM",
-    "Wednesday: 8:00 AM – 7:00 PM",
-    "Thursday: 8:00 AM – 7:00 PM",
-    "Friday: 8:00 AM – 7:00 PM",
-    "Saturday: 8:00 AM – 7:00 PM",
-    "Sunday: 8:00 AM – 7:00 PM"
+    "Monday: 8:00 AM – 10:00 PM",
+    "Tuesday: 8:00 AM – 10:00 PM",
+    "Wednesday: 8:00 AM – 10:00 PM",
+    "Thursday: 8:00 AM – 10:00 PM",
+    "Friday: 8:00 AM – 10:00 PM",
+    "Saturday: 8:00 AM – 10:00 PM",
+    "Sunday: 8:00 AM – 10:00 PM"
   ];
 
   const weeklyHours = hoursData?.weeklyHours || defaultWeeklyHours;
@@ -105,7 +105,7 @@ const LiveHoursCard = ({
           <h4 className="font-serif font-bold text-lg md:text-xl">Operating Hours</h4>
         </div>
         <span className="self-start sm:self-auto text-[10px] tracking-widest font-bold uppercase text-[#b69b79] bg-[#b69b79]/10 px-3 py-1 rounded-full border border-[#b69b79]/20">
-          Daily 8:00 AM – 7:00 PM
+          Daily 8:00 AM – 10:00 PM
         </span>
       </div>
 
@@ -313,7 +313,7 @@ const Hero = ({
           </div>
           <div className="flex items-center gap-2 pt-1 text-[9px] tracking-widest font-bold uppercase text-coffee-dark/70 font-sans">
             <Clock className="w-3 h-3 text-[#b69b79]" />
-            <span>MON – SUN: 8:00 AM – 7:00 PM</span>
+            <span>MON – SUN: 8:00 AM – 10:00 PM</span>
           </div>
         </div>
       </motion.div>
@@ -1285,9 +1285,9 @@ const LocationsSection = ({
     {
       id: 'richardson-main',
       name: 'Richardson Main',
-      address: '150 W Main St., Suite 900 • Richardson, TX 75081',
+      address: '150 W Main Street, Suite 900 • Richardson, TX 75081',
       phone: '281-686-7750',
-      hours: 'Mon-Sun: 6:30am–7:00pm',
+      hours: 'Mon-Sun: 8:00am–10:00pm',
       image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg"
     }
   ];
@@ -1441,7 +1441,7 @@ const ContactSection = ({
             <div className="space-y-3">
               <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Visit Us</h4>
               <p className="text-base font-medium tracking-wide leading-relaxed">
-                150 W Main St., Suite 900<br />Richardson, TX 75081
+                150 W Main Street, Suite 900<br />Richardson, TX 75081
               </p>
             </div>
             <div className="space-y-3">

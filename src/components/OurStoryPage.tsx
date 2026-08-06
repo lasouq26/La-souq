@@ -428,12 +428,12 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
 
         {/* Experience LA SOUQ Today Block in Gallery Section */}
         <div className="text-center pt-10 space-y-6 max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-5xl font-serif text-[#231f14] tracking-tight inline-flex items-center justify-center flex-wrap gap-x-3 gap-y-2 w-full">
+          <h2 className="text-4xl sm:text-6xl md:text-[72px] font-serif text-[#231f14] tracking-tight inline-flex items-center justify-center flex-wrap gap-x-3 gap-y-2 w-full">
             <span>Experience</span>
             <img 
               src="https://res.cloudinary.com/dhylipuur/image/upload/v1786020994/la_souq_logo_v9axpa.svg" 
               alt="LA SOUQ" 
-              className="h-8 sm:h-10 md:h-12 w-auto inline-block object-contain" 
+              className="h-9 sm:h-[52px] md:h-[52px] w-auto inline-block object-contain" 
               referrerPolicy="no-referrer"
             />
             <span>Today</span>
@@ -477,7 +477,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
               whileTap={{ scale: 0.95 }}
               className="group relative inline-flex items-center gap-4 px-10 py-5 overflow-hidden border border-[#231f14]/30 uppercase text-[11px] font-bold tracking-[0.3em] transition-all duration-500 cursor-pointer text-[#231f14] hover:border-[#231f14]"
             >
-              <span className="relative z-10">Return to Homepage</span>
+              <span className="relative z-10 text-[12px]">Return to Homepage</span>
             </motion.button>
           </div>
         </div>
