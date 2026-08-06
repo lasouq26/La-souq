@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, type Variants } from 'motion/react';
 import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X, Music, Clock, Calendar, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import cafeDetailPots from './assets/images/cafe_detail_pots_1777813549634.png';
@@ -192,7 +192,7 @@ const Hero = ({
   const y = useTransform(scrollY, [0, 800], [0, 300]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0.4]);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -203,14 +203,14 @@ const Hero = ({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, x: -30 },
     visible: { 
       opacity: 1, 
       x: 0, 
       transition: { 
         duration: 2.0, 
-        ease: [0.16, 1, 0.3, 1] 
+        ease: 'easeOut' 
       } 
     },
   };
@@ -336,7 +336,7 @@ const Hero = ({
 const InspirationSection = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: () => void }) => {
   const [video1Loaded, setVideo1Loaded] = useState(false);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -347,9 +347,9 @@ const InspirationSection = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; o
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
+    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: 'easeOut' } }
   };
 
   return (
@@ -388,7 +388,7 @@ const InspirationSection = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; o
               Arabic Roots.<br />Mediterranean Soul.
             </h2>
             <p className="text-coffee-dark/60 text-sm leading-relaxed font-light">
-              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an experience.
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an elevated experience.
             </p>
             <div>
               <button
@@ -524,7 +524,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, ease: 'easeOut' }}
           className="text-center mb-16 md:mb-20"
         >
           <span 
@@ -548,7 +548,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
           className="flex flex-row overflow-x-auto overflow-y-hidden gap-6 sm:gap-8 md:gap-10 pb-8 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 lg:snap-none pl-6 pr-6 md:pl-[120px] md:pr-[120px]"
           style={{ paddingLeft: '120px', paddingRight: '120px' }}
         >
@@ -822,7 +822,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
@@ -832,7 +832,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 40, scale: 0.98 },
     visible: { 
       opacity: 1, 
@@ -840,7 +840,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
       scale: 1,
       transition: { 
         duration: 2.0, 
-        ease: [0.19, 1, 0.22, 1] 
+        ease: 'easeOut' 
       } 
     }
   };
@@ -894,7 +894,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 whileHover={{ 
                   y: -15, 
                   scale: 1.02,
-                  transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
+                  transition: { duration: 0.8, ease: 'easeOut' } 
                 }}
                 className="flex-none w-[290px] sm:w-[340px] md:w-[520px] h-[240px] sm:h-[260px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
@@ -990,7 +990,7 @@ const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 whileHover={{ 
                   y: -15, 
                   scale: 1.02,
-                  transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
+                  transition: { duration: 0.8, ease: 'easeOut' } 
                 }}
                 className="flex-none w-[290px] sm:w-[340px] md:w-[520px] h-[240px] sm:h-[260px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
               >
@@ -1236,7 +1236,7 @@ const CommunitySection = ({ theme }: { theme: any }) => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.8, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, delay: idx * 0.15, ease: 'easeOut' }}
               className="flex flex-col justify-between min-h-[260px] md:min-h-[300px] p-6 md:p-8 bg-[#fdfaf7] rounded-[2rem] border border-[#231f14]/5 shadow-[0_20px_50px_-20px_rgba(35,31,20,0.06)] hover:shadow-[0_45px_90px_-15px_rgba(35,31,20,0.14)] hover:-translate-y-1 transition-all duration-500 group"
             >
               {/* Card Top: Platform & Rating */}
@@ -1298,7 +1298,7 @@ const LocationsSection = ({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
           viewport={{ once: true, amount: 0.3 }}
           className="mb-16 text-center"
         >
@@ -1377,7 +1377,7 @@ const ContactSection = ({
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -1388,12 +1388,12 @@ const ContactSection = ({
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 1.5, ease: 'easeOut' }
     }
   };
 
@@ -1466,7 +1466,7 @@ const ContactSection = ({
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
           viewport={{ once: true }}
           className="bg-white/5 backdrop-blur-2xl p-10 md:p-16 rounded-[40px] border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]"
           id="contact-form-container"
@@ -1533,7 +1533,7 @@ const Footer = ({ theme, onThemeToggle, onOpenStory }: { theme: typeof THEMES[0]
               referrerPolicy="no-referrer"
             />
             <p className="text-coffee-dark/70 text-xs leading-relaxed max-w-md">
-              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an experience.
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an elevated experience.
             </p>
 
             {/* Theme Toggle Button */}
