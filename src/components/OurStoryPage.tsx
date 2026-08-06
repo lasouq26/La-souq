@@ -202,7 +202,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
 
                 <div className="w-full aspect-[3/4] sm:aspect-[5/7] rounded-t-[140px] sm:rounded-t-[180px] overflow-hidden bg-[#efe9e0] shadow-sm ring-1 ring-coffee-dark/5 relative z-10">
                   <img
-                    src="https://res.cloudinary.com/dhylipuur/image/upload/v1786011991/DSC08164_copy_xgzc6e.jpg"
+                    src="https://res.cloudinary.com/dhylipuur/image/upload/v1786049669/DSC08164_copy1_nxyg1y.jpg"
                     alt="Culture - Archway & Olive Shadows"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     referrerPolicy="no-referrer"
@@ -251,7 +251,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
 
                 <div className="w-full aspect-[3/4] sm:aspect-[5/7] rounded-t-[140px] sm:rounded-t-[180px] overflow-hidden bg-[#efe9e0] shadow-sm ring-1 ring-coffee-dark/5 relative z-10">
                   <img
-                    src="https://res.cloudinary.com/dhylipuur/image/upload/v1785964153/PISTA-AFFOGATO_xxq5yu.png"
+                    src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
                     alt="Craft - Specialty Latte"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     referrerPolicy="no-referrer"
@@ -372,7 +372,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#231f14] leading-tight font-light text-left uppercase max-w-[800px]">
-            A place to slow down, discover, and belong
+            A place to slow down, discover, and thrive.
           </h2>
 
           <p className="text-[#231f14] leading-relaxed font-normal text-base md:text-lg text-left max-w-[800px]">
