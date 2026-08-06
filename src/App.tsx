@@ -1,9 +1,10 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X, Music, Clock, Calendar, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X, Music, Clock, Calendar, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import cafeDetailPots from './assets/images/cafe_detail_pots_1777813549634.png';
 import coffeePouring from './assets/images/coffee_pouring_1777813533745.png';
 import heroCafeInterior from './assets/images/hero_cafe_interior_1777813516367.png';
+import OurStoryPage from './components/OurStoryPage';
 
 // Use the user-provided logo URL
 const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/lassAsset_2ldpi_a9proq.svg";
@@ -332,7 +333,7 @@ const Hero = ({
   );
 };
 
-const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
+const InspirationSection = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: () => void }) => {
   const [video1Loaded, setVideo1Loaded] = useState(false);
 
   const containerVariants = {
@@ -389,6 +390,15 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             <p className="text-coffee-dark/60 text-sm leading-relaxed font-light">
               Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an experience.
             </p>
+            <div>
+              <button
+                onClick={onOpenStory}
+                className="inline-flex items-center gap-2 text-xs uppercase font-bold tracking-[0.25em] text-coffee-dark hover:text-[#b69b79] transition-colors pt-2 cursor-pointer bg-transparent border-0"
+              >
+                <span>Read Our Story</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#b69b79]" />
+              </button>
+            </div>
           </motion.div>
         </motion.div>
       </div>
@@ -1260,151 +1270,6 @@ const CommunitySection = ({ theme }: { theme: any }) => {
   );
 };
 
-const AboutSection = () => {
-  const images = [
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777816829809-xb1fh9-8.jpg",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817076882-efg8jp-3.jpg",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817656741-xzhp9p-la-souq-c946076fc6979dc0d3006c3258335f0f.jpg",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777818106383-49xstx-330660.jpg",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg"
-  ];
-
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const yImg = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
-  };
-
-  return (
-    <section ref={sectionRef} className="pt-32 pb-0 px-6 md:pl-[97px] md:pr-[90px] overflow-hidden" id="about">
-      <div className="max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-32">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
-            id="about-image-main"
-            className="relative"
-          >
-            <motion.div 
-              style={{ y: yImg }} 
-              className="aspect-square overflow-hidden rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] relative z-10 ring-1 ring-coffee-dark/5"
-            >
-              <img 
-                src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777883362118-yx1u2n-generated-image-may-04-2026-11-25am-1.jpg" 
-                alt="Crafting Perfect Coffee"
-                className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
-                referrerPolicy="no-referrer"
-              />
-            </motion.div>
-            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-gold rounded-full -z-0 opacity-10 blur-3xl"></div>
-          </motion.div>
-          
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
-            className="space-y-10"
-            id="about-text"
-          >
-            <motion.div variants={itemVariants} className="flex items-center space-x-4">
-              <div className="w-12 h-px bg-gold"></div>
-              <span className="uppercase text-[10px] tracking-[0.4em] font-bold text-gold">Est. 2026</span>
-            </motion.div>
-            
-            <motion.h2 variants={itemVariants} className="text-5xl md:text-7xl font-heading text-coffee-dark uppercase leading-[0.9] tracking-tighter">
-              ROASTERY <br />
-              <span className="text-5xl md:text-7xl text-gold font-heading uppercase tracking-tighter">COFFEE AND</span><br />
-              SHOP
-            </motion.h2>
-            
-            <motion.p variants={itemVariants} className="text-gray-500 leading-relaxed text-lg lg:text-xl max-w-xl font-light">
-              From source to cup, we celebrate the ritual of coffee. Our beans are harvested with integrity and slow-roasted in micro-batches to unlock their most complex stories. 
-            </motion.p>
-            
-            <motion.div variants={itemVariants} className="pt-6 group">
-              <a 
-                href="https://www.workshopstudio.com/la-souq" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-block relative overflow-hidden bg-coffee-dark text-white px-10 py-5 uppercase text-xs tracking-[0.3em] font-bold transition-all duration-300 rounded shadow-xl hover:shadow-gold/20 hover:scale-[1.02]"
-              >
-                <span className="relative z-10">EXPLORE OUR STORY</span>
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-40 overflow-hidden" id="gallery-carousel">
-        <div className="max-w-7xl mx-auto px-6 mb-12 flex items-end justify-between">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-3xl md:text-5xl font-heading mb-2">CURATED MOMENTS</h3>
-            <div className="w-24 h-1 bg-gold"></div>
-          </motion.div>
-          <span className="hidden md:block uppercase text-[10px] tracking-[0.4em] text-gray-400 font-bold">Swipe to Explore</span>
-        </div>
-
-        <motion.div 
-          className="flex gap-10 px-10"
-          animate={{ 
-            x: [0, -2048] 
-          }}
-          transition={{ 
-            duration: 60,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          style={{ width: "fit-content" }}
-          whileHover={{ animationPlayState: "paused" }} // Pause on hover logic check
-        >
-          {[...images, ...images, ...images].map((src, idx) => (
-            <motion.div
-              key={idx}
-              whileHover={{ y: -15 }}
-              className="flex-shrink-0 w-80 md:w-[540px] aspect-[2/3] overflow-hidden rounded-2xl shadow-2xl relative group cursor-pointer transition-all duration-500"
-              id={`gallery-image-${idx}`}
-            >
-              <img 
-                src={src} 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-                alt="Gallery Visual" 
-                referrerPolicy="no-referrer" 
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-coffee-dark/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-8 flex items-end">
-                <span className="text-white uppercase text-[10px] tracking-[0.5em] font-bold">Discover More</span>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
 const LocationsSection = ({ 
   theme, 
   hoursData, 
@@ -1655,7 +1520,7 @@ const ContactSection = ({
   );
 };
 
-const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeToggle: () => void }) => {
+const Footer = ({ theme, onThemeToggle, onOpenStory }: { theme: typeof THEMES[0], onThemeToggle: () => void, onOpenStory: () => void }) => {
   return (
     <footer className="py-16 px-6 md:px-[90px] transition-colors duration-1000" style={{ backgroundColor: theme.footerBg }} id="footer">
       <div className="w-full max-w-[1440px] mx-auto">
@@ -1687,7 +1552,7 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR WEBSITE</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
                 <li><a href="https://order.toasttab.com/online/la-souq-richardson-dallas" target="_blank" rel="noopener noreferrer" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MENU</a></li>
-                <li><a href="#brand-video" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>OUR STORY</a></li>
+                <li><button onClick={onOpenStory} className="transition-colors uppercase font-bold cursor-pointer bg-transparent border-0 p-0" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>OUR STORY</button></li>
                 <li><a href="#locations" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
               </ul>
             </div>
@@ -1714,7 +1579,7 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
   );
 };
 
-const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
+const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: () => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -1762,13 +1627,13 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
           MENU
         </a>
         
-        <a 
-          href="#brand-video" 
-          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
+        <button 
+          onClick={onOpenStory} 
+          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase cursor-pointer bg-transparent border-0 p-0" 
           style={{ color: theme.coffeeDark }}
         >
           OUR STORY
-        </a>
+        </button>
 
         <a 
           href="#locations" 
@@ -1817,6 +1682,7 @@ interface StoreHoursData {
 }
 
 export default function App() {
+  const [currentPage, setCurrentPage] = useState<'home' | 'story'>('home');
   const [themeIndex, setThemeIndex] = useState(1);
   const theme = THEMES[themeIndex];
 
@@ -1863,20 +1729,23 @@ export default function App() {
     };
   }, []);
 
+  if (currentPage === 'story') {
+    return <OurStoryPage onBackToHome={() => setCurrentPage('home')} theme={theme} />;
+  }
+
   return (
     <div className="min-h-screen selection:bg-gold selection:text-white" id="main-app-container">
-      <Navbar theme={theme} />
+      <Navbar theme={theme} onOpenStory={() => setCurrentPage('story')} />
       <Hero 
         theme={theme} 
         hoursData={hoursData} 
         hoursLoading={hoursLoading} 
         hoursError={hoursError} 
       />
-      <InspirationSection theme={theme} />
+      <InspirationSection theme={theme} onOpenStory={() => setCurrentPage('story')} />
       <ExperiencesSection theme={theme} />
       {/* <MenuSection theme={theme} /> */}
       {/* <VideoSection theme={theme} /> */}
-      {/* <AboutSection theme={theme} /> */}
       <LocationsSection 
         theme={theme} 
         hoursData={hoursData} 
@@ -1884,7 +1753,7 @@ export default function App() {
         hoursError={hoursError} 
       />
       <CommunitySection theme={theme} />
-      <Footer theme={theme} onThemeToggle={handleThemeToggle} />
+      <Footer theme={theme} onThemeToggle={handleThemeToggle} onOpenStory={() => setCurrentPage('story')} />
     </div>
   );
 }
