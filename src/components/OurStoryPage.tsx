@@ -332,7 +332,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
 
               {/* Description */}
               <p className="text-sm font-normal leading-relaxed text-coffee-dark/85 max-w-[240px] text-center">
-                A place to gather, connect, and belong.
+                A place to gather, connect, and thrive.
               </p>
             </motion.div>
           </div>
