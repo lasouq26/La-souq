@@ -1,9 +1,6 @@
-import { motion, useScroll, useTransform, type Variants } from 'motion/react';
-import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X, Music, Clock, Calendar, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from 'motion/react';
+import { Instagram, Facebook, X, Music, Clock, ArrowRight, Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import cafeDetailPots from './assets/images/cafe_detail_pots_1777813549634.png';
-import coffeePouring from './assets/images/coffee_pouring_1777813533745.png';
-import heroCafeInterior from './assets/images/hero_cafe_interior_1777813516367.png';
 import OurStoryPage from './components/OurStoryPage';
 
 // Use the user-provided logo URL
@@ -12,41 +9,27 @@ const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/
 const THEMES = [
   {
     id: 1,
-    name: 'Theme 1: Arabic Earth',
     heroOverlay: '#b69b79',
     sectionBg: '#9da18a',
-    menuBg: '#e8e3c9',
     highlightText: '#e8e3c9',
     buttonHoverBg: '#9da18a',
     buttonHoverText: '#e8e3c9',
     navBg: '#9da18a',
     footerBg: '#9da18a',
     coffeeDark: '#231f14',
-    contactOverlay: '#231f14',
-    menuButtonText: '#231f14',
-    menuButtonBorder: 'rgba(35, 31, 20, 0.2)',
-    accent: '#9da18a',
-    cardTitle: '#231f14',
-    testimonialBg: '#e8e3c9'
+    accent: '#9da18a'
   },
   {
     id: 2,
-    name: 'Theme 2: Mojave Sand',
     heroOverlay: '#b69b79',
     sectionBg: '#b69b79',
-    menuBg: '#f4f4f4',
     highlightText: '#f4f4f4',
     buttonHoverBg: '#231f14',
     buttonHoverText: '#f4f4f4',
     navBg: '#b69b79',
     footerBg: '#b69b79',
     coffeeDark: '#231f14',
-    contactOverlay: '#231a12',
-    menuButtonText: '#231f14',
-    menuButtonBorder: '#231f14',
-    accent: '#b69b79',
-    cardTitle: '#b69b79',
-    testimonialBg: '#e8e3c9'
+    accent: '#b69b79'
   }
 ];
 
@@ -177,17 +160,7 @@ const LiveHoursCard = ({
   );
 };
 
-const Hero = ({ 
-  theme, 
-  hoursData, 
-  hoursLoading, 
-  hoursError 
-}: { 
-  theme: typeof THEMES[0];
-  hoursData: any;
-  hoursLoading: boolean;
-  hoursError: string | null;
-}) => {
+const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800], [0, 300]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0.4]);
@@ -226,6 +199,9 @@ const Hero = ({
             src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780954392036-catgoz-3-copy-2.jpg"
             alt="La Souq Cafe Interior"
             className="w-full h-full object-cover scale-110"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             referrerPolicy="no-referrer"
           />
           {/* Brand color overlay replacing the old black overlay */}
@@ -249,6 +225,8 @@ const Hero = ({
             src="https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/lassAsset_2ldpi_a9proq.svg"
             alt="LA SOUQ" 
             className="h-[109px] md:h-[163px] w-auto object-contain"
+            loading="eager"
+            decoding="async"
             referrerPolicy="no-referrer"
           />
         </motion.div>
@@ -335,6 +313,7 @@ const Hero = ({
 
 const InspirationSection = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: () => void }) => {
   const [video1Loaded, setVideo1Loaded] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -365,11 +344,11 @@ const InspirationSection = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; o
           <motion.div variants={itemVariants} className="w-full max-w-[340px] aspect-[3/4] md:w-[340px] md:h-[450px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-2xl">
             <video 
               className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${video1Loaded ? 'opacity-100' : 'opacity-0'}`}
-              autoPlay
+              autoPlay={!shouldReduceMotion}
               loop
               muted
               playsInline
-              preload="auto"
+              preload="metadata"
               onLoadedData={() => setVideo1Loaded(true)}
             >
               <source src="https://res.cloudinary.com/dhylipuur/video/upload/v1782398379/new_km3qmh.mp4" type="video/mp4" />
@@ -404,65 +383,6 @@ const InspirationSection = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; o
       </div>
     </section>
   );
-};
-
-const EXPERIENCE_DETAILS: Record<number, {
-  tagline: string;
-  description: string;
-  detailsImage: string;
-  items: Array<{ name: string; description: string; price?: string }>;
-}> = {
-  1: {
-    tagline: "Sip of Artistry",
-    description: "Our signature drinks are custom crafted using premium single-origin roasts blended with floral waters, hand-ground spices, and house-made syrups to create sophisticated flavors that soothe the senses and evoke rich cultural heritages.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060900663-6e4qri-chatgpt-image-may-6-2026-12-48-11-pm.jpg",
-    items: [
-      { name: "Rose Cardamom Latte", description: "Espresso, real steam-infused milk, organic rose water, crushed green cardamom.", price: "$6.50" },
-      { name: "Spanish Saffron Cappuccino", description: "Rich espresso with saffron-infused microfoam and delicate real saffron threads.", price: "$7.00" },
-      { name: "Orange Blossom Cold Brew", description: "18-hour cold brew paired with orange blossom water and non-dairy sweet cream.", price: "$6.75" },
-      { name: "Pistachio Rose Matcha", description: "Ceremonial stoneground matcha with organic pistachio milk and light rose syrup.", price: "$7.20" }
-    ]
-  },
-  2: {
-    tagline: "Elevated Morning Rituals",
-    description: "Baked daily on thick-cut artisanal sourdough bread, our savory toasts blend rich Mediterranean textures, artisanal cheeses, and light premium toppings to start your morning with bold, memorable flavors.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_31%20PM.png",
-    items: [
-      { name: "Truffle Avocado Toast", description: "Whipped fresh avocado, white truffle spray, sea salt flakes, toasted sesame, microgreens.", price: "$14.50" },
-      { name: "Burrata & Fig Jam Toast", description: "Fresh burrata ball, caramelised fig jam, toasted walnuts, fresh basil, hot honey drizzle.", price: "$15.00" },
-      { name: "Smoked Salmon & Capers", description: "Sourdough topped with herbed cream cheese, smoked wild salmon, red onion, capers, dill.", price: "$16.50" }
-    ]
-  },
-  3: {
-    tagline: "Handcrafted Confections",
-    description: "Every dessert is custom-selected for its boutique craft and distinctive presentation, pairing traditional Eastern dessert textures with modern patisserie aesthetics for a perfectly sweet finish.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
-    items: [
-      { name: "Pistachio Kunafa Cheesecake", description: "Decadent cheesecake layered with crunchy buttered kunafa pastry and orange blossom syrup.", price: "$9.50" },
-      { name: "Cardamom Affogato", description: "Double house espresso poured over vanilla bean gelato infused with hand-ground cardamom.", price: "$7.50" },
-      { name: "Saffron Rose Tres Leches", description: "Light sponge cake soaked in saffron milk, topped with whipped cream and rose petals.", price: "$8.50" }
-    ]
-  },
-  4: {
-    tagline: "Aesthetic Living Finds",
-    description: "Browse our hand-selected boutique items chosen to bring warmth and understated elegance into your home. Each artifact is sourced directly from independent Mediterranean and Middle Eastern design studios.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg",
-    items: [
-      { name: "Artisanal Arabic Terracotta Pots", description: "Hand-thrown terracotta pottery imported from legacy artisan cooperatives.", price: "$45.00" },
-      { name: "La Souq Signature Espresso Beans", description: "A 12oz bag of light-medium roast with notes of rose, cardamom, and dark honey.", price: "$24.00" },
-      { name: "Handcrafted Brass Turkish Coffee Set", description: "Traditional heavy-gauge copper cezve with elegant porcelain fincan cups.", price: "$89.00" }
-    ]
-  },
-  5: {
-    tagline: "Immersive Coffee Masterclasses",
-    description: "Go beyond the cup. Our intimate workshops offer hand-on guiding from master baristas, allowing you to learn the subtle science and arts of specialty espresso, roasting, and traditional sand brewing.",
-    detailsImage: "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png",
-    items: [
-      { name: "Aromas of Arabia Barista Workshop", description: "A comprehensive session on integrating floral waters and hand-ground spices into espresso.", price: "$120.00" },
-      { name: "Traditional Turkish Sand Brewing", description: "Master the unique art of brewing rich coffee in hot sand bed systems.", price: "$95.00" },
-      { name: "Sourdough & Spread Masterclass", description: "Learn layout design, toppings pairing, and base carving for gourmet hosting.", price: "$85.00" }
-    ]
-  }
 };
 
 const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
@@ -665,6 +585,8 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                         src={imgUrl}
                         alt={item.title} 
                         className="w-full h-full object-cover rounded-[1.8rem] shadow-sm transform group-hover/col:scale-105 transition-transform duration-1000"
+                        loading="lazy"
+                        decoding="async"
                         referrerPolicy="no-referrer"
                       />
                     </div>
@@ -721,463 +643,6 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             );
           })}
         </div>
-      </div>
-    </section>
-  );
-};
-
-const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const signatureScrollRef = useRef<HTMLDivElement>(null);
-  const isHovered = useRef(false);
-  const isSignatureHovered = useRef(false);
-
-  const menuItems = [
-    {
-      id: 1,
-      name: "DOUBLE ESPRESSO",
-      description: "Rich, concentrated espresso from our house blend, bold and balanced.",
-      price: "$4.00",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060900663-6e4qri-chatgpt-image-may-6-2026-12-48-11-pm.jpg"
-    },
-    {
-      id: 2,
-      name: "AMERICANO",
-      description: "Smooth espresso mellowed with hot water for a clean, classic finish.",
-      price: "$4.00",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060660817-ifxbqb-chatgpt-image-may-6-2026-12-43-23-pm.jpg"
-    },
-    {
-      id: 3,
-      name: "CORTADO (4oz)",
-      description: "Equal parts espresso and lightly textured milk -- bold and smooth.",
-      price: "$4.50",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060434831-gomena-chatgpt-image-may-6-2026-12-39-04-pm.jpg"
-    },
-    {
-      id: 4,
-      name: "FLAT WHITE (8oz)",
-      description: "Velvety micro-foam poured over espresso -- silky, rich, and refined.",
-      price: "$5.00",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060387049-p3o46u-chatgpt-image-may-6-2026-12-38-22-pm.jpg"
-    }
-  ];
-
-  const signatureMenuItems = [
-    {
-      id: 5,
-      name: "HABIBTI LATTE",
-      description: "Soft rose & warm cardamom accented espresso -- floral and comforting.",
-      price: "$6.50+",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg"
-    },
-    {
-      id: 6,
-      name: "LAVENDER & HONEY LATTE",
-      description: "Calming lavender and golden honey layered with rich espresso.",
-      price: "$6.50+",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg"
-    },
-    {
-      id: 7,
-      name: "ZA'ATAR W' ZEIT LATTE",
-      description: "A savory twist -- fresh thyme and a hint of olive oil meet espresso.",
-      price: "$6.50+",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
-    },
-    {
-      id: 8,
-      name: "ROUHI LATTE",
-      description: "Silky white chocolate and cool mint folded into espresso -- fresh, smooth, and lightly sweet.",
-      price: "$7.00+",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg"
-    }
-  ];
-
-  // Auto-scroll effect
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    const signatureContainer = signatureScrollRef.current;
-    
-    let animationId: number;
-    const scrollSpeed = 0.6;
-
-    const scroll = () => {
-      if (scrollContainer && !isHovered.current) {
-        scrollContainer.scrollLeft += scrollSpeed;
-        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-          scrollContainer.scrollLeft = 0;
-        }
-      }
-      if (signatureContainer && !isSignatureHovered.current) {
-        signatureContainer.scrollLeft += scrollSpeed;
-        if (signatureContainer.scrollLeft >= signatureContainer.scrollWidth / 2) {
-          signatureContainer.scrollLeft = 0;
-        }
-      }
-      animationId = requestAnimationFrame(scroll);
-    };
-
-    animationId = requestAnimationFrame(scroll);
-    return () => cancelAnimationFrame(animationId);
-  }, []);
-
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15
-      }
-    }
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 40, scale: 0.98 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { 
-        duration: 2.0, 
-        ease: 'easeOut' 
-      } 
-    }
-  };
-
-  return (
-    <section className="py-32 relative overflow-hidden transition-colors duration-1000" style={{ backgroundColor: theme.menuBg }} id="menu">
-      {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-coffee-dark/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-      
-      <div className="w-full relative z-10">
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="px-6 md:px-24 lg:px-32 flex flex-col mb-5 pl-6"
-        >
-          <motion.p 
-            variants={itemVariants}
-            className="text-[12px] tracking-[0.5em] font-bold text-coffee-dark/30 uppercase mb-0"
-          >
-            our menu
-          </motion.p>
-          <motion.h2 
-            variants={itemVariants}
-            className="text-5xl md:text-6xl font-heading text-coffee-dark uppercase tracking-tight"
-          >
-            COFFEE
-          </motion.h2>
-        </motion.div>
-
-        {/* Carousel container 1 */}
-        <div className="relative group/carousel py-[10px]">
-          {/* Left scroll fade indicator */}
-          <div className="absolute top-0 left-0 h-full w-24 z-20 pointer-events-none opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to right, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
-          
-          <motion.div 
-            ref={scrollRef}
-            onMouseEnter={() => (isHovered.current = true)}
-            onMouseLeave={() => (isHovered.current = false)}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6 px-6 md:px-12"
-          >
-            {[...menuItems, ...menuItems].map((item, index) => (
-              <motion.div
-                key={`${item.id}-${index}`}
-                variants={itemVariants}
-                whileHover={{ 
-                  y: -15, 
-                  scale: 1.02,
-                  transition: { duration: 0.8, ease: 'easeOut' } 
-                }}
-                className="flex-none w-[290px] sm:w-[340px] md:w-[520px] h-[240px] sm:h-[260px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
-              >
-                {/* Decorative background depth */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
-                
-                <div className="flex-1 p-5 md:p-12 flex flex-col justify-between relative z-10">
-                  <div className="relative">
-                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-2 md:mb-4 tracking-tight transition-colors duration-500 uppercase" style={{ color: theme.cardTitle }}>
-                       {item.name}
-                    </h3>
-                    
-                    <div className="w-12 h-[1px] bg-gold/30 mb-3 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
-                    
-                    <p className="text-[11px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px] line-clamp-3 md:line-clamp-none">
-                      {item.description}
-                    </p>
-                  </div>
-                  
-                  <div className="mt-4 md:mt-8 flex items-center justify-start">
-                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: '#b69b79' }}>
-                      {item.price}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="w-[105px] sm:w-[130px] md:w-[220px] h-full relative overflow-hidden flex-none">
-                  <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
-                  />
-                  {/* Floating Action Button */}
-                  <div className="absolute bottom-6 right-6 z-20">
-                    <button 
-                      className="w-12 h-12 bg-white text-coffee-dark rounded-full flex items-center justify-center shadow-2xl border border-gold/20 hover:bg-coffee-dark hover:text-white transition-all duration-500 transform scale-0 group-hover:scale-100 translate-y-4 group-hover:translate-y-0"
-                      aria-label="Add to order"
-                    >
-                      <Plus size={22} strokeWidth={2} />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-          
-          {/* Right scroll fade indicator */}
-          <div className="absolute top-0 right-0 h-full w-24 z-20 pointer-events-none transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to left, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
-        </div>
-
-        {/* Signature Coffee Section */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="px-6 md:px-24 lg:px-32 flex flex-col mb-5 pt-32"
-        >
-          <motion.p 
-            variants={itemVariants}
-            className="text-[12px] tracking-[0.5em] font-bold text-coffee-dark/30 uppercase mb-0"
-          >
-            HANDPICKED FAVORITES
-          </motion.p>
-          <motion.h2 
-            variants={itemVariants}
-            className="text-5xl md:text-6xl font-heading text-coffee-dark uppercase tracking-tight"
-          >
-            SIGNATURE COFFEE
-          </motion.h2>
-        </motion.div>
-
-        {/* Carousel container 2 (Signature) */}
-        <div className="relative group/carousel-sig py-[10px]">
-          {/* Left scroll fade indicator */}
-          <div className="absolute top-0 left-0 h-full w-24 z-20 pointer-events-none opacity-0 group-hover/carousel-sig:opacity-100 transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to right, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
-          
-          <motion.div 
-            ref={signatureScrollRef}
-            onMouseEnter={() => (isSignatureHovered.current = true)}
-            onMouseLeave={() => (isSignatureHovered.current = false)}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6 px-6 md:px-12"
-          >
-            {[...signatureMenuItems, ...signatureMenuItems].map((item, index) => (
-              <motion.div
-                key={`${item.id}-${index}`}
-                variants={itemVariants}
-                whileHover={{ 
-                  y: -15, 
-                  scale: 1.02,
-                  transition: { duration: 0.8, ease: 'easeOut' } 
-                }}
-                className="flex-none w-[290px] sm:w-[340px] md:w-[520px] h-[240px] sm:h-[260px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
-              >
-                {/* Decorative background depth */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
-                
-                <div className="flex-1 p-5 md:p-12 flex flex-col justify-between relative z-10">
-                  <div className="relative">
-                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-2 md:mb-4 tracking-tight transition-colors duration-500 uppercase text-balance" style={{ color: theme.cardTitle }}>
-                      {item.name}
-                    </h3>
-                    
-                    <div className="w-12 h-[1px] bg-gold/30 mb-3 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
-                    
-                    <p className="text-[11px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px] line-clamp-3 md:line-clamp-none">
-                      {item.description}
-                    </p>
-                  </div>
-                  
-                  <div className="mt-4 md:mt-8 flex items-center justify-start">
-                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: '#b69b79' }}>
-                      {item.price}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="w-[105px] sm:w-[130px] md:w-[220px] h-full relative overflow-hidden flex-none">
-                  <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
-                  />
-                  {/* Floating Action Button */}
-                  <div className="absolute bottom-6 right-6 z-20">
-                    <button 
-                      className="w-12 h-12 bg-white text-coffee-dark rounded-full flex items-center justify-center shadow-2xl border border-gold/20 hover:bg-coffee-dark hover:text-white transition-all duration-500 transform scale-0 group-hover:scale-100 translate-y-4 group-hover:translate-y-0"
-                      aria-label="Add to order"
-                    >
-                      <Plus size={22} strokeWidth={2} />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-          
-          {/* Right scroll fade indicator */}
-          <div className="absolute top-0 right-0 h-full w-24 z-20 pointer-events-none transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to left, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
-        </div>
-
-        {/* 'More' Button Section */}
-        <div className="flex justify-center mt-20 transition-colors duration-1000" style={{ backgroundColor: theme.menuBg, borderColor: theme.menuBg }}>
-          <motion.a
-            href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="group relative px-12 py-5 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500 inline-block text-center"
-            style={{ borderColor: '#231f14' }}
-          >
-            <span 
-              className="relative z-10 transition-colors duration-500 block" 
-              style={{ color: '#231f14' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = theme.buttonHoverText;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#231f14';
-              }}
-            >
-              View Full Menu
-            </span>
-            <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.buttonHoverBg }}></div>
-          </motion.a>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const VideoSection = ({ theme }: { theme: any }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      const newMuteState = !videoRef.current.muted;
-      videoRef.current.muted = newMuteState;
-      setIsMuted(newMuteState);
-    }
-  };
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef.current.play().catch(err => console.log(err));
-        setIsPlaying(true);
-      }
-    }
-  };
-
-  return (
-    <section className="relative w-full py-16 md:py-24 transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="brand-video">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <span className="text-[10px] sm:text-xs tracking-[0.4em] font-bold uppercase block mb-3" style={{ color: '#e8e3c9' }}>Cinema Experience</span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading tracking-tight font-serif mb-4" style={{ color: '#231f14' }}>
-            The Craft In Motion
-          </h2>
-          <div className="w-20 h-0.5 mx-auto" style={{ backgroundColor: '#e8e3c9' }}></div>
-        </div>
-
-        {/* Video Player Card - Keeps a pristine 16:9 ratio with no crop whatsoever */}
-        <div className="max-w-5xl mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] relative group bg-black border border-white/5">
-          
-          {/* Overlay to block native clicking behavior */}
-          <div className="absolute inset-0 z-10"></div>
-
-          {/* Actual 16:9 full size video - matches the exact outer container */}
-          <div className="w-full h-full relative pointer-events-none">
-            <video
-              ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover border-none"
-              src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/lasouq.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2xhc291cS5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgxMTgyNTg5LCJleHAiOjE4MTI3MTg1ODl9.O_D2a_8y6xYJbpYlxqk-1XAUtvnSNQy6w0ckSrim32U"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-            />
-          </div>
-
-          {/* Cinematic subtle color gradations */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-black/20 pointer-events-none z-20"></div>
-
-          {/* Custom Controls Overlay - Fully branded, reveals beautifully, handles precise mute/play toggles */}
-          <div className="absolute inset-x-0 bottom-0 z-30 p-4 sm:p-6 md:p-8 flex items-center justify-between opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/95 via-black/60 to-transparent">
-            
-            {/* Play/Pause custom controls */}
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={togglePlay}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center bg-[#e8e3c9] hover:bg-[#c5a367] text-[#231f14] transition-all duration-300 transform active:scale-95 shadow-lg shadow-black/40 pointer-events-auto"
-                aria-label={isPlaying ? 'Pause video' : 'Play video'}
-              >
-                {isPlaying ? <Pause className="w-4.5 h-4.5 fill-[#231f14] text-[#231f14]" /> : <Play className="w-4.5 h-4.5 fill-[#231f14] text-[#231f14] ml-0.5" />}
-              </button>
-              <div>
-                <span className="text-white font-medium text-xs tracking-wider uppercase">
-                  {isPlaying ? 'La Souq' : 'Paused'}
-                </span>
-                <p className="text-[9px] text-[#e8e3c9]/60 uppercase tracking-widest mt-0.5">Richardson, Dallas</p>
-              </div>
-            </div>
-
-            {/* Custom volume controls */}
-            <button 
-              onClick={toggleMute}
-              className="px-4 py-2.5 md:px-5 md:py-3 rounded-full flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-all duration-300 border border-white/15 active:scale-95 pointer-events-auto"
-              aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-            >
-              {isMuted ? (
-                <>
-                  <VolumeX className="w-3.5 h-3.5 text-white" />
-                  <span className="text-[9px] font-bold tracking-[0.2em] uppercase">UNMUTE SOUND</span>
-                </>
-              ) : (
-                <>
-                  <Volume2 className="w-3.5 h-3.5 text-white animate-pulse" />
-                  <span className="text-[9px] font-bold tracking-[0.2em] uppercase">MUTE SOUND</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
       </div>
     </section>
   );
@@ -1320,6 +785,8 @@ const LocationsSection = ({
                 src={locations[0].image} 
                 alt="La Souq Richardson Main Roastery" 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-black/5 mix-blend-multiply pointer-events-none"></div>
@@ -1363,163 +830,6 @@ const LocationsSection = ({
   );
 };
 
-const ContactSection = ({ 
-  theme, 
-  hoursData, 
-  hoursLoading, 
-  hoursError 
-}: { 
-  theme: typeof THEMES[0];
-  hoursData: any;
-  hoursLoading: boolean;
-  hoursError: string | null;
-}) => {
-  const { scrollYProgress } = useScroll();
-  const yBg = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 1.5, ease: 'easeOut' }
-    }
-  };
-
-  return (
-    <section className="relative py-40 px-6 md:px-[90px] overflow-hidden min-h-[800px] flex items-center transition-colors duration-1000" style={{ backgroundColor: theme.id === 1 ? '#231f14' : '#141414' }} id="contact">
-      <div className="absolute inset-0 z-0">
-        <motion.div 
-          className="absolute inset-x-0 h-[120%] -top-[10%]" 
-          style={{ y: yBg }}
-        >
-          <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg" 
-            alt="Contact Background"
-            className="w-full h-full object-cover opacity-30 scale-105"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(to right, ${theme.contactOverlay}, ${theme.contactOverlay}CC, transparent)` }}></div>
-        </motion.div>
-      </div>
-
-      <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10 text-white items-center">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3, margin: "-100px" }}
-          className="space-y-10"
-          id="contact-info"
-        >
-          <motion.div variants={itemVariants} className="flex items-center space-x-4">
-            <div className="w-12 h-px" style={{ backgroundColor: theme.accent }}></div>
-            <span className="uppercase text-[10px] tracking-[0.4em] font-bold" style={{ color: theme.accent }}>Get In Touch</span>
-          </motion.div>
-          
-          <motion.h2 variants={itemVariants} className="text-6xl md:text-8xl font-heading leading-tight tracking-tighter uppercase">
-            ARTISAN<br />
-            CONNECTION
-          </motion.h2>
-          
-          <motion.p variants={itemVariants} className="text-white/60 text-lg lg:text-xl max-w-md font-light leading-relaxed">
-            From wholesale inquiries to private tastings, we invite you to reach out and become part of the La Souq community.
-          </motion.p>
-
-          <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-12 pt-8">
-            <div className="space-y-3">
-              <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Visit Us</h4>
-              <p className="text-base font-medium tracking-wide leading-relaxed">
-                150 W Main Street, Suite 900<br />Richardson, TX 75081
-              </p>
-            </div>
-            <div className="space-y-3">
-              <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Say Hello</h4>
-              <p className="text-base font-medium tracking-wide leading-relaxed">
-                info@lasouq.com<br />281-686-7750
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="pt-4 max-w-md">
-            <LiveHoursCard 
-              hoursData={hoursData} 
-              hoursLoading={hoursLoading} 
-              hoursError={hoursError} 
-              theme={theme}
-              isDark={true}
-            />
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
-          viewport={{ once: true }}
-          className="bg-white/5 backdrop-blur-2xl p-10 md:p-16 rounded-[40px] border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]"
-          id="contact-form-container"
-        >
-          <div className="space-y-8">
-            <div className="space-y-2">
-              <h3 className="text-3xl font-bold uppercase tracking-tight">Send a message</h3>
-              <div className="w-16 h-1" style={{ backgroundColor: theme.accent }}></div>
-            </div>
-
-            <form className="space-y-8" id="contact-form">
-              <div className="relative group">
-                <input 
-                  type="text" 
-                  placeholder="Full Name" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light outline-none transition-colors placeholder:text-white/20" 
-                  onFocus={(e) => e.target.style.borderColor = theme.accent}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
-                />
-              </div>
-              <div className="relative group">
-                <input 
-                  type="email" 
-                  placeholder="Email Address" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light outline-none transition-colors placeholder:text-white/20" 
-                  onFocus={(e) => e.target.style.borderColor = theme.accent}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
-                />
-              </div>
-              <div className="relative group">
-                <textarea 
-                  placeholder="Your Message" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light h-32 outline-none transition-colors resize-none placeholder:text-white/20"
-                  onFocus={(e) => e.target.style.borderColor = theme.accent}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
-                ></textarea>
-              </div>
-              
-              <button 
-                className="group relative w-full overflow-hidden border py-5 uppercase text-xs font-bold tracking-[0.4em] transition-all duration-500"
-                style={{ borderColor: theme.accent, color: theme.accent }}
-              >
-                <span className="relative z-10 group-hover:text-coffee-dark transition-colors duration-500">Submit Inquiry</span>
-                <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.accent }}></div>
-              </button>
-            </form>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
 const Footer = ({ theme, onThemeToggle, onOpenStory }: { theme: typeof THEMES[0], onThemeToggle: () => void, onOpenStory: () => void }) => {
   return (
     <footer className="py-16 px-6 md:px-[90px] transition-colors duration-1000" style={{ backgroundColor: theme.footerBg }} id="footer">
@@ -1530,6 +840,8 @@ const Footer = ({ theme, onThemeToggle, onOpenStory }: { theme: typeof THEMES[0]
               src={LOGO_URL} 
               alt="LA SOUQ" 
               className="h-12 w-auto object-contain brightness-0 opacity-80" 
+              loading="lazy"
+              decoding="async"
               referrerPolicy="no-referrer"
             />
             <p className="text-coffee-dark/70 text-xs leading-relaxed max-w-md">
@@ -1567,12 +879,8 @@ const Footer = ({ theme, onThemeToggle, onOpenStory }: { theme: typeof THEMES[0]
           </div>
         </div>
 
-        <div className="pt-6 flex flex-col md:flex-row justify-between items-center text-[9px] tracking-widest text-coffee-dark/50 uppercase space-y-4 md:space-y-0" style={{ borderTop: `1px solid ${theme.id === 2 ? theme.accent : 'rgba(35, 31, 20, 0.1)'}` }}>
+        <div className="pt-6 flex justify-center items-center text-[9px] tracking-widest text-coffee-dark/50 uppercase" style={{ borderTop: `1px solid ${theme.id === 2 ? theme.accent : 'rgba(35, 31, 20, 0.1)'}` }}>
           <p>© 2026 LA SOUQ. ALL RIGHTS RESERVED.</p>
-          <div className="flex space-x-8">
-            <a href="#" className="hover:text-coffee-dark transition-colors">PRIVACY POLICY</a>
-            <a href="#" className="hover:text-coffee-dark transition-colors">TERMS OF SERVICE</a>
-          </div>
         </div>
       </div>
     </footer>
@@ -1580,15 +888,16 @@ const Footer = ({ theme, onThemeToggle, onOpenStory }: { theme: typeof THEMES[0]
 };
 
 const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: () => void }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    if (!isMobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [isMobileMenuOpen]);
 
   return (
     <nav 
@@ -1598,22 +907,22 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
         backgroundColor: theme.navBg
       }}
     >
-      {/* Left side Logo */}
-      <div className="flex items-center gap-4 md:gap-6 flex-none">
-        <motion.div 
+      <motion.button
+          type="button"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="group cursor-pointer"
+          className="group cursor-pointer bg-transparent border-0 p-0 flex-none"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Back to top"
         >
           <img 
             src={LOGO_URL} 
-            alt="LA SOUQ" 
+            alt=""
             className="h-6 md:h-7 w-auto object-contain transition-transform duration-500 group-hover:scale-105" 
+            decoding="async"
             referrerPolicy="no-referrer"
           />
-        </motion.div>
-      </div>
+      </motion.button>
 
       {/* Center links (hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-10">
@@ -1644,8 +953,19 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
         </a>
       </div>
 
-      {/* Right side CTA */}
-      <div className="flex-none">
+      <div className="flex-none flex items-center gap-2 md:gap-3">
+        <button
+          type="button"
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+          className="lg:hidden w-10 h-10 rounded-full border flex items-center justify-center"
+          style={{ color: theme.coffeeDark, borderColor: `${theme.coffeeDark}55` }}
+          aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
+        >
+          {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+        </button>
+
         <a 
           href="https://order.toasttab.com/online/la-souq-richardson-dallas"
           target="_blank"
@@ -1667,6 +987,48 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
           ORDER AHEAD
         </a>
       </div>
+
+      {isMobileMenuOpen && (
+        <motion.div
+          id="mobile-navigation"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute top-full left-0 right-0 lg:hidden border-t border-coffee-dark/10 px-6 py-6 shadow-xl"
+          style={{ backgroundColor: theme.navBg }}
+        >
+          <div className="flex flex-col gap-5 text-center">
+            <a
+              href="https://order.toasttab.com/online/la-souq-richardson-dallas"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] tracking-[0.3em] font-bold uppercase"
+              style={{ color: theme.coffeeDark }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Menu
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onOpenStory();
+              }}
+              className="text-[11px] tracking-[0.3em] font-bold uppercase bg-transparent border-0"
+              style={{ color: theme.coffeeDark }}
+            >
+              Our Story
+            </button>
+            <a
+              href="#locations"
+              className="text-[11px] tracking-[0.3em] font-bold uppercase"
+              style={{ color: theme.coffeeDark }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Contact
+            </a>
+          </div>
+        </motion.div>
+      )}
     </nav>
   );
 };
@@ -1682,7 +1044,9 @@ interface StoreHoursData {
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'story'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'story'>(() =>
+    window.location.pathname.replace(/\/$/, '') === '/our-story' ? 'story' : 'home'
+  );
   const [themeIndex, setThemeIndex] = useState(1);
   const theme = THEMES[themeIndex];
 
@@ -1695,8 +1059,37 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log(`La Souq Roastery App Initialized with ${theme.name}`);
-  }, [themeIndex]);
+    const handlePopState = () => {
+      setCurrentPage(window.location.pathname.replace(/\/$/, '') === '/our-story' ? 'story' : 'home');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    const isStory = currentPage === 'story';
+    document.title = isStory ? 'Our Story | LA SOUQ' : 'LA SOUQ | Coffee & Community';
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    const canonicalUrl = isStory ? 'https://lasouq.com/our-story' : 'https://lasouq.com/';
+    canonical?.setAttribute('href', canonicalUrl);
+    document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
+  }, [currentPage]);
+
+  const navigateToStory = () => {
+    if (window.location.pathname !== '/our-story') {
+      window.history.pushState({}, '', '/our-story');
+    }
+    setCurrentPage('story');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToHome = () => {
+    if (window.location.pathname !== '/') {
+      window.history.pushState({}, '', '/');
+    }
+    setCurrentPage('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     let active = true;
@@ -1730,22 +1123,15 @@ export default function App() {
   }, []);
 
   if (currentPage === 'story') {
-    return <OurStoryPage onBackToHome={() => setCurrentPage('home')} theme={theme} />;
+    return <OurStoryPage onBackToHome={navigateToHome} theme={theme} />;
   }
 
   return (
     <div className="min-h-screen selection:bg-gold selection:text-white" id="main-app-container">
-      <Navbar theme={theme} onOpenStory={() => setCurrentPage('story')} />
-      <Hero 
-        theme={theme} 
-        hoursData={hoursData} 
-        hoursLoading={hoursLoading} 
-        hoursError={hoursError} 
-      />
-      <InspirationSection theme={theme} onOpenStory={() => setCurrentPage('story')} />
+      <Navbar theme={theme} onOpenStory={navigateToStory} />
+      <Hero theme={theme} />
+      <InspirationSection theme={theme} onOpenStory={navigateToStory} />
       <ExperiencesSection theme={theme} />
-      {/* <MenuSection theme={theme} /> */}
-      {/* <VideoSection theme={theme} /> */}
       <LocationsSection 
         theme={theme} 
         hoursData={hoursData} 
@@ -1753,7 +1139,7 @@ export default function App() {
         hoursError={hoursError} 
       />
       <CommunitySection theme={theme} />
-      <Footer theme={theme} onThemeToggle={handleThemeToggle} onOpenStory={() => setCurrentPage('story')} />
+      <Footer theme={theme} onThemeToggle={handleThemeToggle} onOpenStory={navigateToStory} />
     </div>
   );
 }

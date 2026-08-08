@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import React, { useEffect } from 'react';
-import { ArrowLeft, Clock, MapPin, Coffee, Heart, Sparkles, Flame, ShieldCheck, ChevronRight, Facebook, Instagram, Music } from 'lucide-react';
+import { useEffect } from 'react';
+import { ArrowLeft, Facebook, Instagram, Music } from 'lucide-react';
 
 interface OurStoryPageProps {
   onBackToHome: () => void;
@@ -41,19 +41,22 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
       >
         {/* Left side Logo */}
         <div className="flex items-center gap-4 md:gap-6 flex-none">
-          <motion.div 
+          <motion.button
+            type="button"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="group cursor-pointer flex items-center gap-3"
+            className="group cursor-pointer flex items-center gap-3 bg-transparent border-0 p-0"
             onClick={onBackToHome}
+            aria-label="Back to home"
           >
             <img 
               src={LOGO_URL} 
-              alt="LA SOUQ" 
+              alt=""
               className="h-6 md:h-7 w-auto object-contain transition-transform duration-500 group-hover:scale-105" 
+              decoding="async"
               referrerPolicy="no-referrer"
             />
-          </motion.div>
+          </motion.button>
         </div>
 
         {/* Center links (matching home page nav links) */}
@@ -143,6 +146,9 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
             src="https://res.cloudinary.com/dhylipuur/image/upload/v1786012350/Lasouq_back_1_amntue.jpg"
             alt="LA SOUQ Background"
             className="w-full h-full object-cover object-center scale-105"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             referrerPolicy="no-referrer"
           />
         </motion.div>
@@ -205,6 +211,8 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
                     src="https://res.cloudinary.com/dhylipuur/image/upload/v1786049669/DSC08164_copy1_nxyg1y.jpg"
                     alt="Culture - Archway & Olive Shadows"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
                 </div>
@@ -254,6 +262,8 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
                     src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
                     alt="Craft - Specialty Latte"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
                 </div>
@@ -305,6 +315,8 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
                     src="https://res.cloudinary.com/dhylipuur/image/upload/v1782492887/38a6f49e-7d7c-4237-9a09-7ad6a2146830_fn5cy6.png"
                     alt="Community - Gathering in Cafe"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
                 </div>
@@ -347,6 +359,8 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
             src="https://res.cloudinary.com/dhylipuur/image/upload/v1786013784/DSC02985_copy_zsl2vs.jpg"
             alt="LA SOUQ Sanctuary Background"
             className="w-full h-full object-cover object-center"
+            loading="lazy"
+            decoding="async"
             referrerPolicy="no-referrer"
           />
         </div>
@@ -420,6 +434,8 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
                 src={src}
                 alt={`LA SOUQ Gallery ${index + 1}`}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -434,6 +450,8 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
               src="https://res.cloudinary.com/dhylipuur/image/upload/v1786020994/la_souq_logo_v9axpa.svg" 
               alt="LA SOUQ" 
               className="h-9 sm:h-[52px] md:h-[52px] w-auto inline-block object-contain" 
+              loading="lazy"
+              decoding="async"
               referrerPolicy="no-referrer"
             />
             <span>Today</span>
@@ -492,6 +510,8 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
                 src={LOGO_URL} 
                 alt="LA SOUQ" 
                 className="h-9 w-auto object-contain brightness-0 opacity-80" 
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
               <p className="text-[#231f14]/70 text-xs leading-relaxed max-w-md">
@@ -570,14 +590,10 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
           </div>
 
           <div 
-            className="pt-6 flex flex-col md:flex-row justify-between items-center text-[9px] tracking-widest text-[#231f14]/50 uppercase space-y-4 md:space-y-0" 
+            className="pt-6 flex justify-center items-center text-[9px] tracking-widest text-[#231f14]/50 uppercase"
             style={{ borderTop: `1px solid ${theme?.id === 2 ? (theme?.accent || '#b69b79') : 'rgba(35, 31, 20, 0.1)'}` }}
           >
             <p>© {new Date().getFullYear()} LA SOUQ. ALL RIGHTS RESERVED.</p>
-            <div className="flex space-x-8">
-              <a href="#" className="hover:text-[#231f14] transition-colors">PRIVACY POLICY</a>
-              <a href="#" className="hover:text-[#231f14] transition-colors">TERMS OF SERVICE</a>
-            </div>
           </div>
         </div>
       </footer>

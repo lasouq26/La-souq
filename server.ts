@@ -6,7 +6,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const configuredPort = Number(process.env.PORT);
+const PORT = Number.isInteger(configuredPort) && configuredPort > 0 ? configuredPort : 3000;
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 // Simple in-memory cache for the Places API response (15-minute duration)
 interface CacheEntry {
