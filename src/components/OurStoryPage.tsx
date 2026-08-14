@@ -22,7 +22,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777816829809-xb1fh9-8.jpg",
     "https://res.cloudinary.com/dhylipuur/image/upload/v1786016634/DSC02990_copy_fgwpp7.jpg",
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817656741-xzhp9p-la-souq-c946076fc6979dc0d3006c3258335f0f.jpg",
-    "https://res.cloudinary.com/dhylipuur/image/upload/v1786016764/Untitled-5_wq8ygz.png",
+    "https://res.cloudinary.com/dhylipuur/image/upload/v1786712695/lasouq_epmeok.png",
     "https://res.cloudinary.com/dhylipuur/image/upload/v1785964225/DSC07504_copy_cgchyy.jpg",
     "https://res.cloudinary.com/dhylipuur/image/upload/v1786017029/DSC09092_1_copy_hgifwl.jpg"
   ];
