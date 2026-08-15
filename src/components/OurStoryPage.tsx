@@ -386,18 +386,23 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#231f14] leading-tight font-light text-left uppercase max-w-[800px]">
-            A place to slow down, discover, and thrive.
+            A place to belong, discover, and thrive.
           </h2>
 
           <p className="text-[#231f14] leading-relaxed font-normal text-base md:text-lg text-left max-w-[800px]">
-            A dinner in a souq in Dubai. Sitting among the conversations, the warmth, and the quiet hum of discovery, we thought of the souqs, cafés, and marketplaces that had always drawn us in.
-            What made those places stay with us was never just the food or the coffee — it was how they made people feel. That became LA SOUQ: a gathering place built on culture, craft, and community.
-            Even the name is personal. "Souq" for the marketplace. "La" for the women who inspire us — our two daughters most of all — and why we support women-led businesses whenever we can.
-            Come for the coffee. Stay for what happens around it.
+            LA SOUQ was born from a simple reflection on the places that shaped our lives growing up around the world—vibrant souqs, cafés, and marketplaces. What made those spaces special was never just the coffee, food, or goods; it was how they made people feel. Inspired by that timeless spirit, we created a modern gathering space centered around three core values: Culture, Craft, and Community.
           </p>
 
           <p className="text-[#231f14] leading-relaxed font-normal text-base md:text-lg text-left max-w-[800px]">
-            LA SOUQ was born in Richardson, Texas out of a passion to honor this timeless ritual. We designed our space as an architectural haven—soft arched entryways, warm terracotta hues, subtle floral aromas, and an atmosphere crafted specifically for lingering.
+            Our Culture is rooted in heritage and inspired by the traditional souqs and bazaars, but we intentionally fuse these timeless marketplace traditions with modern global cultures—a direct reflection of our own upbringing. Our commitment to Craft means everything we offer is thoughtfully sourced, expertly crafted, and chosen with deep intention.
+          </p>
+
+          <p className="text-[#231f14] leading-relaxed font-normal text-base md:text-lg text-left max-w-[800px]">
+            Our name itself reflects this vision. "SOUQ" honors the traditional marketplaces built on community and craftsmanship. "LA," the feminine form of "The" in French, is a deliberate tribute to the women who inspire our brand. As parents of two daughters, this meaning is deeply personal. We wanted to build something that reflects our belief that women should be empowered to lead, create, and thrive.
+          </p>
+
+          <p className="text-[#231f14] leading-relaxed font-normal text-base md:text-lg text-left max-w-[800px]">
+            This belief drives our Community. For us, community means more than just socializing—it means actively lifting others up. Today, we proudly support and collaborate with women-led businesses, entrepreneurs, artisans, and organizations whenever possible. At its heart, LA SOUQ is a reflection of what we value most: genuine hospitality, meaningful connection, cultural discovery, and community. Whether you are stopping in for a coffee, sharing a meal, or simply exploring, we hope LA SOUQ feels like a place where you belong.
           </p>
         </motion.div>
       </section>
