@@ -830,7 +830,7 @@ const LocationsSection = ({
   );
 };
 
-const Footer = ({ theme, onThemeToggle, onOpenStory }: { theme: typeof THEMES[0], onThemeToggle: () => void, onOpenStory: () => void }) => {
+const Footer = ({ theme, onOpenStory }: { theme: typeof THEMES[0], onOpenStory: () => void }) => {
   return (
     <footer className="py-16 px-6 md:px-[90px] transition-colors duration-1000" style={{ backgroundColor: theme.footerBg }} id="footer">
       <div className="w-full max-w-[1440px] mx-auto">
@@ -848,15 +848,6 @@ const Footer = ({ theme, onThemeToggle, onOpenStory }: { theme: typeof THEMES[0]
               Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an elevated experience.
             </p>
 
-            {/* Theme Toggle Button */}
-            <div className="pt-4">
-              <button 
-                onClick={onThemeToggle}
-                className="px-6 py-2 border border-coffee-dark/20 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark hover:bg-coffee-dark hover:text-white transition-all uppercase"
-              >
-                Switch to {theme.id === 1 ? 'Theme 2' : 'Theme 1'}
-              </button>
-            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-12" id="footer-links">
@@ -1047,16 +1038,11 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'story'>(() =>
     window.location.pathname.replace(/\/$/, '') === '/our-story' ? 'story' : 'home'
   );
-  const [themeIndex, setThemeIndex] = useState(1);
-  const theme = THEMES[themeIndex];
+  const theme = THEMES[1];
 
   const [hoursData, setHoursData] = useState<StoreHoursData | null>(null);
   const [hoursLoading, setHoursLoading] = useState(true);
   const [hoursError, setHoursError] = useState<string | null>(null);
-
-  const handleThemeToggle = () => {
-    setThemeIndex((prev) => (prev === 0 ? 1 : 0));
-  };
 
   useEffect(() => {
     const handlePopState = () => {
@@ -1139,7 +1125,7 @@ export default function App() {
         hoursError={hoursError} 
       />
       <CommunitySection theme={theme} />
-      <Footer theme={theme} onThemeToggle={handleThemeToggle} onOpenStory={navigateToStory} />
+      <Footer theme={theme} onOpenStory={navigateToStory} />
     </div>
   );
 }
