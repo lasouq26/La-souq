@@ -1,199 +1,87 @@
 import express from "express";
 import path from "path";
+import { promises as fs } from "node:fs";
+import { timingSafeEqual } from "node:crypto";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 
 dotenv.config();
-
 const app = express();
-const configuredPort = Number(process.env.PORT);
-const PORT = Number.isInteger(configuredPort) && configuredPort > 0 ? configuredPort : 3000;
+const PORT = Number(process.env.PORT) || 3000;
+const TIME_ZONE = "America/Chicago";
+const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] as const;
+const HOURS_FILE = process.env.HOURS_DATA_FILE || path.join(process.cwd(), "data", "hours.json");
+type Day = typeof DAYS[number];
+type Row = { day: Day; open: string; close: string; closed: boolean };
+type Schedule = { timezone: string; weeklyHours: Row[] };
+const defaultSchedule = (): Schedule => ({ timezone: TIME_ZONE, weeklyHours: DAYS.map(day => ({ day, open: "08:00", close: "22:00", closed: false })) });
+app.use(express.json({ limit: "16kb" }));
 
-app.get("/health", (_req, res) => {
-  res.status(200).json({ status: "ok" });
-});
-
-// Simple in-memory cache for the Places API response (15-minute duration)
-interface CacheEntry {
-  data: {
-    businessName: string;
-    openNow: boolean | null;
-    todayHours: string;
-    weeklyHours: string[];
-    nextOpenTime: string | null;
-    nextCloseTime: string | null;
-  };
-  timestamp: number;
+function validate(value: unknown): { schedule?: Schedule; error?: string } {
+  if (!value || typeof value !== "object" || !Array.isArray((value as Schedule).weeklyHours)) return { error: "A weeklyHours array is required." };
+  const input = (value as Schedule).weeklyHours;
+  if (input.length !== DAYS.length) return { error: "Provide exactly one entry for each day." };
+  const seen = new Map<string, Row>();
+  for (const item of input) {
+    if (!item || !DAYS.includes(item.day) || seen.has(item.day)) return { error: "Each weekday must appear exactly once." };
+    const validTime = (time: unknown) => typeof time === "string" && /^\d{2}:\d{2}$/.test(time) && Number(time.slice(0, 2)) < 24 && Number(time.slice(3, 5)) < 60;
+    if (typeof item.closed !== "boolean" || (!item.closed && (!validTime(item.open) || !validTime(item.close) || Number(item.open.slice(0, 2)) * 60 + Number(item.open.slice(3, 5)) >= Number(item.close.slice(0, 2)) * 60 + Number(item.close.slice(3, 5))))) return { error: `${item.day} needs valid opening and closing times, with closing after opening.` };
+    seen.set(item.day, { day: item.day, open: item.closed ? "" : item.open, close: item.closed ? "" : item.close, closed: item.closed });
+  }
+  return { schedule: { timezone: TIME_ZONE, weeklyHours: DAYS.map(day => seen.get(day)!) } };
 }
 
-let hoursCache: CacheEntry | null = null;
-const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
-
-app.get("/api/place-hours", async (req, res) => {
-  // Graceful fallback hours data generator
-  const getFallbackHours = () => {
-    let openNow = false;
-    let todayHours = "8:00 AM – 10:00 PM";
-    try {
-      const formatter = new Intl.DateTimeFormat("en-US", {
-        timeZone: "America/Chicago",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: false
-      });
-      const parts = formatter.formatToParts(new Date());
-      const hourPart = parts.find(p => p.type === "hour");
-      const minutePart = parts.find(p => p.type === "minute");
-      if (hourPart && minutePart) {
-        const hour = parseInt(hourPart.value, 10);
-        const minute = parseInt(minutePart.value, 10);
-        const totalMinutes = hour * 60 + minute;
-        const openMinutes = 8 * 60; // 8:00 AM
-        const closeMinutes = 22 * 60; // 10:00 PM
-        if (totalMinutes >= openMinutes && totalMinutes < closeMinutes) {
-          openNow = true;
-        }
-      }
-    } catch (err) {
-      console.error("Error calculating local openNow status:", err);
-    }
-
-    return {
-      businessName: "La Souq Richardson",
-      openNow,
-      todayHours,
-      weeklyHours: [
-        "Monday: 8:00 AM – 10:00 PM",
-        "Tuesday: 8:00 AM – 10:00 PM",
-        "Wednesday: 8:00 AM – 10:00 PM",
-        "Thursday: 8:00 AM – 10:00 PM",
-        "Friday: 8:00 AM – 10:00 PM",
-        "Saturday: 8:00 AM – 10:00 PM",
-        "Sunday: 8:00 AM – 10:00 PM"
-      ],
-      nextOpenTime: null,
-      nextCloseTime: null,
-      isLive: false
-    };
-  };
-
+async function readSchedule(): Promise<Schedule> {
   try {
-    // Check cache
-    const now = Date.now();
-    if (hoursCache && (now - hoursCache.timestamp < CACHE_DURATION)) {
-      return res.json(hoursCache.data);
-    }
-
-    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-    if (!apiKey || apiKey === "MY_API_KEY" || apiKey.trim() === "") {
-      console.warn("GOOGLE_MAPS_API_KEY is not defined or is placeholder. Returning scheduled fallback hours gracefully.");
-      const fallback = getFallbackHours();
-      return res.json(fallback);
-    }
-
-    const placeId = "ChIJA3Ws5X0fTIYRS0ym1WwKZgY";
-    const googleUrl = `https://places.googleapis.com/v1/places/${placeId}`;
-
-    const googleResponse = await fetch(googleUrl, {
-      method: "GET",
-      headers: {
-        "X-Goog-Api-Key": apiKey,
-        "X-Goog-FieldMask": "displayName,currentOpeningHours,regularOpeningHours,utcOffsetMinutes"
-      }
-    });
-
-    if (!googleResponse.ok) {
-      const errorText = await googleResponse.text();
-      console.error(`Google Places API responded with status ${googleResponse.status}: ${errorText}`);
-      console.warn("Returning fallback scheduled hours gracefully due to Google Places API response issue.");
-      const fallback = getFallbackHours();
-      return res.json(fallback);
-    }
-
-    const data = await googleResponse.json();
-
-    // Determine openNow status, favoring currentOpeningHours
-    const openNow = data.currentOpeningHours?.openNow ?? data.regularOpeningHours?.openNow ?? null;
-
-    // Retrieve weekly hours from current or regular opening hours
-    const weeklyHours: string[] = 
-      data.currentOpeningHours?.weekdayDescriptions || 
-      data.regularOpeningHours?.weekdayDescriptions || 
-      [];
-
-    // Extract today's hours dynamically based on local timezone in America/Chicago
-    let todayHours = "8:00 AM – 10:00 PM"; // Default fallback
-    try {
-      const formatter = new Intl.DateTimeFormat("en-US", {
-        timeZone: "America/Chicago",
-        weekday: "long"
-      });
-      const todayDayName = formatter.format(new Date()); // e.g. "Monday"
-      
-      const todayHoursLine = weeklyHours.find((line: string) => 
-        line.toLowerCase().startsWith(todayDayName.toLowerCase())
-      );
-      if (todayHoursLine) {
-        // Strip out day prefix "Monday: 6:30 AM – 7:00 PM" -> "6:30 AM – 7:00 PM"
-        const parts = todayHoursLine.split(":");
-        if (parts.length > 1) {
-          todayHours = parts.slice(1).join(":").trim();
-        } else {
-          todayHours = todayHoursLine;
-        }
-      }
-    } catch (tzErr) {
-      console.error("Error formatting date for timezone:", tzErr);
-    }
-
-    // Try to parse nextOpenTime or nextCloseTime from periods if available
-    let nextOpenTime: string | null = null;
-    let nextCloseTime: string | null = null;
-
-    const result = {
-      businessName: data.displayName?.text || "La Souq Richardson",
-      openNow,
-      todayHours,
-      weeklyHours,
-      nextOpenTime,
-      nextCloseTime,
-      isLive: true
-    };
-
-    // Store in cache
-    hoursCache = {
-      data: result,
-      timestamp: now
-    };
-
-    res.json(result);
-  } catch (err: any) {
-    console.error("Error fetching store hours from Google:", err);
-    console.warn("Returning fallback scheduled hours gracefully due to unexpected error.");
-    const fallback = getFallbackHours();
-    res.json(fallback);
+    const { schedule } = validate(JSON.parse(await fs.readFile(HOURS_FILE, "utf8")));
+    if (schedule) return schedule;
+  } catch (error: any) {
+    if (error.code !== "ENOENT") console.error("Could not read saved operating hours:", error);
   }
+  return defaultSchedule();
+}
+async function saveSchedule(schedule: Schedule) {
+  await fs.mkdir(path.dirname(HOURS_FILE), { recursive: true });
+  const temporary = `${HOURS_FILE}.${process.pid}.${Date.now()}.tmp`;
+  await fs.writeFile(temporary, `${JSON.stringify(schedule, null, 2)}\n`, { encoding: "utf8", mode: 0o600 });
+  await fs.rename(temporary, HOURS_FILE);
+}
+function isOwner(token: unknown) {
+  const expected = process.env.ADMIN_HOURS_TOKEN;
+  if (!expected || typeof token !== "string") return false;
+  const a = Buffer.from(expected); const b = Buffer.from(token);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+const requireOwner: express.RequestHandler = (req, res, next) => {
+  if (!process.env.ADMIN_HOURS_TOKEN) return res.status(503).json({ error: "Operating-hours admin access is not configured." });
+  if (!isOwner(req.header("x-admin-hours-token"))) return res.status(401).json({ error: "Owner authorization is required." });
+  next();
+};
+function displayTime(time: string) { const [hour, minute] = time.split(":").map(Number); return `${hour % 12 || 12}:${minute.toString().padStart(2, "0")} ${hour >= 12 ? "PM" : "AM"}`; }
+function publicHours(schedule: Schedule) {
+  const today = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, weekday: "long" }).format(new Date()) as Day;
+  const row = schedule.weeklyHours.find(item => item.day === today) || schedule.weeklyHours[0];
+  const clock = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date());
+  const now = Number(clock.find(item => item.type === "hour")?.value || 0) * 60 + Number(clock.find(item => item.type === "minute")?.value || 0);
+  const minutes = (time: string) => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5));
+  const label = (item: Row) => `${item.day}: ${item.closed ? "Closed" : `${displayTime(item.open)} – ${displayTime(item.close)}`}`;
+  return { businessName: "La Souq Richardson", openNow: !row.closed && now >= minutes(row.open) && now < minutes(row.close), todayHours: row.closed ? "Closed" : `${displayTime(row.open)} – ${displayTime(row.close)}`, weeklyHours: schedule.weeklyHours.map(label), nextOpenTime: null, nextCloseTime: null, isLive: true };
+}
+
+app.get("/health", (_req, res) => res.json({ status: "ok" }));
+app.get("/api/place-hours", async (_req, res) => { res.set("Cache-Control", "no-store"); res.json(publicHours(await readSchedule())); });
+app.get("/api/admin/hours", requireOwner, async (_req, res) => { res.set("Cache-Control", "no-store"); res.json(await readSchedule()); });
+app.put("/api/admin/hours", requireOwner, async (req, res) => {
+  const { schedule, error } = validate(req.body); if (!schedule) return res.status(400).json({ error });
+  try { await saveSchedule(schedule); res.json(schedule); } catch (error) { console.error("Could not save operating hours:", error); res.status(500).json({ error: "Unable to save operating hours. Please try again." }); }
 });
 
-// Configure Vite or serve static production build
 async function setupServer() {
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
+    const vite = await createViteServer({ server: { middlewareMode: true }, appType: "spa" }); app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
+    const distPath = path.join(process.cwd(), "dist"); app.use(express.static(distPath)); app.get("*", (_req, res) => res.sendFile(path.join(distPath, "index.html")));
   }
-
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on port ${PORT} with full-stack support.`);
-  });
+  app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT} with full-stack support.`));
 }
-
 setupServer();

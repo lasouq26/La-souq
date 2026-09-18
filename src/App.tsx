@@ -2,6 +2,7 @@ import { motion, useReducedMotion, useScroll, useTransform, type Variants } from
 import { Instagram, Facebook, X, Music, Clock, ArrowRight, Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import OurStoryPage from './components/OurStoryPage';
+import AdminHoursPage from './AdminHoursPage';
 
 // Use the user-provided logo URL
 const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/lassAsset_2ldpi_a9proq.svg";
@@ -49,13 +50,7 @@ const LiveHoursCard = ({
   const [showFullHours, setShowFullHours] = useState(false);
 
   const defaultWeeklyHours = [
-    "Monday: 8:00 AM – 10:00 PM",
-    "Tuesday: 8:00 AM – 10:00 PM",
-    "Wednesday: 8:00 AM – 10:00 PM",
-    "Thursday: 8:00 AM – 10:00 PM",
-    "Friday: 8:00 AM – 10:00 PM",
-    "Saturday: 8:00 AM – 10:00 PM",
-    "Sunday: 8:00 AM – 10:00 PM"
+    "Monday: Hours unavailable", "Tuesday: Hours unavailable", "Wednesday: Hours unavailable", "Thursday: Hours unavailable", "Friday: Hours unavailable", "Saturday: Hours unavailable", "Sunday: Hours unavailable"
   ];
 
   const weeklyHours = hoursData?.weeklyHours || defaultWeeklyHours;
@@ -1035,9 +1030,11 @@ interface StoreHoursData {
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'story'>(() =>
-    window.location.pathname.replace(/\/$/, '') === '/our-story' ? 'story' : 'home'
-  );
+  const pageForPath = () => {
+    const path = window.location.pathname.replace(/\/$/, '');
+    return path === '/admin/hours' ? 'admin' : path === '/our-story' ? 'story' : 'home';
+  };
+  const [currentPage, setCurrentPage] = useState<'home' | 'story' | 'admin'>(pageForPath);
   const theme = THEMES[1];
 
   const [hoursData, setHoursData] = useState<StoreHoursData | null>(null);
@@ -1108,6 +1105,7 @@ export default function App() {
     };
   }, []);
 
+  if (currentPage === 'admin') return <AdminHoursPage />;
   if (currentPage === 'story') {
     return <OurStoryPage onBackToHome={navigateToHome} theme={theme} />;
   }

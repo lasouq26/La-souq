@@ -18,6 +18,10 @@ RUN npm ci --omit=dev && npm cache clean --force
 
 COPY --from=build /app/dist ./dist
 
+RUN mkdir -p /data && chown node:node /data
+ENV HOURS_DATA_FILE=/data/hours.json
+VOLUME ["/data"]
+
 USER node
 EXPOSE 3000
 
