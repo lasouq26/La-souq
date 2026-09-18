@@ -1,4 +1,4 @@
-import { ownerAuthorized, readSchedule, saveSchedule, storageIsConfigured, validateSchedule } from "../../lib/hours";
+import { ownerAuthorized, readSchedule, saveSchedule, storageIsConfigured, validateSchedule } from "../../lib/hours.js";
 
 export default async function handler(req: any, res: any) {
   if (!process.env.ADMIN_HOURS_TOKEN || !storageIsConfigured()) return res.status(503).json({ error: "Operating-hours admin access is not configured." });
