@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/admin/hours", "destination": "/index.html" },
+    { "source": "/our-story", "destination": "/index.html" }
+  ]
+}
