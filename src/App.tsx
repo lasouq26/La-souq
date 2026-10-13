@@ -2,6 +2,8 @@ import { motion, useReducedMotion, useScroll, useTransform, type Variants } from
 import { Instagram, Facebook, X, Music, Clock, ArrowRight, Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import OurStoryPage from './components/OurStoryPage';
+import MenuPage from './components/MenuPage';
+import MarketplacePage from './components/MarketplacePage';
 import AdminHoursPage from './AdminHoursPage';
 
 // Use the user-provided logo URL
@@ -235,9 +237,7 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
         </motion.p>
         
             <motion.a 
-              href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/menu"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 mb-12 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
@@ -548,6 +548,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                 className="h-[380px] sm:h-[460px] md:h-[500px] w-full relative overflow-hidden rounded-[2.5rem] shadow-[0_20px_50px_-20px_rgba(35,31,20,0.12)]"
                 style={{ backgroundColor: `${theme.coffeeDark}0F` }}
               >
+                {item.id === 4 && <a href="/marketplace" className="absolute inset-0 z-30" aria-label="Explore the Curated Marketplace" />}
                 {/* Decorative background depth & highlights */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none z-10 rounded-[2.5rem]"></div>
                 
@@ -592,12 +593,11 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               {/* Left-aligned Label and Caption below each column */}
               <div className="mt-6 text-left flex-1 flex flex-col justify-between">
                 <div className="space-y-2">
-                  <h3 
-                    className="text-[18px] font-serif tracking-wide block uppercase"
-                    style={{ color: theme.coffeeDark }}
-                  >
-                    {item.title}
-                  </h3>
+                  {item.id === 4 ? (
+                    <a href="/marketplace" className="inline-block text-[18px] font-serif tracking-wide uppercase underline-offset-4 hover:underline" style={{ color: theme.coffeeDark }}>{item.title}</a>
+                  ) : (
+                    <h3 className="text-[18px] font-serif tracking-wide block uppercase" style={{ color: theme.coffeeDark }}>{item.title}</h3>
+                  )}
                   <p 
                     className="text-[12px] leading-relaxed font-light font-sans max-w-[240px]"
                     style={{ color: `${theme.coffeeDark}CC` }}
@@ -849,9 +849,9 @@ const Footer = ({ theme, onOpenStory }: { theme: typeof THEMES[0], onOpenStory: 
             <div className="space-y-4">
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR WEBSITE</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
-                <li><a href="https://order.toasttab.com/online/la-souq-richardson-dallas" target="_blank" rel="noopener noreferrer" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MENU</a></li>
+                <li><a href="/menu" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MENU</a></li>
                 <li><button onClick={onOpenStory} className="transition-colors uppercase font-bold cursor-pointer bg-transparent border-0 p-0" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>OUR STORY</button></li>
-                <li><a href="#locations" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
+                <li><a href="/#locations" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
               </ul>
             </div>
             <div className="space-y-4">
@@ -893,13 +893,12 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
         backgroundColor: theme.navBg
       }}
     >
-      <motion.button
-          type="button"
+      <motion.a
+          href="/"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           className="group cursor-pointer bg-transparent border-0 p-0 flex-none"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          aria-label="Back to top"
+          aria-label="Back to home"
         >
           <img 
             src={LOGO_URL} 
@@ -908,18 +907,24 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
             decoding="async"
             referrerPolicy="no-referrer"
           />
-      </motion.button>
+      </motion.a>
 
       {/* Center links (hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-10">
         <a 
-          href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+          href="/menu"
           className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
           style={{ color: theme.coffeeDark }}
         >
           MENU
+        </a>
+
+        <a
+          href="/marketplace"
+          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase"
+          style={{ color: theme.coffeeDark }}
+        >
+          MARKETPLACE
         </a>
         
         <button 
@@ -931,7 +936,7 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
         </button>
 
         <a 
-          href="#locations" 
+          href="/#locations"
           className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
           style={{ color: theme.coffeeDark }}
         >
@@ -953,9 +958,7 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
         </button>
 
         <a 
-          href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/menu"
           className="border border-coffee-dark/20 hover:border-coffee-dark px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[8px] md:pt-[10px] uppercase whitespace-nowrap"
           style={{ 
             color: theme.coffeeDark, 
@@ -984,14 +987,20 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
         >
           <div className="flex flex-col gap-5 text-center">
             <a
-              href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/menu"
               className="text-[11px] tracking-[0.3em] font-bold uppercase"
               style={{ color: theme.coffeeDark }}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Menu
+            </a>
+            <a
+              href="/marketplace"
+              className="text-[11px] tracking-[0.3em] font-bold uppercase"
+              style={{ color: theme.coffeeDark }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Marketplace
             </a>
             <button
               type="button"
@@ -1005,7 +1014,7 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
               Our Story
             </button>
             <a
-              href="#locations"
+              href="/#locations"
               className="text-[11px] tracking-[0.3em] font-bold uppercase"
               style={{ color: theme.coffeeDark }}
               onClick={() => setIsMobileMenuOpen(false)}
@@ -1032,9 +1041,9 @@ interface StoreHoursData {
 export default function App() {
   const pageForPath = () => {
     const path = window.location.pathname.replace(/\/$/, '');
-    return path === '/admin/hours' ? 'admin' : path === '/our-story' ? 'story' : 'home';
+    return path === '/admin/hours' ? 'admin' : path === '/our-story' ? 'story' : path === '/menu' ? 'menu' : path === '/marketplace' ? 'marketplace' : 'home';
   };
-  const [currentPage, setCurrentPage] = useState<'home' | 'story' | 'admin'>(pageForPath);
+  const [currentPage, setCurrentPage] = useState<'home' | 'story' | 'menu' | 'marketplace' | 'admin'>(pageForPath);
   const theme = THEMES[1];
 
   const [hoursData, setHoursData] = useState<StoreHoursData | null>(null);
@@ -1043,7 +1052,7 @@ export default function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPage(window.location.pathname.replace(/\/$/, '') === '/our-story' ? 'story' : 'home');
+      setCurrentPage(pageForPath());
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -1051,9 +1060,11 @@ export default function App() {
 
   useEffect(() => {
     const isStory = currentPage === 'story';
-    document.title = isStory ? 'Our Story | LA SOUQ' : 'LA SOUQ | Coffee & Community';
+    const isMenu = currentPage === 'menu';
+    const isMarketplace = currentPage === 'marketplace';
+    document.title = isMenu ? 'Menu | LA SOUQ' : isMarketplace ? 'Curated Marketplace | LA SOUQ' : isStory ? 'Our Story | LA SOUQ' : 'LA SOUQ | Coffee & Community';
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    const canonicalUrl = isStory ? 'https://lasouq.com/our-story' : 'https://lasouq.com/';
+    const canonicalUrl = isMenu ? 'https://lasouq.com/menu' : isMarketplace ? 'https://lasouq.com/marketplace' : isStory ? 'https://lasouq.com/our-story' : 'https://lasouq.com/';
     canonical?.setAttribute('href', canonicalUrl);
     document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
   }, [currentPage]);
@@ -1113,6 +1124,7 @@ export default function App() {
   return (
     <div className="min-h-screen selection:bg-gold selection:text-white" id="main-app-container">
       <Navbar theme={theme} onOpenStory={navigateToStory} />
+      {currentPage === 'menu' ? <MenuPage /> : currentPage === 'marketplace' ? <MarketplacePage /> : <>
       <Hero theme={theme} />
       <InspirationSection theme={theme} onOpenStory={navigateToStory} />
       <ExperiencesSection theme={theme} />
@@ -1123,6 +1135,7 @@ export default function App() {
         hoursError={hoursError} 
       />
       <CommunitySection theme={theme} />
+      </>}
       <Footer theme={theme} onOpenStory={navigateToStory} />
     </div>
   );

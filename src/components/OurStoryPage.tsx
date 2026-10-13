@@ -70,9 +70,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
           </button>
 
           <a 
-            href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+            href="/menu"
             className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase"
             style={{ color: theme?.coffeeDark || '#231f14' }}
           >
@@ -113,9 +111,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
           </button>
 
           <a 
-            href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/menu"
             className="border px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[8px] md:pt-[10px] uppercase whitespace-nowrap"
             style={{ 
               color: theme?.coffeeDark || '#231f14',
@@ -470,9 +466,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
           ></div>
           <div className="flex flex-wrap items-center justify-center gap-6 pt-2">
             <motion.a
-              href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/menu"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500 group-hover:border-[#b69b79]"
@@ -530,9 +524,7 @@ export default function OurStoryPage({ onBackToHome, theme }: OurStoryPageProps)
                 <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
                   <li>
                     <a 
-                      href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                      href="/menu"
                       className="transition-colors hover:text-[#b69b79]"
                     >
                       MENU
