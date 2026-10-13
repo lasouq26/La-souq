@@ -22,9 +22,9 @@ const collections = [
     image: 'https://res.cloudinary.com/dhylipuur/image/upload/v1785964204/honey_vfgmz3.jpg',
   },
   {
-    name: 'Chocolate & Sweets',
+    name: 'Chocolate',
     eyebrow: 'A little pleasure',
-    description: 'Gift-worthy chocolates and sweet discoveries, curated for generous moments and quiet ones.',
+    description: 'Gift-worthy chocolate, thoughtfully selected for generous moments and quiet ones.',
     image: 'https://res.cloudinary.com/dhylipuur/image/upload/v1785964207/chocolate_ukoljk.jpg',
   },
 ];
