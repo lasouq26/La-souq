@@ -1,6 +1,9 @@
 {
+  "redirects": [
+    { "source": "/menu", "destination": "/menus", "permanent": true }
+  ],
   "rewrites": [
-    { "source": "/menu", "destination": "/index.html" },
+    { "source": "/menus", "destination": "/index.html" },
     { "source": "/marketplace", "destination": "/index.html" },
     { "source": "/admin/hours", "destination": "/index.html" },
     { "source": "/our-story", "destination": "/index.html" }

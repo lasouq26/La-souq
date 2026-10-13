@@ -5,6 +5,7 @@ import OurStoryPage from './components/OurStoryPage';
 import MenuPage from './components/MenuPage';
 import MarketplacePage from './components/MarketplacePage';
 import AdminHoursPage from './AdminHoursPage';
+import { TOAST_ORDER_URL } from './data/menu';
 
 // Use the user-provided logo URL
 const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/lassAsset_2ldpi_a9proq.svg";
@@ -237,7 +238,9 @@ const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
         </motion.p>
         
             <motion.a 
-              href="/menu"
+              href={TOAST_ORDER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group relative inline-flex items-center gap-4 px-12 pt-5 pb-5 mb-12 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500"
@@ -849,7 +852,7 @@ const Footer = ({ theme, onOpenStory }: { theme: typeof THEMES[0], onOpenStory: 
             <div className="space-y-4">
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR WEBSITE</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
-                <li><a href="/menu" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MENU</a></li>
+                <li><a href="/menus" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MENU</a></li>
                 <li><button onClick={onOpenStory} className="transition-colors uppercase font-bold cursor-pointer bg-transparent border-0 p-0" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>OUR STORY</button></li>
                 <li><a href="/#locations" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
               </ul>
@@ -912,21 +915,15 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
       {/* Center links (hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-10">
         <a 
-          href="/menu"
+          href={TOAST_ORDER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
           style={{ color: theme.coffeeDark }}
         >
           MENU
         </a>
 
-        <a
-          href="/marketplace"
-          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase"
-          style={{ color: theme.coffeeDark }}
-        >
-          MARKETPLACE
-        </a>
-        
         <button 
           onClick={onOpenStory} 
           className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase cursor-pointer bg-transparent border-0 p-0" 
@@ -958,7 +955,9 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
         </button>
 
         <a 
-          href="/menu"
+          href={TOAST_ORDER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="border border-coffee-dark/20 hover:border-coffee-dark px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[8px] md:pt-[10px] uppercase whitespace-nowrap"
           style={{ 
             color: theme.coffeeDark, 
@@ -987,20 +986,14 @@ const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: 
         >
           <div className="flex flex-col gap-5 text-center">
             <a
-              href="/menu"
+              href={TOAST_ORDER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[11px] tracking-[0.3em] font-bold uppercase"
               style={{ color: theme.coffeeDark }}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Menu
-            </a>
-            <a
-              href="/marketplace"
-              className="text-[11px] tracking-[0.3em] font-bold uppercase"
-              style={{ color: theme.coffeeDark }}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Marketplace
             </a>
             <button
               type="button"
@@ -1041,7 +1034,7 @@ interface StoreHoursData {
 export default function App() {
   const pageForPath = () => {
     const path = window.location.pathname.replace(/\/$/, '');
-    return path === '/admin/hours' ? 'admin' : path === '/our-story' ? 'story' : path === '/menu' ? 'menu' : path === '/marketplace' ? 'marketplace' : 'home';
+    return path === '/admin/hours' ? 'admin' : path === '/our-story' ? 'story' : path === '/menus' ? 'menu' : path === '/marketplace' ? 'marketplace' : 'home';
   };
   const [currentPage, setCurrentPage] = useState<'home' | 'story' | 'menu' | 'marketplace' | 'admin'>(pageForPath);
   const theme = THEMES[1];
@@ -1064,7 +1057,7 @@ export default function App() {
     const isMarketplace = currentPage === 'marketplace';
     document.title = isMenu ? 'Menu | LA SOUQ' : isMarketplace ? 'Curated Marketplace | LA SOUQ' : isStory ? 'Our Story | LA SOUQ' : 'LA SOUQ | Coffee & Community';
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    const canonicalUrl = isMenu ? 'https://lasouq.com/menu' : isMarketplace ? 'https://lasouq.com/marketplace' : isStory ? 'https://lasouq.com/our-story' : 'https://lasouq.com/';
+    const canonicalUrl = isMenu ? 'https://lasouq.com/menus' : isMarketplace ? 'https://lasouq.com/marketplace' : isStory ? 'https://lasouq.com/our-story' : 'https://lasouq.com/';
     canonical?.setAttribute('href', canonicalUrl);
     document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
   }, [currentPage]);
