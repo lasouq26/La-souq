@@ -254,7 +254,7 @@ const Hero = ({
           style={{ y, opacity }}
         >
           <img
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1780954392036-catgoz-3-copy-2.jpg"
+            src="https://res.cloudinary.com/dhylipuur/image/upload/v1793564027/3_copy_2_r1ida0.webp"
             alt="La Souq Cafe Interior"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
@@ -1422,9 +1422,9 @@ const CommunitySection = ({ theme }: { theme: any }) => {
 
 const AboutSection = () => {
   const images = [
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777816829809-xb1fh9-8.jpg",
+    "https://res.cloudinary.com/dhylipuur/image/upload/v1793563996/8_xfnn6n.webp",
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817076882-efg8jp-3.jpg",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817656741-xzhp9p-la-souq-c946076fc6979dc0d3006c3258335f0f.jpg",
+    "https://res.cloudinary.com/dhylipuur/image/upload/v1793563997/La-Souq_c946076fc6979dc0d3006c3258335f0f_tmxexd.jpg",
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777818106383-49xstx-330660.jpg",
     "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg"
   ];
@@ -1469,7 +1469,7 @@ const AboutSection = () => {
               className="aspect-square overflow-hidden rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] relative z-10 ring-1 ring-coffee-dark/5"
             >
               <img 
-                src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777883362118-yx1u2n-generated-image-may-04-2026-11-25am-1.jpg" 
+                src="https://res.cloudinary.com/dhylipuur/image/upload/v1793563863/ChatGPT_Image_May_6_2026_03_03_04_PM_ewm2jy.png"
                 alt="Crafting Perfect Coffee"
                 className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
                 referrerPolicy="no-referrer"
@@ -1583,7 +1583,7 @@ const LocationsSection = ({
       address: '150 W Main St., Suite 900 • Richardson, TX 75081',
       phone: '281-686-7750',
       hours: 'Mon-Sun: 6:30am–7:00pm',
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg"
+      image: "https://res.cloudinary.com/dhylipuur/image/upload/v1793564027/3_copy_2_r1ida0.webp"
     }
   ];
 
