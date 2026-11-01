@@ -19,6 +19,11 @@
   body {
     @apply font-sans bg-[#eee3d9] text-coffee-dark antialiased;
   }
+
+  :focus-visible {
+    outline: 3px solid #231f14;
+    outline-offset: 4px;
+  }
   
   h2, h3, h4 {
     @apply font-heading;
@@ -26,6 +31,21 @@
 
   h1, h5, h6 {
     @apply font-serif;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

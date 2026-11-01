@@ -1,9 +1,11 @@
-import { motion, useScroll, useTransform } from 'motion/react';
-import { Instagram, Facebook, Plus, Play, Pause, Volume2, VolumeX, X, Music, Clock, Calendar, CheckCircle2, AlertCircle } from 'lucide-react';
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from 'motion/react';
+import { Instagram, Facebook, X, Music, Clock, ArrowRight, Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import cafeDetailPots from './assets/images/cafe_detail_pots_1777813549634.png';
-import coffeePouring from './assets/images/coffee_pouring_1777813533745.png';
-import heroCafeInterior from './assets/images/hero_cafe_interior_1777813516367.png';
+import OurStoryPage from './components/OurStoryPage';
+import MenuPage from './components/MenuPage';
+import MarketplacePage from './components/MarketplacePage';
+import AdminHoursPage from './AdminHoursPage';
+import { TOAST_ORDER_URL } from './data/menu';
 
 // Use the user-provided logo URL
 const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/lassAsset_2ldpi_a9proq.svg";
@@ -11,41 +13,27 @@ const LOGO_URL = "https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/
 const THEMES = [
   {
     id: 1,
-    name: 'Theme 1: Arabic Earth',
     heroOverlay: '#b69b79',
     sectionBg: '#9da18a',
-    menuBg: '#e8e3c9',
     highlightText: '#e8e3c9',
     buttonHoverBg: '#9da18a',
     buttonHoverText: '#e8e3c9',
     navBg: '#9da18a',
     footerBg: '#9da18a',
     coffeeDark: '#231f14',
-    contactOverlay: '#231f14',
-    menuButtonText: '#231f14',
-    menuButtonBorder: 'rgba(35, 31, 20, 0.2)',
-    accent: '#9da18a',
-    cardTitle: '#231f14',
-    testimonialBg: '#e8e3c9'
+    accent: '#9da18a'
   },
   {
     id: 2,
-    name: 'Theme 2: Mojave Sand',
     heroOverlay: '#b69b79',
     sectionBg: '#b69b79',
-    menuBg: '#f4f4f4',
     highlightText: '#f4f4f4',
     buttonHoverBg: '#231f14',
     buttonHoverText: '#f4f4f4',
     navBg: '#b69b79',
     footerBg: '#b69b79',
     coffeeDark: '#231f14',
-    contactOverlay: '#231a12',
-    menuButtonText: '#231f14',
-    menuButtonBorder: '#231f14',
-    accent: '#b69b79',
-    cardTitle: '#b69b79',
-    testimonialBg: '#e8e3c9'
+    accent: '#b69b79'
   }
 ];
 
@@ -64,34 +52,11 @@ const LiveHoursCard = ({
 }) => {
   const [showFullHours, setShowFullHours] = useState(false);
 
-  if (hoursLoading) {
-    return (
-      <div className={`p-6 md:p-8 rounded-[2rem] border animate-pulse space-y-4 shadow-md w-full ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-[#fdfaf7] border-coffee-dark/5 text-coffee-dark'}`}>
-        <div className="h-5 w-32 bg-[#b69b79]/20 rounded mb-4"></div>
-        <div className="space-y-3">
-          {[...Array(7)].map((_, i) => (
-            <div key={i} className="flex justify-between items-center py-1">
-              <div className="h-4 w-20 bg-[#b69b79]/10 rounded"></div>
-              <div className="h-4 w-28 bg-[#b69b79]/10 rounded"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  const defaultWeeklyHours = [
+    "Monday: Hours unavailable", "Tuesday: Hours unavailable", "Wednesday: Hours unavailable", "Thursday: Hours unavailable", "Friday: Hours unavailable", "Saturday: Hours unavailable", "Sunday: Hours unavailable"
+  ];
 
-  if (hoursError || !hoursData) {
-    return (
-      <div className={`p-6 md:p-8 rounded-[2rem] border flex items-start gap-4 shadow-md w-full ${isDark ? 'bg-rose-950/20 border-rose-900/30 text-rose-200' : 'bg-red-50/50 border-red-200/50 text-red-900'}`}>
-        <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-500" />
-        <div>
-          <h5 className="font-serif font-bold text-base mb-1">Operating Hours</h5>
-          <p className="text-sm font-medium opacity-90">{hoursError || "Hours unavailable — please call to confirm."}</p>
-          <p className="text-xs opacity-75 mt-2 font-mono">Call: 281-686-7750</p>
-        </div>
-      </div>
-    );
-  }
+  const weeklyHours = hoursData?.weeklyHours || defaultWeeklyHours;
 
   // Find today's day of the week to highlight it
   const currentDayName = new Intl.DateTimeFormat("en-US", {
@@ -100,11 +65,11 @@ const LiveHoursCard = ({
   }).format(new Date());
 
   // Find today's row and the other days
-  const todayRow = hoursData.weeklyHours.find((dayText: string) => 
+  const todayRow = weeklyHours.find((dayText: string) => 
     dayText.toLowerCase().startsWith(currentDayName.toLowerCase())
-  ) || hoursData.weeklyHours[0];
+  ) || weeklyHours[0];
 
-  const otherRows = hoursData.weeklyHours.filter((dayText: string) => 
+  const otherRows = weeklyHours.filter((dayText: string) => 
     dayText !== todayRow
   );
 
@@ -114,35 +79,30 @@ const LiveHoursCard = ({
         ? 'bg-[#1c1813]/40 border-white/10 text-white hover:border-[#b69b79]/40' 
         : 'bg-[#fdfaf7]/90 backdrop-blur-md border-[#b69b79]/10 text-coffee-dark hover:border-[#b69b79]/30'
     }`}>
-      {/* Live status badge */}
-      <div className="flex items-center justify-between gap-4 mb-6">
+      {/* Operating Hours Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 mb-6">
         <div className="flex items-center gap-2">
           <Clock className="w-5 h-5 opacity-70 text-[#b69b79]" />
-          <h4 className="font-serif font-bold text-lg md:text-xl">Weekly Hours</h4>
+          <h4 className="font-serif font-bold text-lg md:text-xl">Operating Hours</h4>
         </div>
-        <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] tracking-widest font-bold uppercase ${
-          hoursData.openNow 
-            ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' 
-            : 'bg-rose-500/10 text-rose-500 border border-rose-500/20'
-        }`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${hoursData.openNow ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
-          {hoursData.openNow ? 'Open Now' : 'Closed'}
-        </div>
+        <span className="self-start sm:self-auto text-[10px] tracking-widest font-bold uppercase text-[#b69b79] bg-[#b69b79]/10 px-3 py-1 rounded-full border border-[#b69b79]/20">
+          Daily 8:00 AM – 10:00 PM
+        </span>
       </div>
 
       {/* Days list */}
       <div className="space-y-2.5 font-sans">
         {/* Today's row - always visible */}
         <div 
-          className={`flex justify-between items-center text-xs md:text-sm py-1.5 px-3 rounded-xl transition-all duration-300 ${
+          className={`flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-xs md:text-sm py-2 px-3.5 rounded-xl transition-all duration-300 ${
             isDark 
               ? 'bg-[#b69b79]/20 font-bold border border-[#b69b79]/30 text-white' 
               : 'bg-[#b69b79]/15 font-bold border border-[#b69b79]/20 text-[#231f14]' 
           }`}
         >
-          <span className="tracking-wide">
+          <span className="tracking-wide flex items-center gap-2">
             {todayRow.split(':')[0]}
-            <span className="ml-2 text-[9px] uppercase tracking-widest font-sans font-bold bg-[#b69b79] text-white px-1.5 py-0.5 rounded-full">Today</span>
+            <span className="text-[9px] uppercase tracking-widest font-sans font-bold bg-[#b69b79] text-white px-2 py-0.5 rounded-full">Today</span>
           </span>
           <span className="font-mono text-xs font-semibold">
             {todayRow.split(':').slice(1).join(':').trim()}
@@ -165,7 +125,7 @@ const LiveHoursCard = ({
             return (
               <div 
                 key={idx} 
-                className="flex justify-between items-center text-xs md:text-sm py-1.5 px-3 rounded-xl transition-all duration-300 text-current opacity-75"
+                className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-0.5 sm:gap-2 text-xs md:text-sm py-1.5 px-3 rounded-xl transition-all duration-300 text-current opacity-75"
               >
                 <span className="tracking-wide">
                   {dayText.split(':')[0]}
@@ -178,18 +138,9 @@ const LiveHoursCard = ({
           })}
         </motion.div>
       </div>
-      
-      {/* Footer sync badge */}
-      <div 
-        className="border-t border-dashed border-current/10 flex items-center gap-2 justify-center text-[10px] tracking-widest font-bold uppercase opacity-60"
-        style={{ paddingTop: '0px', marginTop: '-1px' }}
-      >
-        <CheckCircle2 className={`w-3.5 h-3.5 ${hoursData.isLive ? 'text-emerald-500' : 'text-[#b69b79]'}`} />
-        {hoursData.isLive ? 'Synced Live via Google Places' : 'Scheduled Operating Hours'}
-      </div>
 
       {/* Expand/Collapse Button */}
-      <div className="flex justify-center" style={{ marginTop: '8px' }}>
+      <div className="flex justify-center mt-4">
         <button
           onClick={() => setShowFullHours(!showFullHours)}
           aria-expanded={showFullHours}
@@ -199,7 +150,6 @@ const LiveHoursCard = ({
               ? 'bg-[#b69b79]/15 border-[#b69b79]/30 text-[#e6dfd5] hover:bg-[#b69b79]/25 hover:border-[#b69b79]/50'
               : 'bg-[#b69b79]/10 border-[#b69b79]/20 text-coffee-dark hover:bg-[#b69b79]/20 hover:border-[#b69b79]/40'
           }`}
-          style={{ paddingLeft: '20px' }}
         >
           {showFullHours ? 'Hide Weekly Hours' : 'View Full Weekly Hours'}
         </button>
@@ -208,22 +158,12 @@ const LiveHoursCard = ({
   );
 };
 
-const Hero = ({ 
-  theme, 
-  hoursData, 
-  hoursLoading, 
-  hoursError 
-}: { 
-  theme: typeof THEMES[0];
-  hoursData: any;
-  hoursLoading: boolean;
-  hoursError: string | null;
-}) => {
+const Hero = ({ theme }: { theme: typeof THEMES[0] }) => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800], [0, 300]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0.4]);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -234,14 +174,14 @@ const Hero = ({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, x: -30 },
     visible: { 
       opacity: 1, 
       x: 0, 
       transition: { 
         duration: 2.0, 
-        ease: [0.16, 1, 0.3, 1] 
+        ease: 'easeOut' 
       } 
     },
   };
@@ -257,6 +197,9 @@ const Hero = ({
             src="https://res.cloudinary.com/dhylipuur/image/upload/v1793564027/3_copy_2_r1ida0.webp"
             alt="La Souq Cafe Interior"
             className="w-full h-full object-cover scale-110"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             referrerPolicy="no-referrer"
           />
           {/* Brand color overlay replacing the old black overlay */}
@@ -280,6 +223,8 @@ const Hero = ({
             src="https://res.cloudinary.com/dhylipuur/image/upload/v1782591238/lassAsset_2ldpi_a9proq.svg"
             alt="LA SOUQ" 
             className="h-[109px] md:h-[163px] w-auto object-contain"
+            loading="eager"
+            decoding="async"
             referrerPolicy="no-referrer"
           />
         </motion.div>
@@ -293,7 +238,7 @@ const Hero = ({
         </motion.p>
         
             <motion.a 
-              href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
+              href={TOAST_ORDER_URL}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
@@ -342,33 +287,9 @@ const Hero = ({
                <p>RICHARDSON, TX 75081</p>
              </div>
           </div>
-          <div className="flex items-center gap-3">
-            {hoursLoading ? (
-              <span className="inline-flex items-center gap-1 bg-white/40 dark:bg-black/10 px-2 py-0.5 rounded-full border border-[#231f14]/10 animate-pulse text-[8px] tracking-widest font-bold uppercase text-gray-500 font-sans">
-                <span className="w-1 h-1 rounded-full bg-gray-400"></span>
-                Syncing...
-              </span>
-            ) : hoursError ? (
-              <span className="inline-flex items-center gap-1 bg-rose-500/5 px-2 py-0.5 rounded-full border border-rose-500/10 text-[8px] tracking-widest font-bold uppercase text-rose-500 font-sans">
-                <span className="w-1 h-1 rounded-full bg-rose-400"></span>
-                Closed
-              </span>
-            ) : hoursData ? (
-              <div 
-                className="inline-flex items-center gap-1.5 bg-white/80 dark:bg-[#1c1813]/40 backdrop-blur-xs px-2.5 py-0.5 rounded-full border border-[#b69b79]/20 shadow-xs transition-all duration-300"
-                style={{ backgroundColor: '#c5c5c5' }}
-              >
-                <span className="relative flex h-1.5 w-1.5">
-                  {hoursData.openNow && (
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  )}
-                  <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${hoursData.openNow ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
-                </span>
-                <span className={`text-[8px] tracking-widest font-bold uppercase font-sans ${hoursData.openNow ? 'text-emerald-700' : 'text-rose-700'}`} style={{ color: hoursData.openNow ? '#059669' : '#e11d48' }}>
-                  {hoursData.openNow ? 'Open Now' : 'Closed'}
-                </span>
-              </div>
-            ) : null}
+          <div className="flex items-center gap-2 pt-1 text-[9px] tracking-widest font-bold uppercase text-coffee-dark/70 font-sans">
+            <Clock className="w-3 h-3 text-[#b69b79]" />
+            <span>MON – SUN: 8:00 AM – 10:00 PM</span>
           </div>
         </div>
       </motion.div>
@@ -388,10 +309,11 @@ const Hero = ({
   );
 };
 
-const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
+const InspirationSection = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: () => void }) => {
   const [video1Loaded, setVideo1Loaded] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -402,9 +324,9 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
+    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: 'easeOut' } }
   };
 
   return (
@@ -420,11 +342,11 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           <motion.div variants={itemVariants} className="w-full max-w-[340px] aspect-[3/4] md:w-[340px] md:h-[450px] flex-none bg-coffee-dark/5 overflow-hidden relative group rounded-2xl">
             <video 
               className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${video1Loaded ? 'opacity-100' : 'opacity-0'}`}
-              autoPlay
+              autoPlay={!shouldReduceMotion}
               loop
               muted
               playsInline
-              preload="auto"
+              preload="metadata"
               onLoadedData={() => setVideo1Loaded(true)}
             >
               <source src="https://res.cloudinary.com/dhylipuur/video/upload/v1782398379/new_km3qmh.mp4" type="video/mp4" />
@@ -443,8 +365,17 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               Arabic Roots.<br />Mediterranean Soul.
             </h2>
             <p className="text-coffee-dark/60 text-sm leading-relaxed font-light">
-              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience designed to linger.
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an elevated experience.
             </p>
+            <div>
+              <button
+                onClick={onOpenStory}
+                className="inline-flex items-center gap-2 text-xs uppercase font-bold tracking-[0.25em] text-coffee-dark hover:text-[#b69b79] transition-colors pt-2 cursor-pointer bg-transparent border-0"
+              >
+                <span>Read Our Story</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#b69b79]" />
+              </button>
+            </div>
           </motion.div>
         </motion.div>
       </div>
@@ -452,67 +383,7 @@ const InspirationSection = ({ theme }: { theme: typeof THEMES[0] }) => {
   );
 };
 
-const EXPERIENCE_DETAILS: Record<number, {
-  tagline: string;
-  description: string;
-  detailsImage: string;
-  items: Array<{ name: string; description: string; price?: string }>;
-}> = {
-  1: {
-    tagline: "Sip of Artistry",
-    description: "Our signature drinks are custom crafted using premium single-origin roasts blended with floral waters, hand-ground spices, and house-made syrups to create sophisticated flavors that soothe the senses and evoke rich cultural heritages.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060900663-6e4qri-chatgpt-image-may-6-2026-12-48-11-pm.jpg",
-    items: [
-      { name: "Rose Cardamom Latte", description: "Espresso, real steam-infused milk, organic rose water, crushed green cardamom.", price: "$6.50" },
-      { name: "Spanish Saffron Cappuccino", description: "Rich espresso with saffron-infused microfoam and delicate real saffron threads.", price: "$7.00" },
-      { name: "Orange Blossom Cold Brew", description: "18-hour cold brew paired with orange blossom water and non-dairy sweet cream.", price: "$6.75" },
-      { name: "Pistachio Rose Matcha", description: "Ceremonial stoneground matcha with organic pistachio milk and light rose syrup.", price: "$7.20" }
-    ]
-  },
-  2: {
-    tagline: "Elevated Morning Rituals",
-    description: "Baked daily on thick-cut artisanal sourdough bread, our savory toasts blend rich Mediterranean textures, artisanal cheeses, and light premium toppings to start your morning with bold, memorable flavors.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_31%20PM.png",
-    items: [
-      { name: "Truffle Avocado Toast", description: "Whipped fresh avocado, white truffle spray, sea salt flakes, toasted sesame, microgreens.", price: "$14.50" },
-      { name: "Burrata & Fig Jam Toast", description: "Fresh burrata ball, caramelised fig jam, toasted walnuts, fresh basil, hot honey drizzle.", price: "$15.00" },
-      { name: "Smoked Salmon & Capers", description: "Sourdough topped with herbed cream cheese, smoked wild salmon, red onion, capers, dill.", price: "$16.50" }
-    ]
-  },
-  3: {
-    tagline: "Handcrafted Confections",
-    description: "Every dessert is custom-selected for its boutique craft and distinctive presentation, pairing traditional Eastern dessert textures with modern patisserie aesthetics for a perfectly sweet finish.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
-    items: [
-      { name: "Pistachio Kunafa Cheesecake", description: "Decadent cheesecake layered with crunchy buttered kunafa pastry and orange blossom syrup.", price: "$9.50" },
-      { name: "Cardamom Affogato", description: "Double house espresso poured over vanilla bean gelato infused with hand-ground cardamom.", price: "$7.50" },
-      { name: "Saffron Rose Tres Leches", description: "Light sponge cake soaked in saffron milk, topped with whipped cream and rose petals.", price: "$8.50" }
-    ]
-  },
-  4: {
-    tagline: "Aesthetic Living Finds",
-    description: "Browse our hand-selected boutique items chosen to bring warmth and understated elegance into your home. Each artifact is sourced directly from independent Mediterranean and Middle Eastern design studios.",
-    detailsImage: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg",
-    items: [
-      { name: "Artisanal Arabic Terracotta Pots", description: "Hand-thrown terracotta pottery imported from legacy artisan cooperatives.", price: "$45.00" },
-      { name: "La Souq Signature Espresso Beans", description: "A 12oz bag of light-medium roast with notes of rose, cardamom, and dark honey.", price: "$24.00" },
-      { name: "Handcrafted Brass Turkish Coffee Set", description: "Traditional heavy-gauge copper cezve with elegant porcelain fincan cups.", price: "$89.00" }
-    ]
-  },
-  5: {
-    tagline: "Immersive Coffee Masterclasses",
-    description: "Go beyond the cup. Our intimate workshops offer hand-on guiding from master baristas, allowing you to learn the subtle science and arts of specialty espresso, roasting, and traditional sand brewing.",
-    detailsImage: "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png",
-    items: [
-      { name: "Aromas of Arabia Barista Workshop", description: "A comprehensive session on integrating floral waters and hand-ground spices into espresso.", price: "$120.00" },
-      { name: "Traditional Turkish Sand Brewing", description: "Master the unique art of brewing rich coffee in hot sand bed systems.", price: "$95.00" },
-      { name: "Sourdough & Spread Masterclass", description: "Learn layout design, toppings pairing, and base carving for gourmet hosting.", price: "$85.00" }
-    ]
-  }
-};
-
 const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
-  const [selectedExperience, setSelectedExperience] = useState<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -536,7 +407,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
 
   return (
     <section className="border-b border-coffee-dark/5 overflow-hidden w-full transition-colors duration-1000" style={{ backgroundColor: '#f4f4f4', paddingTop: '72px', paddingBottom: '36px' }} id="experiences">
-      <div className="w-full pl-6 pr-0 md:pl-[120px] md:pr-0" style={{ paddingRight: '0px' }}>
+      <div className="w-full px-0" style={{ paddingLeft: '16px', paddingRight: '0px' }}>
         {/* Style block for signature experiences rolling grid and parallax effects */}
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes signatureScrollUp {
@@ -571,7 +442,7 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, ease: 'easeOut' }}
           className="text-center mb-16 md:mb-20"
         >
           <span 
@@ -595,8 +466,9 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-row overflow-x-auto overflow-y-hidden gap-6 sm:gap-8 md:gap-10 pb-8 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 lg:snap-none"
+          transition={{ duration: 1.2, ease: 'easeOut' }}
+          className="flex flex-row overflow-x-auto overflow-y-hidden gap-6 sm:gap-8 md:gap-10 pb-8 scrollbar-none snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-x-visible lg:pb-0 lg:snap-none pl-6 pr-6 md:pl-[120px] md:pr-[120px]"
+          style={{ paddingLeft: '120px', paddingRight: '120px' }}
         >
           {[
             {
@@ -607,8 +479,9 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               speed: "35s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964985/new_qgu7qu.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964744/HALWA_LATTE_bleobz.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
               ]
             },
@@ -620,9 +493,9 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               speed: "42s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_31%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964225/DSC07504_copy_cgchyy.jpg",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_40%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_47%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_54%20PM.png"
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964223/DSC07910_copy_sqw0lz.jpg"
               ]
             },
             {
@@ -633,8 +506,10 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               speed: "35s",
               images: [
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964153/PISTA-AFFOGATO_xxq5yu.png",
                 "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2001_59_50%20PM.png"
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg"
               ]
             },
             {
@@ -644,14 +519,16 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "down",
               speed: "45s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_56_38%20PM%20(1).png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_56_39%20PM%20(2).png"
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964207/chocolate_ukoljk.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964204/honey_vfgmz3.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964205/olive_hlqbax.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1785964149/cap_cpfy2u.jpg"
               ]
             },
             {
               id: 5,
-              title: "Workshops",
-              caption: "Engaging coffee masterclasses and artisan sessions.",
+              title: "Events & Collaborations",
+              caption: "Engaging workshop and artisan sessions.",
               direction: "up",
               speed: "32s",
               images: [
@@ -667,14 +544,14 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
           ].map((item) => (
             <div 
               key={item.id} 
-              className="flex flex-col group/col flex-none w-[280px] sm:w-[320px] md:w-[360px] lg:w-auto lg:flex-1 snap-start cursor-pointer select-none transition-transform duration-300 hover:translate-y-[-4px]"
-              onClick={() => setSelectedExperience(item)}
+              className="flex flex-col group/col flex-none w-[280px] sm:w-[320px] md:w-[360px] lg:w-auto lg:flex-1 snap-start select-none"
             >
               {/* Column Card Frame replicating wireframe staggering with increased height */}
               <div 
                 className="h-[380px] sm:h-[460px] md:h-[500px] w-full relative overflow-hidden rounded-[2.5rem] shadow-[0_20px_50px_-20px_rgba(35,31,20,0.12)]"
                 style={{ backgroundColor: `${theme.coffeeDark}0F` }}
               >
+                {item.id === 4 && <a href="/marketplace" className="absolute inset-0 z-30" aria-label="Explore the Curated Marketplace" />}
                 {/* Decorative background depth & highlights */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none z-10 rounded-[2.5rem]"></div>
                 
@@ -707,6 +584,8 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
                         src={imgUrl}
                         alt={item.title} 
                         className="w-full h-full object-cover rounded-[1.8rem] shadow-sm transform group-hover/col:scale-105 transition-transform duration-1000"
+                        loading="lazy"
+                        decoding="async"
                         referrerPolicy="no-referrer"
                       />
                     </div>
@@ -717,32 +596,17 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               {/* Left-aligned Label and Caption below each column */}
               <div className="mt-6 text-left flex-1 flex flex-col justify-between">
                 <div className="space-y-2">
-                  <h3 
-                    className="text-[18px] font-serif tracking-wide block uppercase"
-                    style={{ color: theme.coffeeDark }}
-                  >
-                    {item.title}
-                  </h3>
+                  {item.id === 4 ? (
+                    <a href="/marketplace" className="inline-block text-[18px] font-serif tracking-wide uppercase underline-offset-4 hover:underline" style={{ color: theme.coffeeDark }}>{item.title}</a>
+                  ) : (
+                    <h3 className="text-[18px] font-serif tracking-wide block uppercase" style={{ color: theme.coffeeDark }}>{item.title}</h3>
+                  )}
                   <p 
                     className="text-[12px] leading-relaxed font-light font-sans max-w-[240px]"
                     style={{ color: `${theme.coffeeDark}CC` }}
                   >
                     {item.caption}
                   </p>
-                </div>
-                <div className="pt-3">
-                  <a
-                    id={`view-more-${item.id}`}
-                    href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-[11px] font-bold tracking-[0.2em] uppercase flex items-center gap-1 group/btn transition-colors hover:opacity-80"
-                    style={{ color: '#b69b79' }}
-                  >
-                    View More
-                    <span className="transform group-hover/btn:translate-x-1 transition-transform">→</span>
-                  </a>
                 </div>
               </div>
             </div>
@@ -777,557 +641,6 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
             );
           })}
         </div>
-
-        {/* Experience Details Modal / Bottom Drawer for Mobile */}
-        {selectedExperience && (
-          <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-end md:items-center justify-center p-0 md:p-6 cursor-pointer" 
-            onClick={() => setSelectedExperience(null)}
-          >
-            <motion.div 
-              initial={typeof window !== 'undefined' && window.innerWidth < 768 ? { y: '100%' } : { opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ type: "spring", damping: 28, stiffness: 240 }}
-              className="relative bg-[#fcfbfa] w-full max-w-4xl rounded-t-[2.5rem] rounded-b-none md:rounded-[2.5rem] md:rounded-b-[2.5rem] shadow-2xl overflow-hidden cursor-default grid grid-cols-1 md:grid-cols-12 max-h-[85vh] md:max-h-[85vh]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Mobile Drawer Drag Notch / Pull Handle */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-1 bg-white/40 backdrop-blur-sm rounded-full z-30 md:hidden" />
-
-              {/* Close Button top-right */}
-              <button 
-                onClick={() => setSelectedExperience(null)}
-                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full hover:bg-coffee-dark/5 transition-colors z-30"
-                style={{ color: theme.coffeeDark }}
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Left Column: Visual panel */}
-              <div className="md:col-span-5 h-[200px] md:h-full relative overflow-hidden bg-coffee-dark/5">
-                <img 
-                  src={EXPERIENCE_DETAILS[selectedExperience.id]?.detailsImage || selectedExperience.images[0]} 
-                  alt={selectedExperience.title}
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white text-left">
-                  <span className="text-[10px] tracking-[0.3em] font-semibold uppercase block text-[#e8e3c9] mb-1 font-sans">
-                    {EXPERIENCE_DETAILS[selectedExperience.id]?.tagline || "Artisan Craft"}
-                  </span>
-                  <h4 className="text-xl font-serif font-light">{selectedExperience.title}</h4>
-                </div>
-              </div>
-
-              {/* Right Column: Details Content */}
-              <div className="md:col-span-7 p-6 sm:p-8 md:p-12 flex flex-col justify-between overflow-y-auto max-h-[calc(90vh-180px)] md:max-h-[85vh]">
-                <div className="space-y-6 text-left">
-                  <div>
-                    <h3 className="text-2xl font-serif font-light text-coffee-dark mb-3">
-                      {selectedExperience.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm font-sans font-light leading-relaxed text-coffee-dark/70">
-                      {EXPERIENCE_DETAILS[selectedExperience.id]?.description}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <span className="text-[10px] tracking-[0.25em] font-bold uppercase text-[#b69b79] block border-b border-coffee-dark/10 pb-2 font-sans">
-                      Curated Offerings
-                    </span>
-                    <div className="space-y-4 divide-y divide-coffee-dark/5">
-                      {EXPERIENCE_DETAILS[selectedExperience.id]?.items.map((offering, idx) => (
-                        <div key={idx} className={`pt-3 ${idx === 0 ? 'pt-0' : ''} flex items-start justify-between gap-4 text-left`}>
-                          <div className="space-y-1">
-                            <h5 className="text-xs font-bold tracking-wider text-coffee-dark uppercase font-sans">
-                              {offering.name}
-                            </h5>
-                            <p className="text-xs font-sans font-light text-coffee-dark/60 leading-relaxed max-w-[360px]">
-                              {offering.description}
-                            </p>
-                          </div>
-                          {offering.price && (
-                            <span className="text-sm font-serif text-[#b69b79] whitespace-nowrap font-medium">
-                              {offering.price}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-6 border-t border-coffee-dark/5 flex justify-end">
-                  <button 
-                    onClick={() => setSelectedExperience(null)}
-                    className="px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all hover:bg-coffee-dark/5 border font-sans"
-                    style={{ borderColor: `${theme.coffeeDark}20`, color: theme.coffeeDark }}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-};
-
-const MenuSection = ({ theme }: { theme: typeof THEMES[0] }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const signatureScrollRef = useRef<HTMLDivElement>(null);
-  const isHovered = useRef(false);
-  const isSignatureHovered = useRef(false);
-
-  const menuItems = [
-    {
-      id: 1,
-      name: "DOUBLE ESPRESSO",
-      description: "Rich, concentrated espresso from our house blend, bold and balanced.",
-      price: "$4.00",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060900663-6e4qri-chatgpt-image-may-6-2026-12-48-11-pm.jpg"
-    },
-    {
-      id: 2,
-      name: "AMERICANO",
-      description: "Smooth espresso mellowed with hot water for a clean, classic finish.",
-      price: "$4.00",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060660817-ifxbqb-chatgpt-image-may-6-2026-12-43-23-pm.jpg"
-    },
-    {
-      id: 3,
-      name: "CORTADO (4oz)",
-      description: "Equal parts espresso and lightly textured milk -- bold and smooth.",
-      price: "$4.50",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060434831-gomena-chatgpt-image-may-6-2026-12-39-04-pm.jpg"
-    },
-    {
-      id: 4,
-      name: "FLAT WHITE (8oz)",
-      description: "Velvety micro-foam poured over espresso -- silky, rich, and refined.",
-      price: "$5.00",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778060387049-p3o46u-chatgpt-image-may-6-2026-12-38-22-pm.jpg"
-    }
-  ];
-
-  const signatureMenuItems = [
-    {
-      id: 5,
-      name: "HABIBTI LATTE",
-      description: "Soft rose & warm cardamom accented espresso -- floral and comforting.",
-      price: "$6.50+",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg"
-    },
-    {
-      id: 6,
-      name: "LAVENDER & HONEY LATTE",
-      description: "Calming lavender and golden honey layered with rich espresso.",
-      price: "$6.50+",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069372877-8f3go8-chatgpt-image-may-6-2026-03-01-38-pm.jpg"
-    },
-    {
-      id: 7,
-      name: "ZA'ATAR W' ZEIT LATTE",
-      description: "A savory twist -- fresh thyme and a hint of olive oil meet espresso.",
-      price: "$6.50+",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
-    },
-    {
-      id: 8,
-      name: "ROUHI LATTE",
-      description: "Silky white chocolate and cool mint folded into espresso -- fresh, smooth, and lightly sweet.",
-      price: "$7.00+",
-      image: "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg"
-    }
-  ];
-
-  // Auto-scroll effect
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    const signatureContainer = signatureScrollRef.current;
-    
-    let animationId: number;
-    const scrollSpeed = 0.6;
-
-    const scroll = () => {
-      if (scrollContainer && !isHovered.current) {
-        scrollContainer.scrollLeft += scrollSpeed;
-        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-          scrollContainer.scrollLeft = 0;
-        }
-      }
-      if (signatureContainer && !isSignatureHovered.current) {
-        signatureContainer.scrollLeft += scrollSpeed;
-        if (signatureContainer.scrollLeft >= signatureContainer.scrollWidth / 2) {
-          signatureContainer.scrollLeft = 0;
-        }
-      }
-      animationId = requestAnimationFrame(scroll);
-    };
-
-    animationId = requestAnimationFrame(scroll);
-    return () => cancelAnimationFrame(animationId);
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40, scale: 0.98 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { 
-        duration: 2.0, 
-        ease: [0.19, 1, 0.22, 1] 
-      } 
-    }
-  };
-
-  return (
-    <section className="py-32 relative overflow-hidden transition-colors duration-1000" style={{ backgroundColor: theme.menuBg }} id="menu">
-      {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-coffee-dark/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-      
-      <div className="w-full relative z-10">
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="px-6 md:px-24 lg:px-32 flex flex-col mb-5 pl-6"
-        >
-          <motion.p 
-            variants={itemVariants}
-            className="text-[12px] tracking-[0.5em] font-bold text-coffee-dark/30 uppercase mb-0"
-          >
-            our menu
-          </motion.p>
-          <motion.h2 
-            variants={itemVariants}
-            className="text-5xl md:text-6xl font-heading text-coffee-dark uppercase tracking-tight"
-          >
-            COFFEE
-          </motion.h2>
-        </motion.div>
-
-        {/* Carousel container 1 */}
-        <div className="relative group/carousel py-[10px]">
-          {/* Left scroll fade indicator */}
-          <div className="absolute top-0 left-0 h-full w-24 z-20 pointer-events-none opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to right, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
-          
-          <motion.div 
-            ref={scrollRef}
-            onMouseEnter={() => (isHovered.current = true)}
-            onMouseLeave={() => (isHovered.current = false)}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6 px-6 md:px-12"
-          >
-            {[...menuItems, ...menuItems].map((item, index) => (
-              <motion.div
-                key={`${item.id}-${index}`}
-                variants={itemVariants}
-                whileHover={{ 
-                  y: -15, 
-                  scale: 1.02,
-                  transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
-                }}
-                className="flex-none w-[290px] sm:w-[340px] md:w-[520px] h-[240px] sm:h-[260px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
-              >
-                {/* Decorative background depth */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
-                
-                <div className="flex-1 p-5 md:p-12 flex flex-col justify-between relative z-10">
-                  <div className="relative">
-                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-2 md:mb-4 tracking-tight transition-colors duration-500 uppercase" style={{ color: theme.cardTitle }}>
-                       {item.name}
-                    </h3>
-                    
-                    <div className="w-12 h-[1px] bg-gold/30 mb-3 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
-                    
-                    <p className="text-[11px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px] line-clamp-3 md:line-clamp-none">
-                      {item.description}
-                    </p>
-                  </div>
-                  
-                  <div className="mt-4 md:mt-8 flex items-center justify-start">
-                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: '#b69b79' }}>
-                      {item.price}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="w-[105px] sm:w-[130px] md:w-[220px] h-full relative overflow-hidden flex-none">
-                  <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
-                  />
-                  {/* Floating Action Button */}
-                  <div className="absolute bottom-6 right-6 z-20">
-                    <button 
-                      className="w-12 h-12 bg-white text-coffee-dark rounded-full flex items-center justify-center shadow-2xl border border-gold/20 hover:bg-coffee-dark hover:text-white transition-all duration-500 transform scale-0 group-hover:scale-100 translate-y-4 group-hover:translate-y-0"
-                      aria-label="Add to order"
-                    >
-                      <Plus size={22} strokeWidth={2} />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-          
-          {/* Right scroll fade indicator */}
-          <div className="absolute top-0 right-0 h-full w-24 z-20 pointer-events-none transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to left, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
-        </div>
-
-        {/* Signature Coffee Section */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="px-6 md:px-24 lg:px-32 flex flex-col mb-5 pt-32"
-        >
-          <motion.p 
-            variants={itemVariants}
-            className="text-[12px] tracking-[0.5em] font-bold text-coffee-dark/30 uppercase mb-0"
-          >
-            HANDPICKED FAVORITES
-          </motion.p>
-          <motion.h2 
-            variants={itemVariants}
-            className="text-5xl md:text-6xl font-heading text-coffee-dark uppercase tracking-tight"
-          >
-            SIGNATURE COFFEE
-          </motion.h2>
-        </motion.div>
-
-        {/* Carousel container 2 (Signature) */}
-        <div className="relative group/carousel-sig py-[10px]">
-          {/* Left scroll fade indicator */}
-          <div className="absolute top-0 left-0 h-full w-24 z-20 pointer-events-none opacity-0 group-hover/carousel-sig:opacity-100 transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to right, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
-          
-          <motion.div 
-            ref={signatureScrollRef}
-            onMouseEnter={() => (isSignatureHovered.current = true)}
-            onMouseLeave={() => (isSignatureHovered.current = false)}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6 px-6 md:px-12"
-          >
-            {[...signatureMenuItems, ...signatureMenuItems].map((item, index) => (
-              <motion.div
-                key={`${item.id}-${index}`}
-                variants={itemVariants}
-                whileHover={{ 
-                  y: -15, 
-                  scale: 1.02,
-                  transition: { duration: 0.8, ease: [0.19, 1, 0.22, 1] } 
-                }}
-                className="flex-none w-[290px] sm:w-[340px] md:w-[520px] h-[240px] sm:h-[260px] md:h-[380px] bg-[#fdfaf7] rounded-[2.5rem] overflow-hidden border border-gold/10 flex relative group shadow-[0_20px_50px_-20px_rgba(35,31,20,0.1)] hover:shadow-[0_40px_80px_-15px_rgba(35,31,20,0.15)] transition-shadow duration-700"
-              >
-                {/* Decorative background depth */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
-                
-                <div className="flex-1 p-5 md:p-12 flex flex-col justify-between relative z-10">
-                  <div className="relative">
-                    <h3 className="text-lg md:text-2xl font-heading text-coffee-dark mb-2 md:mb-4 tracking-tight transition-colors duration-500 uppercase text-balance" style={{ color: theme.cardTitle }}>
-                      {item.name}
-                    </h3>
-                    
-                    <div className="w-12 h-[1px] bg-gold/30 mb-3 md:mb-6 group-hover:w-20 group-hover:bg-gold/60 transition-all duration-700 ease-out"></div>
-                    
-                    <p className="text-[11px] md:text-sm text-coffee-dark/50 leading-relaxed font-light italic max-w-[280px] line-clamp-3 md:line-clamp-none">
-                      {item.description}
-                    </p>
-                  </div>
-                  
-                  <div className="mt-4 md:mt-8 flex items-center justify-start">
-                    <span className="text-[12px] md:text-[13px] tracking-widest font-bold bg-white/80 backdrop-blur-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-gold/10 shadow-sm transition-colors duration-1000" style={{ color: '#b69b79' }}>
-                      {item.price}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="w-[105px] sm:w-[130px] md:w-[220px] h-full relative overflow-hidden flex-none">
-                  <div className="absolute inset-0 bg-[#231f14]/5 mix-blend-multiply z-10 transition-opacity duration-700 group-hover:opacity-0"></div>
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
-                  />
-                  {/* Floating Action Button */}
-                  <div className="absolute bottom-6 right-6 z-20">
-                    <button 
-                      className="w-12 h-12 bg-white text-coffee-dark rounded-full flex items-center justify-center shadow-2xl border border-gold/20 hover:bg-coffee-dark hover:text-white transition-all duration-500 transform scale-0 group-hover:scale-100 translate-y-4 group-hover:translate-y-0"
-                      aria-label="Add to order"
-                    >
-                      <Plus size={22} strokeWidth={2} />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-          
-          {/* Right scroll fade indicator */}
-          <div className="absolute top-0 right-0 h-full w-24 z-20 pointer-events-none transition-opacity duration-500" style={{ backgroundImage: `linear-gradient(to left, ${theme.menuBg}, ${theme.menuBg}CC, transparent)` }}></div>
-        </div>
-
-        {/* 'More' Button Section */}
-        <div className="flex justify-center mt-20 transition-colors duration-1000" style={{ backgroundColor: theme.menuBg, borderColor: theme.menuBg }}>
-          <motion.a
-            href="https://order.toasttab.com/online/la-souq-richardson-dallas"
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="group relative px-12 py-5 overflow-hidden border uppercase text-[11px] font-bold tracking-[0.4em] transition-all duration-500 inline-block text-center"
-            style={{ borderColor: '#231f14' }}
-          >
-            <span 
-              className="relative z-10 transition-colors duration-500 block" 
-              style={{ color: '#231f14' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = theme.buttonHoverText;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#231f14';
-              }}
-            >
-              View Full Menu
-            </span>
-            <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.buttonHoverBg }}></div>
-          </motion.a>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const VideoSection = ({ theme }: { theme: any }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      const newMuteState = !videoRef.current.muted;
-      videoRef.current.muted = newMuteState;
-      setIsMuted(newMuteState);
-    }
-  };
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef.current.play().catch(err => console.log(err));
-        setIsPlaying(true);
-      }
-    }
-  };
-
-  return (
-    <section className="relative w-full py-16 md:py-24 transition-colors duration-1000" style={{ backgroundColor: theme.sectionBg }} id="brand-video">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <span className="text-[10px] sm:text-xs tracking-[0.4em] font-bold uppercase block mb-3" style={{ color: '#e8e3c9' }}>Cinema Experience</span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading tracking-tight font-serif mb-4" style={{ color: '#231f14' }}>
-            The Craft In Motion
-          </h2>
-          <div className="w-20 h-0.5 mx-auto" style={{ backgroundColor: '#e8e3c9' }}></div>
-        </div>
-
-        {/* Video Player Card - Keeps a pristine 16:9 ratio with no crop whatsoever */}
-        <div className="max-w-5xl mx-auto aspect-video rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] relative group bg-black border border-white/5">
-          
-          {/* Overlay to block native clicking behavior */}
-          <div className="absolute inset-0 z-10"></div>
-
-          {/* Actual 16:9 full size video - matches the exact outer container */}
-          <div className="w-full h-full relative pointer-events-none">
-            <video
-              ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover border-none"
-              src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/sign/course-videos/lasouq.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lNWIwOTZlZC0wY2JkLTQ0MTYtYjBkZC1hOGJjZWVjNjlhMDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjb3Vyc2UtdmlkZW9zL2xhc291cS5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgxMTgyNTg5LCJleHAiOjE4MTI3MTg1ODl9.O_D2a_8y6xYJbpYlxqk-1XAUtvnSNQy6w0ckSrim32U"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-            />
-          </div>
-
-          {/* Cinematic subtle color gradations */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-black/20 pointer-events-none z-20"></div>
-
-          {/* Custom Controls Overlay - Fully branded, reveals beautifully, handles precise mute/play toggles */}
-          <div className="absolute inset-x-0 bottom-0 z-30 p-4 sm:p-6 md:p-8 flex items-center justify-between opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/95 via-black/60 to-transparent">
-            
-            {/* Play/Pause custom controls */}
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={togglePlay}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center bg-[#e8e3c9] hover:bg-[#c5a367] text-[#231f14] transition-all duration-300 transform active:scale-95 shadow-lg shadow-black/40 pointer-events-auto"
-                aria-label={isPlaying ? 'Pause video' : 'Play video'}
-              >
-                {isPlaying ? <Pause className="w-4.5 h-4.5 fill-[#231f14] text-[#231f14]" /> : <Play className="w-4.5 h-4.5 fill-[#231f14] text-[#231f14] ml-0.5" />}
-              </button>
-              <div>
-                <span className="text-white font-medium text-xs tracking-wider uppercase">
-                  {isPlaying ? 'La Souq' : 'Paused'}
-                </span>
-                <p className="text-[9px] text-[#e8e3c9]/60 uppercase tracking-widest mt-0.5">Richardson, Dallas</p>
-              </div>
-            </div>
-
-            {/* Custom volume controls */}
-            <button 
-              onClick={toggleMute}
-              className="px-4 py-2.5 md:px-5 md:py-3 rounded-full flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-all duration-300 border border-white/15 active:scale-95 pointer-events-auto"
-              aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-            >
-              {isMuted ? (
-                <>
-                  <VolumeX className="w-3.5 h-3.5 text-white" />
-                  <span className="text-[9px] font-bold tracking-[0.2em] uppercase">UNMUTE SOUND</span>
-                </>
-              ) : (
-                <>
-                  <Volume2 className="w-3.5 h-3.5 text-white animate-pulse" />
-                  <span className="text-[9px] font-bold tracking-[0.2em] uppercase">MUTE SOUND</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
       </div>
     </section>
   );
@@ -1386,7 +699,7 @@ const CommunitySection = ({ theme }: { theme: any }) => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.8, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, delay: idx * 0.15, ease: 'easeOut' }}
               className="flex flex-col justify-between min-h-[260px] md:min-h-[300px] p-6 md:p-8 bg-[#fdfaf7] rounded-[2rem] border border-[#231f14]/5 shadow-[0_20px_50px_-20px_rgba(35,31,20,0.06)] hover:shadow-[0_45px_90px_-15px_rgba(35,31,20,0.14)] hover:-translate-y-1 transition-all duration-500 group"
             >
               {/* Card Top: Platform & Rating */}
@@ -1420,151 +733,6 @@ const CommunitySection = ({ theme }: { theme: any }) => {
   );
 };
 
-const AboutSection = () => {
-  const images = [
-    "https://res.cloudinary.com/dhylipuur/image/upload/v1793563996/8_xfnn6n.webp",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777817076882-efg8jp-3.jpg",
-    "https://res.cloudinary.com/dhylipuur/image/upload/v1793563997/La-Souq_c946076fc6979dc0d3006c3258335f0f_tmxexd.jpg",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777818106383-49xstx-330660.jpg",
-    "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777884497265-4bunsd-generated-image-may-04-2026-11-41am-copy.jpg"
-  ];
-
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const yImg = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
-  };
-
-  return (
-    <section ref={sectionRef} className="pt-32 pb-0 px-6 md:pl-[97px] md:pr-[90px] overflow-hidden" id="about">
-      <div className="max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-32">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
-            id="about-image-main"
-            className="relative"
-          >
-            <motion.div 
-              style={{ y: yImg }} 
-              className="aspect-square overflow-hidden rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] relative z-10 ring-1 ring-coffee-dark/5"
-            >
-              <img 
-                src="https://res.cloudinary.com/dhylipuur/image/upload/v1793563863/ChatGPT_Image_May_6_2026_03_03_04_PM_ewm2jy.png"
-                alt="Crafting Perfect Coffee"
-                className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
-                referrerPolicy="no-referrer"
-              />
-            </motion.div>
-            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-gold rounded-full -z-0 opacity-10 blur-3xl"></div>
-          </motion.div>
-          
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3, margin: "-100px" }}
-            className="space-y-10"
-            id="about-text"
-          >
-            <motion.div variants={itemVariants} className="flex items-center space-x-4">
-              <div className="w-12 h-px bg-gold"></div>
-              <span className="uppercase text-[10px] tracking-[0.4em] font-bold text-gold">Est. 2026</span>
-            </motion.div>
-            
-            <motion.h2 variants={itemVariants} className="text-5xl md:text-7xl font-heading text-coffee-dark uppercase leading-[0.9] tracking-tighter">
-              ROASTERY <br />
-              <span className="text-5xl md:text-7xl text-gold font-heading uppercase tracking-tighter">COFFEE AND</span><br />
-              SHOP
-            </motion.h2>
-            
-            <motion.p variants={itemVariants} className="text-gray-500 leading-relaxed text-lg lg:text-xl max-w-xl font-light">
-              From source to cup, we celebrate the ritual of coffee. Our beans are harvested with integrity and slow-roasted in micro-batches to unlock their most complex stories. 
-            </motion.p>
-            
-            <motion.div variants={itemVariants} className="pt-6 group">
-              <a 
-                href="https://www.workshopstudio.com/la-souq" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-block relative overflow-hidden bg-coffee-dark text-white px-10 py-5 uppercase text-xs tracking-[0.3em] font-bold transition-all duration-300 rounded shadow-xl hover:shadow-gold/20 hover:scale-[1.02]"
-              >
-                <span className="relative z-10">EXPLORE OUR STORY</span>
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-40 overflow-hidden" id="gallery-carousel">
-        <div className="max-w-7xl mx-auto px-6 mb-12 flex items-end justify-between">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-3xl md:text-5xl font-heading mb-2">CURATED MOMENTS</h3>
-            <div className="w-24 h-1 bg-gold"></div>
-          </motion.div>
-          <span className="hidden md:block uppercase text-[10px] tracking-[0.4em] text-gray-400 font-bold">Swipe to Explore</span>
-        </div>
-
-        <motion.div 
-          className="flex gap-10 px-10"
-          animate={{ 
-            x: [0, -2048] 
-          }}
-          transition={{ 
-            duration: 60,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          style={{ width: "fit-content" }}
-          whileHover={{ animationPlayState: "paused" }} // Pause on hover logic check
-        >
-          {[...images, ...images, ...images].map((src, idx) => (
-            <motion.div
-              key={idx}
-              whileHover={{ y: -15 }}
-              className="flex-shrink-0 w-80 md:w-[540px] aspect-[2/3] overflow-hidden rounded-2xl shadow-2xl relative group cursor-pointer transition-all duration-500"
-              id={`gallery-image-${idx}`}
-            >
-              <img 
-                src={src} 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-                alt="Gallery Visual" 
-                referrerPolicy="no-referrer" 
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-coffee-dark/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-8 flex items-end">
-                <span className="text-white uppercase text-[10px] tracking-[0.5em] font-bold">Discover More</span>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
 const LocationsSection = ({ 
   theme, 
   hoursData, 
@@ -1580,9 +748,9 @@ const LocationsSection = ({
     {
       id: 'richardson-main',
       name: 'Richardson Main',
-      address: '150 W Main St., Suite 900 • Richardson, TX 75081',
+      address: '150 W Main Street, Suite 900 • Richardson, TX 75081',
       phone: '281-686-7750',
-      hours: 'Mon-Sun: 6:30am–7:00pm',
+      hours: 'Mon-Sun: 8:00am–10:00pm',
       image: "https://res.cloudinary.com/dhylipuur/image/upload/v1793564027/3_copy_2_r1ida0.webp"
     }
   ];
@@ -1593,7 +761,7 @@ const LocationsSection = ({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
           viewport={{ once: true, amount: 0.3 }}
           className="mb-16 text-center"
         >
@@ -1615,6 +783,8 @@ const LocationsSection = ({
                 src={locations[0].image} 
                 alt="La Souq Richardson Main Roastery" 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-black/5 mix-blend-multiply pointer-events-none"></div>
@@ -1658,164 +828,7 @@ const LocationsSection = ({
   );
 };
 
-const ContactSection = ({ 
-  theme, 
-  hoursData, 
-  hoursLoading, 
-  hoursError 
-}: { 
-  theme: typeof THEMES[0];
-  hoursData: any;
-  hoursLoading: boolean;
-  hoursError: string | null;
-}) => {
-  const { scrollYProgress } = useScroll();
-  const yBg = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] }
-    }
-  };
-
-  return (
-    <section className="relative py-40 px-6 md:px-[90px] overflow-hidden min-h-[800px] flex items-center transition-colors duration-1000" style={{ backgroundColor: theme.id === 1 ? '#231f14' : '#141414' }} id="contact">
-      <div className="absolute inset-0 z-0">
-        <motion.div 
-          className="absolute inset-x-0 h-[120%] -top-[10%]" 
-          style={{ y: yBg }}
-        >
-          <img 
-            src="https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1777814992479-nt047i-la-souq-18.jpg" 
-            alt="Contact Background"
-            className="w-full h-full object-cover opacity-30 scale-105"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(to right, ${theme.contactOverlay}, ${theme.contactOverlay}CC, transparent)` }}></div>
-        </motion.div>
-      </div>
-
-      <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10 text-white items-center">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3, margin: "-100px" }}
-          className="space-y-10"
-          id="contact-info"
-        >
-          <motion.div variants={itemVariants} className="flex items-center space-x-4">
-            <div className="w-12 h-px" style={{ backgroundColor: theme.accent }}></div>
-            <span className="uppercase text-[10px] tracking-[0.4em] font-bold" style={{ color: theme.accent }}>Get In Touch</span>
-          </motion.div>
-          
-          <motion.h2 variants={itemVariants} className="text-6xl md:text-8xl font-heading leading-tight tracking-tighter uppercase">
-            ARTISAN<br />
-            CONNECTION
-          </motion.h2>
-          
-          <motion.p variants={itemVariants} className="text-white/60 text-lg lg:text-xl max-w-md font-light leading-relaxed">
-            From wholesale inquiries to private tastings, we invite you to reach out and become part of the La Souq community.
-          </motion.p>
-
-          <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-12 pt-8">
-            <div className="space-y-3">
-              <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Visit Us</h4>
-              <p className="text-base font-medium tracking-wide leading-relaxed">
-                150 W Main St., Suite 900<br />Richardson, TX 75081
-              </p>
-            </div>
-            <div className="space-y-3">
-              <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-50" style={{ color: theme.accent }}>Say Hello</h4>
-              <p className="text-base font-medium tracking-wide leading-relaxed">
-                info@lasouq.com<br />281-686-7750
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="pt-4 max-w-md">
-            <LiveHoursCard 
-              hoursData={hoursData} 
-              hoursLoading={hoursLoading} 
-              hoursError={hoursError} 
-              theme={theme}
-              isDark={true}
-            />
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          viewport={{ once: true }}
-          className="bg-white/5 backdrop-blur-2xl p-10 md:p-16 rounded-[40px] border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]"
-          id="contact-form-container"
-        >
-          <div className="space-y-8">
-            <div className="space-y-2">
-              <h3 className="text-3xl font-bold uppercase tracking-tight">Send a message</h3>
-              <div className="w-16 h-1" style={{ backgroundColor: theme.accent }}></div>
-            </div>
-
-            <form className="space-y-8" id="contact-form">
-              <div className="relative group">
-                <input 
-                  type="text" 
-                  placeholder="Full Name" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light outline-none transition-colors placeholder:text-white/20" 
-                  onFocus={(e) => e.target.style.borderColor = theme.accent}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
-                />
-              </div>
-              <div className="relative group">
-                <input 
-                  type="email" 
-                  placeholder="Email Address" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light outline-none transition-colors placeholder:text-white/20" 
-                  onFocus={(e) => e.target.style.borderColor = theme.accent}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
-                />
-              </div>
-              <div className="relative group">
-                <textarea 
-                  placeholder="Your Message" 
-                  className="bg-transparent w-full border-b border-white/20 py-4 text-sm font-light h-32 outline-none transition-colors resize-none placeholder:text-white/20"
-                  onFocus={(e) => e.target.style.borderColor = theme.accent}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}
-                ></textarea>
-              </div>
-              
-              <button 
-                className="group relative w-full overflow-hidden border py-5 uppercase text-xs font-bold tracking-[0.4em] transition-all duration-500"
-                style={{ borderColor: theme.accent, color: theme.accent }}
-              >
-                <span className="relative z-10 group-hover:text-coffee-dark transition-colors duration-500">Submit Inquiry</span>
-                <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" style={{ backgroundColor: theme.accent }}></div>
-              </button>
-            </form>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeToggle: () => void }) => {
+const Footer = ({ theme, onOpenStory }: { theme: typeof THEMES[0], onOpenStory: () => void }) => {
   return (
     <footer className="py-16 px-6 md:px-[90px] transition-colors duration-1000" style={{ backgroundColor: theme.footerBg }} id="footer">
       <div className="w-full max-w-[1440px] mx-auto">
@@ -1825,30 +838,23 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
               src={LOGO_URL} 
               alt="LA SOUQ" 
               className="h-12 w-auto object-contain brightness-0 opacity-80" 
+              loading="lazy"
+              decoding="async"
               referrerPolicy="no-referrer"
             />
             <p className="text-coffee-dark/70 text-xs leading-relaxed max-w-md">
-              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, coffee, and community into an experience.
+              Inspired by traditional souqs, contemporary cafe culture, and the warmth of old-world hospitality, LA SOUQ blends culture, craft, and community into an elevated experience.
             </p>
 
-            {/* Theme Toggle Button */}
-            <div className="pt-4">
-              <button 
-                onClick={onThemeToggle}
-                className="px-6 py-2 border border-coffee-dark/20 rounded-full text-[10px] tracking-[0.2em] font-bold text-coffee-dark hover:bg-coffee-dark hover:text-white transition-all uppercase"
-              >
-                Switch to {theme.id === 1 ? 'Theme 2' : 'Theme 1'}
-              </button>
-            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-12" id="footer-links">
             <div className="space-y-4">
               <h4 className="uppercase text-[12px] tracking-[0.2em] font-bold text-coffee-dark/50">OUR WEBSITE</h4>
               <ul className="space-y-2 uppercase text-[10px] tracking-widest font-bold">
-                <li><a href="https://order.toasttab.com/online/la-souq-richardson-dallas" target="_blank" rel="noopener noreferrer" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MENU</a></li>
-                <li><a href="#brand-video" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>OUR STORY</a></li>
-                <li><a href="#locations" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
+                <li><a href="/menus" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>MENU</a></li>
+                <li><button onClick={onOpenStory} className="transition-colors uppercase font-bold cursor-pointer bg-transparent border-0 p-0" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>OUR STORY</button></li>
+                <li><a href="/#locations" className="transition-colors" onMouseEnter={(e) => e.currentTarget.style.color = theme.accent} onMouseLeave={(e) => e.currentTarget.style.color = ''}>CONTACT US</a></li>
               </ul>
             </div>
             <div className="space-y-4">
@@ -1862,76 +868,97 @@ const Footer = ({ theme, onThemeToggle }: { theme: typeof THEMES[0], onThemeTogg
           </div>
         </div>
 
-        <div className="pt-6 flex flex-col md:flex-row justify-between items-center text-[9px] tracking-widest text-coffee-dark/50 uppercase space-y-4 md:space-y-0" style={{ borderTop: `1px solid ${theme.id === 2 ? theme.accent : 'rgba(35, 31, 20, 0.1)'}` }}>
+        <div className="pt-6 flex justify-center items-center text-[9px] tracking-widest text-coffee-dark/50 uppercase" style={{ borderTop: `1px solid ${theme.id === 2 ? theme.accent : 'rgba(35, 31, 20, 0.1)'}` }}>
           <p>© 2026 LA SOUQ. ALL RIGHTS RESERVED.</p>
-          <div className="flex space-x-8">
-            <a href="#" className="hover:text-coffee-dark transition-colors">PRIVACY POLICY</a>
-            <a href="#" className="hover:text-coffee-dark transition-colors">TERMS OF SERVICE</a>
-          </div>
         </div>
       </div>
     </footer>
   );
 };
 
-const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+const Navbar = ({ theme, onOpenStory }: { theme: typeof THEMES[0]; onOpenStory: () => void }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    if (!isMobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [isMobileMenuOpen]);
 
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 shadow-sm"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-4 md:px-[80px] lg:px-[130px] h-20 md:h-24 flex items-center justify-between border-b border-coffee-dark/5 shadow-sm"
       style={{ 
         borderBottomWidth: '4.22222px', 
         backgroundColor: theme.navBg
       }}
     >
-      {/* Left side Logo */}
-      <div className="flex-none">
-        <motion.div 
+      <motion.a
+          href="/"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="group cursor-pointer"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="group cursor-pointer bg-transparent border-0 p-0 flex-none"
+          aria-label="Back to home"
         >
           <img 
             src={LOGO_URL} 
-            alt="LA SOUQ" 
+            alt=""
             className="h-6 md:h-7 w-auto object-contain transition-transform duration-500 group-hover:scale-105" 
+            decoding="async"
             referrerPolicy="no-referrer"
           />
-        </motion.div>
-      </div>
+      </motion.a>
 
       {/* Center links (hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-10">
         <a 
-          href="https://order.toasttab.com/online/la-souq-richardson-dallas" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+          href={TOAST_ORDER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
           style={{ color: theme.coffeeDark }}
         >
           MENU
         </a>
-        <a href="#brand-video" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>OUR STORY</a>
-        <a href="#locations" className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" style={{ color: theme.coffeeDark, borderColor: theme.coffeeDark }}>CONTACT</a>
+
+        <button 
+          onClick={onOpenStory} 
+          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase cursor-pointer bg-transparent border-0 p-0" 
+          style={{ color: theme.coffeeDark }}
+        >
+          OUR STORY
+        </button>
+
+        <a 
+          href="/#locations"
+          className="text-[11px] tracking-[0.3em] font-bold hover:underline underline-offset-8 transition-all uppercase" 
+          style={{ color: theme.coffeeDark }}
+        >
+          CONTACT
+        </a>
       </div>
 
-      {/* Right side CTA */}
-      <div className="flex-none">
+      <div className="flex-none flex items-center gap-2 md:gap-3">
+        <button
+          type="button"
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+          className="lg:hidden w-10 h-10 rounded-full border flex items-center justify-center"
+          style={{ color: theme.coffeeDark, borderColor: `${theme.coffeeDark}55` }}
+          aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
+        >
+          {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+        </button>
+
         <a 
-          href="https://order.toasttab.com/online/la-souq-richardson-dallas"
+          href={TOAST_ORDER_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-coffee-dark/20 hover:border-coffee-dark px-6 py-2.5 rounded-full text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[10px] uppercase"
+          className="border border-coffee-dark/20 hover:border-coffee-dark px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] tracking-[0.2em] font-bold transition-all duration-300 pt-[8px] md:pt-[10px] uppercase whitespace-nowrap"
           style={{ 
             color: theme.coffeeDark, 
             borderColor: theme.coffeeDark,
@@ -1948,6 +975,48 @@ const Navbar = ({ theme }: { theme: typeof THEMES[0] }) => {
           ORDER AHEAD
         </a>
       </div>
+
+      {isMobileMenuOpen && (
+        <motion.div
+          id="mobile-navigation"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute top-full left-0 right-0 lg:hidden border-t border-coffee-dark/10 px-6 py-6 shadow-xl"
+          style={{ backgroundColor: theme.navBg }}
+        >
+          <div className="flex flex-col gap-5 text-center">
+            <a
+              href={TOAST_ORDER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] tracking-[0.3em] font-bold uppercase"
+              style={{ color: theme.coffeeDark }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Menu
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onOpenStory();
+              }}
+              className="text-[11px] tracking-[0.3em] font-bold uppercase bg-transparent border-0"
+              style={{ color: theme.coffeeDark }}
+            >
+              Our Story
+            </button>
+            <a
+              href="/#locations"
+              className="text-[11px] tracking-[0.3em] font-bold uppercase"
+              style={{ color: theme.coffeeDark }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Contact
+            </a>
+          </div>
+        </motion.div>
+      )}
     </nav>
   );
 };
@@ -1963,20 +1032,51 @@ interface StoreHoursData {
 }
 
 export default function App() {
-  const [themeIndex, setThemeIndex] = useState(1);
-  const theme = THEMES[themeIndex];
+  const pageForPath = () => {
+    const path = window.location.pathname.replace(/\/$/, '');
+    return path === '/admin/hours' ? 'admin' : path === '/our-story' ? 'story' : path === '/menus' ? 'menu' : path === '/marketplace' ? 'marketplace' : 'home';
+  };
+  const [currentPage, setCurrentPage] = useState<'home' | 'story' | 'menu' | 'marketplace' | 'admin'>(pageForPath);
+  const theme = THEMES[1];
 
   const [hoursData, setHoursData] = useState<StoreHoursData | null>(null);
   const [hoursLoading, setHoursLoading] = useState(true);
   const [hoursError, setHoursError] = useState<string | null>(null);
 
-  const handleThemeToggle = () => {
-    setThemeIndex((prev) => (prev === 0 ? 1 : 0));
-  };
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPage(pageForPath());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   useEffect(() => {
-    console.log(`La Souq Roastery App Initialized with ${theme.name}`);
-  }, [themeIndex]);
+    const isStory = currentPage === 'story';
+    const isMenu = currentPage === 'menu';
+    const isMarketplace = currentPage === 'marketplace';
+    document.title = isMenu ? 'Menu | LA SOUQ' : isMarketplace ? 'Curated Marketplace | LA SOUQ' : isStory ? 'Our Story | LA SOUQ' : 'LA SOUQ | Coffee & Community';
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    const canonicalUrl = isMenu ? 'https://lasouq.com/menus' : isMarketplace ? 'https://lasouq.com/marketplace' : isStory ? 'https://lasouq.com/our-story' : 'https://lasouq.com/';
+    canonical?.setAttribute('href', canonicalUrl);
+    document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
+  }, [currentPage]);
+
+  const navigateToStory = () => {
+    if (window.location.pathname !== '/our-story') {
+      window.history.pushState({}, '', '/our-story');
+    }
+    setCurrentPage('story');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToHome = () => {
+    if (window.location.pathname !== '/') {
+      window.history.pushState({}, '', '/');
+    }
+    setCurrentPage('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     let active = true;
@@ -2009,20 +1109,18 @@ export default function App() {
     };
   }, []);
 
+  if (currentPage === 'admin') return <AdminHoursPage />;
+  if (currentPage === 'story') {
+    return <OurStoryPage onBackToHome={navigateToHome} theme={theme} />;
+  }
+
   return (
     <div className="min-h-screen selection:bg-gold selection:text-white" id="main-app-container">
-      <Navbar theme={theme} />
-      <Hero 
-        theme={theme} 
-        hoursData={hoursData} 
-        hoursLoading={hoursLoading} 
-        hoursError={hoursError} 
-      />
-      <InspirationSection theme={theme} />
+      <Navbar theme={theme} onOpenStory={navigateToStory} />
+      {currentPage === 'menu' ? <MenuPage /> : currentPage === 'marketplace' ? <MarketplacePage /> : <>
+      <Hero theme={theme} />
+      <InspirationSection theme={theme} onOpenStory={navigateToStory} />
       <ExperiencesSection theme={theme} />
-      {/* <MenuSection theme={theme} /> */}
-      {/* <VideoSection theme={theme} /> */}
-      {/* <AboutSection theme={theme} /> */}
       <LocationsSection 
         theme={theme} 
         hoursData={hoursData} 
@@ -2030,13 +1128,8 @@ export default function App() {
         hoursError={hoursError} 
       />
       <CommunitySection theme={theme} />
-      {/* <ContactSection 
-        theme={theme} 
-        hoursData={hoursData} 
-        hoursLoading={hoursLoading} 
-        hoursError={hoursError} 
-      /> */}
-      <Footer theme={theme} onThemeToggle={handleThemeToggle} />
+      </>}
+      <Footer theme={theme} onOpenStory={navigateToStory} />
     </div>
   );
 }
