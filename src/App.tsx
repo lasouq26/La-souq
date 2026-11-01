@@ -478,11 +478,11 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "up",
               speed: "35s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069293478-mpkync-chatgpt-image-may-6-2026-02-59-42-pm.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793568100/ChatGPT_Image_May_6_2026_02_59_42_PM_kyadzm.png",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1785964985/new_qgu7qu.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069447382-h8ij1r-chatgpt-image-may-6-2026-03-04-04-pm.jpg",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567972/ChatGPT_Image_May_6_2026_03_04_04_PM_zwnvmx.png",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1785964744/HALWA_LATTE_bleobz.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/courses/1778069477594-0ftxlm-chatgpt-image-may-6-2026-03-03-04-pm.jpg"
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793563863/ChatGPT_Image_May_6_2026_03_03_04_PM_ewm2jy.png"
               ]
             },
             {
@@ -492,9 +492,9 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "down",
               speed: "42s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_31%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567131/ChatGPT_Image_Jun_11_2026_02_29_31_PM_rfpsow.png",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1785964225/DSC07504_copy_cgchyy.jpg",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_29_40%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567167/ChatGPT_Image_Jun_11_2026_02_29_40_PM_ep1hsl.png",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1785964223/DSC07910_copy_sqw0lz.jpg"
               ]
             },
@@ -505,10 +505,10 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               direction: "up",
               speed: "35s",
               images: [
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567215/ChatGPT_Image_Jun_11_2026_02_02_07_PM_qhavml.png",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1785964153/PISTA-AFFOGATO_xxq5yu.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2002_02_07%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567215/ChatGPT_Image_Jun_11_2026_02_02_07_PM_qhavml.png",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1784815438/PHOTO-2026-05-21-17-44-49_ohgnsa.jpg"
               ]
             },
@@ -533,11 +533,11 @@ const ExperiencesSection = ({ theme }: { theme: typeof THEMES[0] }) => {
               speed: "32s",
               images: [
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_28_54%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_33_17%20PM.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567351/ChatGPT_Image_Jun_11_2026_03_28_54_PM_vi8nbh.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567394/ChatGPT_Image_Jun_11_2026_03_33_17_PM_tjpuwe.png",
                 "https://res.cloudinary.com/dhylipuur/image/upload/v1782493223/afe_euvgao.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_30_57%20PM.png",
-                "https://erhdgpknnzmatcgengpx.supabase.co/storage/v1/object/public/site-assets/ChatGPT%20Image%20Jun%2011,%202026,%2003_35_14%20PM.png"
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567441/ChatGPT_Image_Jun_11_2026_03_30_57_PM_bp1ffc.png",
+                "https://res.cloudinary.com/dhylipuur/image/upload/v1793567472/ChatGPT_Image_Jun_11_2026_03_35_14_PM_uwehg5.png"
                 
               ]
             }
